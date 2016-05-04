@@ -2,21 +2,21 @@ Command 		Detail
 
 > **Beginner**
 
-i 			Insert mode. Type ESC to return to Normal mode.
+* i 			Insert mode. Type ESC to return to Normal mode.
 
-x 			Delete the char under the cursor
+* x 			Delete the char under the cursor
 
-:wq 			Save and Quit (:w save, :q quit)
+* :wq 			Save and Quit (:w save, :q quit)
 
-dd 			(and copy) the current line
+* dd 			(and copy) the current line
 
-p 			Paste
+* p 			Paste
 
-hjkl 			cursor move (????). Hint: j looks like a down arrow.
+* hjkl 			cursor move (????). Hint: j looks like a down arrow.
 
-:help <command> 	Show help about <command>.
+* :help <command> 	Show help about <command>.
 
-#Basic Moves
+> **Basic Moves**
 
 :/pattern 		Search for pattern in current file
 0 			Go to the first column

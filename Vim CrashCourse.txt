@@ -1,0 +1,16 @@
+Command 		Detail
+
+i 			Insert mode. Type ESC to return to Normal mode.
+x 			Delete the char under the cursor
+:wq 			Save and Quit (:w save, :q quit)
+dd 			(and copy) the current line
+p 			Paste
+hjkl 			cursor move (????). Hint: j looks like a down arrow.
+:help <command> 	Show help about <command>.
+
+:/pattern 		Search for pattern in current file
+0 			Go to the first column
+$ 			Go to the end of line
+gg 			Go to the start of the file
+G 			Go to last line
+:%s/text to search for/text to replace/g	Search text occurrences in file and replace all with text given

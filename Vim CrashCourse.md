@@ -3,40 +3,38 @@
 
 * i------------------Insert mode. Type ESC to return to Normal mode.
 * x------------------Delete the char under the cursor
-* :wq------------------Save and Quit (:w save, :q quit)
-* dd------------------(and copy) the current line
+* :wq----------------Save and Quit (:w save, :q quit)
+* dd-----------------(and copy) the current line
 * p------------------Paste
-* hjkl------------------cursor move (????). Hint: j looks like a down arrow.
-* :help <command>------------------Show help about <command>.
+* hjkl---------------cursor move (????). Hint: j looks like a down arrow.
+* :help <command>----Show help about <command>.
 
 > **Basic Moves**
 
-* :/pattern 		Search for pattern in current file
-* 0 			Go to the first column
-* $ 			Go to the end of line
-* gg 			Go to the start of the file
-* G 			Go to last line
-* :%s/text to search for/text to replace/g	Search text occurrences in file and replace all with text given
+* :/pattern----------------------------------------------Search for pattern in current file
+* 0------------------------------------------------------Go to the first column
+* $------------------------------------------------------Go to the end of line
+* gg-----------------------------------------------------Go to the start of the file
+* G------------------------------------------------------Go to last line
+* :%s/text to search for/text to replace/g---------------Search text occurrences in file and replace all with text given
 
-=>>> Load / Save / Quit File
+> **Load / Save / Quit File**
 
-:w 			Save current file
-:saveas <path/to/file> 	Save to <path/to/file>
-:x, ZZ or :wq 		Save and quit (:x only save if necessary)
-:q!
+* :w---------------------------Save current file
+* :saveas <path/to/file>-------Save to <path/to/file>
+* :x, ZZ or :wq----------------Save and quit (:x only save if necessary)
+* :q!--------------------------Quit without saving, also: :qa! to quit even if there are modified hidden buffer
 
-=>>> Undo /Redo
+> **Undo /Redo**
 
-u 			Undo
-Ctrl+r 			Redo
+* u---------------------Undo
+* Ctrl+r----------------Redo
 
-=>>> Copy /Paste
+> **Copy /Paste**
 
-p			paste before, remember p is paste after current position.
-
-yy			copy the current line, easier but equivalent to ddP
-
-v			Start Visual selection from current cursor position (Mostly used to copy multiple line by select area press yy and then paste by pressing p)
+* p----------------paste before, remember p is paste after current position.
+* yy---------------copy the current line, easier but equivalent to ddP
+* v----------------Start Visual selection from current cursor position (Mostly used to copy multiple line by select area press yy and then paste by pressing p)
 
 =>>> Put the line numbers in each line (Better)
 

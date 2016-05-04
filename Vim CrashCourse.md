@@ -36,47 +36,42 @@
 * yy---------------copy the current line, easier but equivalent to ddP
 * v----------------Start Visual selection from current cursor position (Mostly used to copy multiple line by select area press yy and then paste by pressing p)
 
-=>>> Put the line numbers in each line (Better)
+> **Put the line numbers in each line (Better)**
 
-:set number
+* :set number
 
-=>>> Copy/Paste multiple line (Stronger)
+> **Copy/Paste multiple line (Stronger)**
 
-Step 1 Go to address from where you want to start copy.
+* Step 1 Go to address from where you want to start copy.
+* Step 2 Go to Normal mode by pressing ESC and then v (visual selection).
+* Step 3 Go up and down until copy area complete.
+* Step 4 Press yy which is copy(yank) the selected area(press ‘y’ key twice).
+* Step 5 Go with cursor where you want to paste copied data and press p.
 
-Step 2 Go to Normal mode by pressing ESC and then v (visual selection).
+> **Auto Detecting/Completing Words (Faster)**
 
-Step 3 Go up and down until copy area complete.
+* In Insert mode, just type the start of a word, then type Ctrl+p, just see the magic…
 
-Step 4 Press yy which is copy(yank) the selected area(press ‘y’ key twice).
+> **Use Mouse in Vim**
 
-Step 5 Go with cursor where you want to paste copied data and press p.
+* :set mouse=a
 
-=>>> Auto Detecting/Completing Words (Faster)
+> **Open File And Go To Specific Function or Line Number**
 
-In Insert mode, just type the start of a word, then type Ctrl+p, just see the magic…
-
-=>>> Use Mouse in Vim
-
-:set mouse=a
-
-=>>> Open File And Go To Specific Function or Line Number
-
-
-1). Go to specific line number
+1. Go to specific line number
 
 vim fileName +LineNumber
 
 i.e. vim main.c +3
 
 
-2). Go to specific function
+2. Go to specific function
 
 vim filename +/pattern
 
 i.e. vim main.c +/main
 
-3).Go to specific line number if your file is already opened
+3.Go to specific line number if your file is already opened
 
 Type :linenumber in Normal mode and press enter, you will be at your desired location 
 

@@ -51,13 +51,13 @@ Step 2 Go to Normal mode by pressing ESC and then v (visual selection).
 
 Step 3 Go up and down until copy area complete.
 
-Step 4 Press yy which is copy(yank) the selected area(press ‘y’ key twice).
+Step 4 Press yy which is copy(yank) the selected area(press â€˜yâ€™ key twice).
 
 Step 5 Go with cursor where you want to paste copied data and press p.
 
 =>>> Auto Detecting/Completing Words (Faster)
 
-In Insert mode, just type the start of a word, then type Ctrl+p, just see the magic…
+In Insert mode, just type the start of a word, then type Ctrl+p, just see the magicâ€¦
 
 =>>> Use Mouse in Vim
 
@@ -117,8 +117,8 @@ Split window vertically or horizontally
 
 In Normal mode, use command
 
-:vs filename         ———Split window vertically
+:vs filename         â€”â€”â€”Split window vertically
 
-:sp filename         ———Split window horizontally
+:sp filename         â€”â€”â€”Split window horizontally
 
 Note:- use Ctrl+w to shuffle between two opened section in Normal mode.

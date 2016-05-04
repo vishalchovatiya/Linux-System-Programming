@@ -75,25 +75,16 @@ For example    :42
 
 Typically:  ESC, Ctrl+v, ?or?,  I<PatternToAdd>, [ESC]
 
-=>>> Align code in curly braces (indent)
+> **Align code in curly braces (indent)**
 
-Step 1 Go inside the culy braces in which you want to align code properly.
-
-Step 2 Go to Normal mode by pressing ESC then press =.
-
-Step 3 Now press i.
-
-Step 4 To see the magic press either { or } .
+* Step 1 Go inside the culy braces in which you want to align code properly.
+* Step 2 Go to Normal mode by pressing ESC then press =.
+* Step 3 Now press i.
+* Step 4 To see the magic press either { or } .
 
 Typically:  ESC, =, i, {
 
-=>>> Working with multiple file in Vim
-
-This is very useful when we working with multiple file. For example, if you are coding in a file and at the same time you need another file for reference, so general technique is to use another terminal or open new window. But Vim have another nice option, by which you can split current working window in two sections and work on both file at the same time. 
-
-Split window vertically or horizontally
-
-In Normal mode, use command
+> **Working with multiple file in Single Screen**
 
 :vs filename         ———Split window vertically
 

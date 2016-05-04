@@ -1,4 +1,3 @@
-Command 		Detail
 
 > **Beginner**
 
@@ -18,12 +17,12 @@ Command 		Detail
 
 > **Basic Moves**
 
-:/pattern 		Search for pattern in current file
-0 			Go to the first column
-$ 			Go to the end of line
-gg 			Go to the start of the file
-G 			Go to last line
-:%s/text to search for/text to replace/g	Search text occurrences in file and replace all with text given
+* :/pattern 		Search for pattern in current file
+* 0 			Go to the first column
+* $ 			Go to the end of line
+* gg 			Go to the start of the file
+* G 			Go to last line
+* :%s/text to search for/text to replace/g	Search text occurrences in file and replace all with text given
 
 =>>> Load / Save / Quit File
 

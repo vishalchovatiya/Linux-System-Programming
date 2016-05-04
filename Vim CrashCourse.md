@@ -1,13 +1,13 @@
 
 > **Beginner**
 
-* i	Insert mode. Type ESC to return to Normal mode.
-* x 			Delete the char under the cursor
-* :wq 			Save and Quit (:w save, :q quit)
-* dd 			(and copy) the current line
-* p 			Paste
-* hjkl 			cursor move (????). Hint: j looks like a down arrow.
-* :help <command> 	Show help about <command>.
+* i------------------Insert mode. Type ESC to return to Normal mode.
+* x------------------Delete the char under the cursor
+* :wq------------------Save and Quit (:w save, :q quit)
+* dd------------------(and copy) the current line
+* p------------------Paste
+* hjkl------------------cursor move (????). Hint: j looks like a down arrow.
+* :help <command>------------------Show help about <command>.
 
 > **Basic Moves**
 

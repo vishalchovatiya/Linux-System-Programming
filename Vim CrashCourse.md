@@ -58,34 +58,20 @@
 
 > **Open File And Go To Specific Function or Line Number**
 
-1. Go to specific line number
-
-vim fileName +LineNumber
-
-i.e. vim main.c +3
-
-
-2. Go to specific function
-
-vim filename +/pattern
-
-i.e. vim main.c +/main
-
-3.Go to specific line number if your file is already opened
+1. Go to specific line number, vim fileName +LineNumber i.e. vim main.c +3
+2. Go to specific function, vim filename +/pattern i.e. vim main.c +/main
+3. Go to specific line number if your file is already opened
 
 Type :linenumber in Normal mode and press enter, you will be at your desired location 
 
 For example    :42
 
-=>>> Commenting or Editing multiple line in single stroke
+> **Commenting or Editing multiple line in single stroke**
 
-Step 1 Go to Normal mode by pressing ESC key.
-
-Step 2 Press Ctrl+v (visual block selection) from where you want to edit.
-
-Step 3 Move cursor up and down to number of line you want to edit and press I// .
-
-Step 4 Press ESC again and wait for second it will comment all the selected line or you can say add // in front of each selected line.
+* Step 1 Go to Normal mode by pressing ESC key.
+* Step 2 Press Ctrl+v (visual block selection) from where you want to edit.
+* Step 3 Move cursor up and down to number of line you want to edit and press I// .
+* Step 4 Press ESC again and wait for second it will comment all the selected line or you can say add // in front of each selected line.
 
 Typically:  ESC, Ctrl+v, ?or?,  I<PatternToAdd>, [ESC]
 

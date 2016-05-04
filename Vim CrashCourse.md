@@ -1,7 +1,7 @@
 
 > **Beginner**
 
-* i 			Insert mode. Type ESC to return to Normal mode.
+* i	Insert mode. Type ESC to return to Normal mode.
 * x 			Delete the char under the cursor
 * :wq 			Save and Quit (:w save, :q quit)
 * dd 			(and copy) the current line

@@ -1,6 +1,6 @@
 Command 		Detail
 
-> Beginner
+> **Beginner**
 
 i 			Insert mode. Type ESC to return to Normal mode.
 x 			Delete the char under the cursor

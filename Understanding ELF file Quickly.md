@@ -35,17 +35,17 @@ Section holds the addresses of other dynamic linking information[[See This](http
 
 > **Procedure Linkage Table(.plt)**
 
-- is Table of addresses resides in text segment used to store address of all functions needed at runtime (address not known at the time of linking)
-- The PLT uses what is called lazy resolution. Means it resolves procedure address when it really needs
-*How PLT works* -
+- is Table of addresses *resides in text segment* used to store address of all functions needed at runtime (address not known at the time of linking)
+- The PLT uses what is called lazy resolution. Means it resolves procedure address once when it calls method
+- *How PLT works* -
   1. A function func is called and the compiler translates this to a call to func@plt.
-  2. The program jumps to the PLT. The PLT points to the GOT. If the function hasnâ€™t been previously called, the GOT points back into the PLT to a resolver routine, otherwise it points to the function itself.
-  3. If the function hasnâ€™t been previously called, PLT resolve routine & update the GOT entry with actual address of the function.
+  2. The program jumps to the PLT. The PLT points to the GOT. If the function has not been previously called, the GOT points back into the PLT to a resolver routine, otherwise it points to the function itself.
+  3. If the function has not been previously called, PLT resolve routine & update the GOT entry with actual address of the function.
 
 
 > **Global Offset Table(.got)**
 
-- is Table of addresses resides in data segment.
+- is Table of addresses *resides in data segment*.
 - If some instruction in text segment, wants to refer to a variable it must normally use an absolute memory address. 
 - Instead of referring to the absolute memory address, it refers to the GOT, whose location is known. 
 - By GOT we can relocate references needed by text segment

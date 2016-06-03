@@ -1,44 +1,53 @@
-Command Format   : readelf -a [Executable] > readELF.txt
+Command Format   : `readelf -a [Executable] > readELF.txt`
 
-Command Executed : readelf -a testMuslShared > readELF.txt
+Command Executed : `readelf -a testMuslShared > readELF.txt`
 
 This file name : readELF.txt
 
-###Keyword Understanding
+## Keyword Understanding
 
-Shared Library(.so) : Combination of multiple objects, Single Copy loaded in memory shared by multiple process(that's why shared object)
+> Shared Library(.so)
+Combination of multiple objects, Single Copy loaded in memory shared by multiple process(that's why shared object)
 
-Sections : Link time info
+> Sections
+Link time info
 
-Segments : Run time info
+> Segments 
+Run time info
 
-Relocation Records : Contain object files's references, Linker uses the relocation records to find all of the addresses that need to be filled in process image.
+> Relocation Records 
+Contain object files's references, Linker uses the relocation records to find all of the addresses that need to be filled in process image.
 
-Symbol Table : Two Meaning
-1). 
+> Symbol Table : Two Meaning
+
+1. 
 - An object/executable files will contain a symbol table of identifiers of function & variables with addresses. 
 - Linker will use these symbol tables to resolve any unresolved references during linking.
 - A symbol table may only exist during the translation process, or it may be embedded in the output of that process for later exploitation
-2). 
+2. 
 - There's also the symbol table in a shared library or DLL. 
 - This is produced by the linker & serves to name all the functions and data items that are visible to users of the library. 
 - This allows the system to do run-time linking, resolving open references to those names to the location where the library is loaded in memory.
 
-Note: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.
+**Note**: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.
 
-.dynamic = The structure residing at the beginning of the section holds the addresses of other dynamic linking information.
+> .dynamic
+The structure residing at the beginning of the section holds the addresses of other dynamic linking information.
 
-Procedure Linkage Table(.plt) : Procedure Linkage Table stores indirect links into the GoT
+> Procedure Linkage Table(.plt)
+
+*Procedure Linkage Table stores indirect links into the GoT*
 - is Table of addresses resides in text segment
 - used to store address of all function/procedure needed runtime (address not known at the time of linking)
 - The PLT uses what is called lazy resolution. Means it resolves procedure address when it really needs
-How PLT works -
+*How PLT works* -
   1. A function func is called and the compiler translates this to a call to func@plt.
   2. The program jumps to the PLT. The PLT points to the GOT. If the function hasnâ€™t been previously called, the GOT points back into the PLT to a resolver routine, otherwise it points to the function itself.
   3. If the function hasnâ€™t been previously called, PLT resolve routine & update the GOT entry with actual address of the function.
 
 
-Global Offset Table(.got) : 
+> Global Offset Table(.got)
+
 - is Table of addresses resides in data segment.
 - If some instruction in text segment, wants to refer to a variable it must normally use an absolute memory address. 
 - Instead of referring to the absolute memory address, it refers to the GOT, whose location is known. 

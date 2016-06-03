@@ -24,26 +24,18 @@ Contain object files's references, Linker uses the relocation records to find al
 
 > **Symbol Table : Two Meaning**
 
-1. 
-  - An object/executable files will contain a symbol table of identifiers of function & variables with addresses. 
-  - Linker will use these symbol tables to resolve any unresolved references during linking.
-  - A symbol table may only exist during the translation process, or it may be embedded in the output of that process for later exploitation
-2. 
-  - There's also the symbol table in a shared library or DLL. 
-  - This is produced by the linker & serves to name all the functions and data items that are visible to users of the library.
-  - This allows the system to do run-time linking, resolving open references to those names to the location where the library is loaded in memory.
+1. Symbol table in object/executable files will contain identifiers of function & variables with addresses which is used by Linker to resolve any unresolved references during linking. 
+2. There's also the symbol table in a shared library/DLL produced by the (compile time)linker which is used by dynamic linker to do run-time linking & resolving open references to those names to the location where the library is loaded in memory.
 
 **Note**: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.
 
 > **.dynamic**
 
-The structure residing at the beginning of the section holds the addresses of other dynamic linking information.
+Section holds the addresses of other dynamic linking information[[See This](http://stackoverflow.com/questions/14152841/how-is-lib-dependence-written-into-dynamic-section-of-the-elf-executable-in-sta)].
 
 > **Procedure Linkage Table(.plt)**
 
-*Procedure Linkage Table stores links in the GOT indirectly*
-- is Table of addresses resides in text segment
-- used to store address of all function/procedure needed runtime (address not known at the time of linking)
+- is Table of addresses resides in text segment used to store address of all functions needed at runtime (address not known at the time of linking)
 - The PLT uses what is called lazy resolution. Means it resolves procedure address when it really needs
 *How PLT works* -
   1. A function func is called and the compiler translates this to a call to func@plt.

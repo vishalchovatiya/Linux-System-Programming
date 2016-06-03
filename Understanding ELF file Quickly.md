@@ -6,23 +6,23 @@ This file name : **readELF.txt**
 
 ## Keyword Understanding
 
-> Shared Library(.so)
+> **Shared Library(.so)**
 
 Combination of multiple objects, Single Copy loaded in memory shared by multiple process(that's why shared object)
 
-> Sections
+> **Sections**
 
 Link time info
 
-> Segments 
+> **Segments**
 
 Run time info
 
-> Relocation Records 
+> **Relocation Records** 
 
 Contain object files's references, Linker uses the relocation records to find all of the addresses that need to be filled in process image.
 
-> Symbol Table : Two Meaning
+> **Symbol Table : Two Meaning**
 
 1. 
   - An object/executable files will contain a symbol table of identifiers of function & variables with addresses. 
@@ -35,12 +35,13 @@ Contain object files's references, Linker uses the relocation records to find al
 
 **Note**: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.
 
-> .dynamic
+> **.dynamic**
+
 The structure residing at the beginning of the section holds the addresses of other dynamic linking information.
 
-> Procedure Linkage Table(.plt)
+> **Procedure Linkage Table(.plt)**
 
-*Procedure Linkage Table stores indirect links into the GoT*
+*Procedure Linkage Table stores links in the GOT indirectly*
 - is Table of addresses resides in text segment
 - used to store address of all function/procedure needed runtime (address not known at the time of linking)
 - The PLT uses what is called lazy resolution. Means it resolves procedure address when it really needs
@@ -50,7 +51,7 @@ The structure residing at the beginning of the section holds the addresses of ot
   3. If the function hasnâ€™t been previously called, PLT resolve routine & update the GOT entry with actual address of the function.
 
 
-> Global Offset Table(.got)
+> **Global Offset Table(.got)**
 
 - is Table of addresses resides in data segment.
 - If some instruction in text segment, wants to refer to a variable it must normally use an absolute memory address. 

@@ -2,32 +2,36 @@ Command Format   : `readelf -a [Executable] > readELF.txt`
 
 Command Executed : `readelf -a testMuslShared > readELF.txt`
 
-This file name : readELF.txt
+This file name : **readELF.txt**
 
 ## Keyword Understanding
 
 > Shared Library(.so)
+
 Combination of multiple objects, Single Copy loaded in memory shared by multiple process(that's why shared object)
 
 > Sections
+
 Link time info
 
 > Segments 
+
 Run time info
 
 > Relocation Records 
+
 Contain object files's references, Linker uses the relocation records to find all of the addresses that need to be filled in process image.
 
 > Symbol Table : Two Meaning
 
 1. 
-- An object/executable files will contain a symbol table of identifiers of function & variables with addresses. 
-- Linker will use these symbol tables to resolve any unresolved references during linking.
-- A symbol table may only exist during the translation process, or it may be embedded in the output of that process for later exploitation
+  - An object/executable files will contain a symbol table of identifiers of function & variables with addresses. 
+  - Linker will use these symbol tables to resolve any unresolved references during linking.
+  - A symbol table may only exist during the translation process, or it may be embedded in the output of that process for later exploitation
 2. 
-- There's also the symbol table in a shared library or DLL. 
-- This is produced by the linker & serves to name all the functions and data items that are visible to users of the library. 
-- This allows the system to do run-time linking, resolving open references to those names to the location where the library is loaded in memory.
+  - There's also the symbol table in a shared library or DLL. 
+  - This is produced by the linker & serves to name all the functions and data items that are visible to users of the library.
+  - This allows the system to do run-time linking, resolving open references to those names to the location where the library is loaded in memory.
 
 **Note**: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.
 

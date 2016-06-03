@@ -4,7 +4,8 @@ Command Executed : readelf -a testMuslShared > readELF.txt
 
 This file name : readELF.txt
 
-######################################Keyword Understanding###########################################
+###Keyword Understanding
+
 Shared Library(.so) : Combination of multiple objects, Single Copy loaded in memory shared by multiple process(that's why shared object)
 
 Sections : Link time info
@@ -42,9 +43,10 @@ Global Offset Table(.got) :
 - If some instruction in text segment, wants to refer to a variable it must normally use an absolute memory address. 
 - Instead of referring to the absolute memory address, it refers to the GOT, whose location is known. 
 - By GOT we can relocate references needed by text segment
-############################################################################################
+
 
 ====================== Output Starts ====================================
+```
 ELF Header:
   Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 
   Class:                             ELF64
@@ -65,8 +67,9 @@ ELF Header:
   Size of section headers:           64 (bytes)
   Number of section headers:         22
   Section header string table index: 19
+```
 
-=================================================================================
+```
 Section Headers:
   [Nr] Name              Type             Address           Offset
        Size              EntSize          Flags  Link  Info  Align
@@ -120,8 +123,9 @@ Key to Flags:
   O (extra OS processing required) o (OS specific), p (processor specific)
 
 There are no section groups in this file.
+```
 
-=================================================================================
+```
 Program Headers:
   Type           Offset             VirtAddr           PhysAddr
                  FileSiz            MemSiz              Flags  Align
@@ -151,7 +155,9 @@ Program Headers:
    05     
    06     .init_array .fini_array .jcr .dynamic 
 
-=================================================================================
+```
+
+```
 Dynamic section at offset 0xe70 contains 20 entries:
   Tag        Type                         Name/Value
  0x0000000000000001 (NEEDED)             Shared library: [./libSharedMusl.so]
@@ -175,7 +181,9 @@ Dynamic section at offset 0xe70 contains 20 entries:
  0x0000000000000017 (JMPREL)             0x400458
  0x0000000000000000 (NULL)               0x0
 
-=================================================================================
+```
+
+```
 Relocation section '.rela.plt' at offset 0x458 contains 4 entries:
   Offset          Info           Type           Sym. Value    Sym. Name + Addend
 000000601018  000100000007 R_X86_64_JUMP_SLO 0000000000000000 puts + 0
@@ -185,7 +193,9 @@ Relocation section '.rela.plt' at offset 0x458 contains 4 entries:
 
 The decoding of unwind sections for machine type Advanced Micro Devices X86-64 is not currently supported.
 
-=================================================================================
+```
+
+```
 Symbol table '.dynsym' contains 14 entries:
    Num:    Value          Size Type    Bind   Vis      Ndx Name
      0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND 
@@ -257,7 +267,9 @@ Symbol table '.symtab' contains 51 entries:
     49: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main
     50: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND _Jv_RegisterClasses
 
-=================================================================================
+```
+
+```
 Histogram for bucket list length (total of 3 buckets):
  Length  Number     % of total  Coverage
       0  0          (  0.0%)
@@ -270,3 +282,4 @@ Histogram for bucket list length (total of 3 buckets):
       7  1          ( 33.3%)    100.0%
 
 No version information found in this file.
+```

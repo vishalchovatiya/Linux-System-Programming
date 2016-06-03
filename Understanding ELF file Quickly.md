@@ -45,11 +45,12 @@ Section holds the addresses of other dynamic linking information[[See This](http
 
 > **Global Offset Table(.got)**
 
-- is Table of addresses *resides in data segment*.
+- is Table of addresses *resides in data segment* used to store relative address.
 - If some instruction in text segment, wants to refer to a variable it must normally use an absolute memory address. 
 - Instead of referring to the absolute memory address, it refers to the GOT, whose location is known. 
 - By GOT we can relocate references needed by text segment
 
+**NOTE** : By this kind of address tables we can effectively use relocating of objects, with just updating entry each time relocation performed
 
 ====================== Output Starts ====================================
 ```

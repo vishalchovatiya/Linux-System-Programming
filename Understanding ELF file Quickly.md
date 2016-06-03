@@ -4,7 +4,7 @@ Command Executed : readelf -a testMuslShared > readELF.txt
 
 This file name : readELF.txt
 
-###################################### Keyword Understanding ###########################################
+######################################Keyword Understanding###########################################
 Shared Library(.so) : Combination of multiple objects, Single Copy loaded in memory shared by multiple process(that's why shared object)
 
 Sections : Link time info
@@ -42,7 +42,7 @@ Global Offset Table(.got) :
 - If some instruction in text segment, wants to refer to a variable it must normally use an absolute memory address. 
 - Instead of referring to the absolute memory address, it refers to the GOT, whose location is known. 
 - By GOT we can relocate references needed by text segment
-########################################################################################################
+############################################################################################
 
 ====================== Output Starts ====================================
 ELF Header:

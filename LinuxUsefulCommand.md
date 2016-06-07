@@ -4,8 +4,8 @@
 Create Soft & Hard Links
 
 **Soft Links(-s Parameter)** : point to the file name
-**Hard Links(By Default)**   : point to the file contents(share the same inode)
 
+**Hard Links(By Default)**   : point to the file contents(share the same inode)
 
 > ```nm -n [ELF_file]```
 

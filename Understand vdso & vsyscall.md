@@ -4,8 +4,8 @@
 
 > **Why VDSO**
 
--The traditional mechanism of communication between userland applications and the kernel is something called a system call. 
--Syscalls are implemented as software interrupts providing the userland application with some kernel functionality
+- The traditional mechanism of communication between userland applications and the kernel is something called a system call. 
+- Syscalls are implemented as software interrupts providing the userland application with some kernel functionality
 
 -To accomplish a syscall, the kernel must flip-flop memory contexts: storing the userland CPU registers, looking up the syscall in the interrupt vector of syscalls (the syscall vector is initialized at boot time) and then processing the syscall. Once the syscall has been processed in kernel land, the kernel must restore the registers from the previously stored userland context. This completes the syscall; however, as you can imagine, this is not a tax-free series of events. Numerous cycles are spun just to make these special kinds of function calls.
 

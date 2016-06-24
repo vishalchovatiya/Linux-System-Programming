@@ -95,7 +95,9 @@ This macro will create a variable that is a pointer to the value and is prefixed
  `vextern.h` mentions that:
 
 ```
-    Any kernel variables used in the vDSO must be exported in the main kernel's vmlinux.lds.S/vsyscall.h/proper__section and put into vextern.h and be referenced as a pointer with vdso prefix. The main kernel later fills in the values (comment in linux-2.6.37/arch/x86/vdso/vextern.h).
+Any kernel variables used in the vDSO must be exported in the main kernel's vmlinux.lds.S/vsyscall.h/proper__section 
+And put into vextern.h and be referenced as a pointer with vdso prefix. 
+The main kernel later fills in the values (comment in linux-2.6.37/arch/x86/vdso/vextern.h).
 ```
 
 - Now that you have vDSO code, the userland stuff and the kernel-userland mapping, let's make use of it. In the function `vget_numberOfTheBeast()`, let's return the value:

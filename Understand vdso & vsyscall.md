@@ -220,4 +220,5 @@ Finally, this article is just a little one-two on how to cook up your own vDSO. 
 2. [vsyscall and vDSO, nice article](http://lwn.net/Articles/446528/)
 3. [Useful article and links](http://davisdoesdownunder.blogspot.in/2011/02/linux-syscall-vsyscall-and-vdso-oh-my.html)
 4. [What is linux-gate.so.1?](http://www.trilithium.com/johan/2005/08/linux-gate/)
+5. [vdso vs vsyscall](http://stackoverflow.com/questions/19938324/what-are-vdso-and-vsyscall)
 

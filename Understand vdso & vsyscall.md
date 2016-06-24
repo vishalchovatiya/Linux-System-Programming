@@ -45,7 +45,7 @@ notrace macro defined in linux-2.6.37/arch/x86/include/asm/linkage.h expands:
 
 You also need to tell the compiler to link a userland-accessible function called `numberOfTheBeast`, which is also a weak symbol(that do not resolve until runtime). If the symbol does not exist, no warnings are issued, as no symbol is acceptable in this case. The alias associates the local `__vdso_numberOfTheBeast` to the world-accessible version, `numberOfTheBeast`. Add the following piece just after the function previously added:
 
-````int numberOfTheBeast(void)    __attribute__((weak, alias("__vdso_numberOfTheBeast")));```
+```int numberOfTheBeast(void)    __attribute__((weak, alias("__vdso_numberOfTheBeast")));```
 
 Now, change linker script`(linux-2.6.37/arch/x86/vdso/vdso.lds.S)` so that when the kernel builds, your code will get built and linked into the vdso.so shared object as follows: Add the function names you just added:
 
@@ -68,7 +68,7 @@ VERSION {
 }
 ```
 
-One more thing, you need to tell the compiler actually to compile the information in `vnumberOfTheBeast.c`. To do this, just toss some information into the Makefile located in `linux-2.6.37/arch/x86/vdso/Makefile`. Add the name of the file, with a .o instead of a .c extension. And, after make wizardry, it will be compiled at compile time. Again, break out the text editor, and add the name to the list of object files for the variable vobjs-y. Your result should look something similar to the following:
+One more thing, you need to tell the compiler actually to compile the information in `vnumberOfTheBeast.c`. To do this, just toss some information into the Makefile located in `linux-2.6.37/arch/x86/vdso/Makefile`. Add the name of the file, with a .o instead of a .c extension. And, after make wizardry, it will be compiled at compile time. Again, break out the text editor, and add the name to the list of object files for the variable `vobjs-y`. Your result should look something similar to the following:
 
 ```
 # files to link into the vdso
@@ -78,95 +78,91 @@ vobjs-y := vdso-note.o vclock_gettime.o vgetcpu.o
 
 If the vDSO is operating in userland, how do you access kernel-land variables? Well, it all depends how the userland version, vDSO version, accesses the kernel data.
 
-- For gettimeofday(), a special time variable is mapped into memory where the kernel updates it and the userland (vDSO version) can read it. The kernel merely copies what it knows about time into that variable, and when a vDSO is made, that call just reads the information saving the overhead of crossing memory segments. 
+For gettimeofday(), a special time variable is mapped into memory where the kernel updates it and the userland (vDSO version) can read it. The kernel merely copies what it knows about time into that variable, and when a vDSO is made, that call just reads the information saving the overhead of crossing memory segments. 
 
-- For example, let's add a value that lives in kernel land but is read from userland. Sure, I said earlier that this mystical number might change and you should implement a function to return it. Well, you have a function, but all you know now is the value and not what it might change to in the future. Let's make the function return a value, nonconstant. To elaborate, let's update this variable as the kernel requests. The kernel will update the vDSO variables in the update_vsyscall() function located in linux-2.6.37/arch/x86/kernel. 
+For example, let's add a value that lives in kernel land but is read from userland. Sure, I said earlier that this mystical number might change and you should implement a function to return it. Well, you have a function, but all you know now is the value and not what it might change to in the future. Let's make the function return a value, not constant. To elaborate, let's update this variable as the kernel requests. The kernel will update the vDSO variables in the `update_vsyscall()` function located in `linux-2.6.37/arch/x86/kernel`.
 
+If you were to declare it `const int vnotb = 666;`, the value captured there would not be set (more on this later).
 
-- If you were to declare it const int vnotb = 666;, the value captured there would not be set (more on this later).
+Let's define the value of the beast, which I will call vnotb. This number will reside in kernel land, as so many other useful values, such as time, which the efficient gettimeofday() vDSO will obtain.
 
-Let's define the value to be, in fact, the mysterious number of the beast itself, which I will call vnotb. This number will reside in kernel land, as so many other useful values, such as time, which the efficient gettimeofday() vDSO will obtain.
+Let's remain in `linux-2.6.37/arch/x86/vdso` and modify all the goodies here. First, declare the variable via the `VEXTERN()` macro. In `vextern.h`, add your declaration alongside all the other declarations:
 
-Let's remain in linux-2.6.37/arch/x86/vdso and modify all the goodies here. First, declare the variable via the VEXTERN() macro. In vextern.h, add your declaration alongside all the other declarations:
+`VEXTERN(vnotb)	// Expands to int *vdso_vnotb`
 
+This macro will create a variable that is a pointer to the value and is prefixed with `vdso_`.
 
-VEXTERN(vnotb)
-
-This macro will create a variable that is a pointer to the value you care about and is prefixed with vdso_. In essence, you have declared vnotb as int *vdso_vnotb;. 
-
-
- vextern.h mentions that:
+ `vextern.h` mentions that:
 
     Any kernel variables used in the vDSO must be exported in the main kernel's vmlinux.lds.S/vsyscall.h/proper__section and put into vextern.h and be referenced as a pointer with vdso prefix. The main kernel later fills in the values (comment in linux-2.6.37/arch/x86/vdso/vextern.h).
 
 
-- Now that you have vDSO code, the userland stuff and the kernel-userland mapping, let's make use of it. In the function vget_numberOfTheBeast(), let's return the value:
+- Now that you have vDSO code, the userland stuff and the kernel-userland mapping, let's make use of it. In the function `vget_numberOfTheBeast()`, let's return the value:
 
-
+```
 notrace int __vdso_numberOfTheBeast(void)
 {
     return *vdso_vnotb;
 }
+```
 
 Don't forget to add the header that declares that value, vextern.h as well as an additional header that will resolve some data referenced by the latter, vgtod.h:
 
-
+```
 #include <asm/vgtod.h>
 #include "vextern.h"
+```
 
+ To wrap things up, you need to let the kernel know about this variable so it can pump data into it. Well, you have it mapped at the address specified above, but that is rather pointless, unless kernel doesn't push some data into it. You need to go up one directory(that is `linux-2.6.37/arch/x86/kernel`). You need to let the linker know of this value, so it can map between kernel and userland. Modify `vmlinux.lds.S`, and add the following after the `vgetcpu_mode` piece (note that adding it after or before `vgetcpu_mode` isn't necessary, but it's an easy place to find things):
 
- To wrap things up, you need to let the kernel know about this variable so it can pump data into it. You need the kernel to give userland a value. Well, you have it mapped at the address specified above, but that is rather pointless, unless Mr Sanders, the colonel, doesn't push some data into it. You need to go up one directory. Hop into linux-2.6.37/arch/x86/kernel. You need to let the linker know of this value, so it can map between kernel and userland, so you probably should rock that. Modify vmlinux.lds.S, and add the following after the vgetcpu_mode piece (note that adding it after or before vgetcpu_mode isn't necessary, but it's an easy place to find things):
-
-
+```
 .vnotb : AT(VLOAD(.vnotb)) {
         *(.vnotb)
 }
 vnotb = VVIRT(.vnotb);
+```
 
+This links the vnotb symbol with the variable `vnotb`. This sets up the variable in the address space for kernel land to access and write to. The macros above, `AT`, `VLOAD` and `VVIRT` deal with modifying addresses so that the proper piece of data, at the `vnotb`, is referenced.
 
-- This links the vnotb symbol with the variable vnotb. This sets up the variable in the address space for kernel land to access and write to. The macros above, AT, VLOAD and VVIRT deal with modifying addresses so that the proper piece of data, at the vnotb, is referenced.
+Now, you need to declare the value that the kernel land will write to. In `linux-2.6.37/arch/x86/include/asm/vsyscall.h` declare this puppy and its section that will be inserted via the above linker script entry you most recently added:
 
-Now, you need to declare the value that the kernel land will write to. In linux-2.6.37/arch/x86/include/asm/vsyscall.h declare this puppy and its section that will be inserted via the above linker script entry you most recently added:
-
-
+```
 #define __section_vnotb __attribute__ ((unused, 
  ↪__section__ (".vnotb"), aligned(16)))
+```
 
 In this file, as mentioned, you also will declare the kernel-land variable to which the kernel will write. To keep things slightly more readable, associate your variable next to the vgetcpu_mode declaration:
 
-
-extern int vnotb;
+```extern int vnotb;```
 
 You also will define a value the kernel can read (I don't use this in my example, but if the kernel needs to read the value, this is the variable to read): 
 
-extern int __vnotb;
+```extern int __vnotb;```
 
- Now let's put this stuff in code and give it a value. The kernel will write the value via the writable vnotb, and you also can read it from the shared memory between kernel and userland via __vnotb. You will write the value in the kernel-land version of the variable, which is writable. In linux-2.6.37/arch/x86/kernel/vsyscall_64.c, preferably after all of the #include headers and just after the piece: int __vgetcpu_mode __section_vgetcpu_mode;, add the following:
+ Now let's put this stuff in code and give it a value. The kernel will write the value via the writable `vnotb`, and you also can read it from the shared memory between kernel and userland via `__vnotb`. You will write the value in the kernel-land version of the variable, which is writable. In `linux-2.6.37/arch/x86/kernel/vsyscall_64.c`, preferably after all of the `#include` headers and just after the piece: `int __vgetcpu_mode __section_vgetcpu_mode;`, add the following:
 
+```int __vnotb __section_vnotb;```
 
-int __vnotb __section_vnotb;
+Remember, you did a trick with the linker setting the value. If you set the value globally, as you would for an extern, you would not get a value, the linker would override it. You need to set this value at runtime and not statically at compile time. To set this value as the kernel updates, modify the `update_vsyscall()` routine in `linux-2.6.37/arch/x86/kernel/vsyscall_64.c` with:
 
-Remember, you did a trick with the linker setting the value. If you set the value globally, as you would for an extern, you would not get a value, the linker would override it. You need to set this value at runtime and not statically at compile time. To set this value as the kernel updates, modify the update_vsyscall() routine in linux-2.6.37/arch/x86/kernel/vsyscall_64.c with:
+```vnotb = 666;```
 
+This statement is defining the value declared previously in `vsyscall.h`. 
 
-vnotb = 666;
-
-This statement is defining the value declared previously in vsyscall.h. 
-
- Compiling, Linking and Running
+> **Compiling, Linking and Running**
 
 Wait, is that all there is to adding a vDSO? Um, yes. Of course, if the function was something supported by the C library (glibc, in our case), you can hack that to do the detection of vDSO and then the actual call. However, I mentioned we wouldn't be hacking glibc. And, you don't need to anyway, because getting the code to work is pretty simple. With the chunks described above all in place, it's time to start building. Just configure and compile your kernel as you typically would:
 
-
+```
 make menuconfig
 make bzImage
 make modules
 make modules_install
-
+```
 
  Now, install and boot your new modified vDSO kernel. Once that is up and running, it's time to test a few things, mainly the vDSO stuff you just added. Let's compile a test case to exercise the vDSO call:
 
-
+```
 /* notb.c */
 #include <stdio.h>
 
@@ -178,68 +174,47 @@ int main(void)
 
     return 0;
 }
+```
 
 Then, compile the code above as:
 
+```gcc notb.c -o notb vdso.so```
 
-gcc notb.c -o notb vdso.so
+The file you link against is `vdso.so`, which provides the symbol resolution needed to make the kernel call. The kernel version of `numberOfTheBeast()` is called, even if the code for that function is completely different in `vdso.so`. Where is `vdso.so` located? It's located in the kernel build directory after building the kernel: `linux-2.6.37/arch/x86/vdso/vdso.so`. 
 
+ At runtime, when a program executes `numberOfTheBeast`, the kernel code is called and not the version of `numberOfTheBeast()` in the `vdso.so` file. If you modify the kernel and, say, have `numberOfTheBeast()` return 42, then unless you load that kernel, you still will get `666`. Even if you compile the test example above with the newer modified-to-42 `vdso.so`.
 
-The file you link against is vdso.so, which provides the symbol resolution needed to make the kernel call. The kernel version of numberOfTheBeast() is called, even if the code for that function is completely different in vdso.so. Where is vdso.so located? It's located in the kernel build directory after building the kernel: linux-2.6.37/arch/x86/vdso/vdso.so. 
+Another way of getting the `vdso.so` file is by writing a program that extracts the vDSO memory from a running executable. Numerous sources on-line explain how to do this, but I briefly describe it here. The vDSO page, which is mapped into the memory of every running process, can be in a non-deterministic memory range of your executing process, thanks to Linux's address space layout randomization (ASLR). To get this address, a running program can find its memory information from the file `/proc/self/maps`. In there, a line with the text [vdso] exists. That line contains the address range in the executing process of the vDSO page. For example, you could run `cat /proc/self/maps`. 
 
-
-
-
-
- At runtime, when a program executes numberOfTheBeast, the kernel code is called and not the version of numberOfTheBeast() in the vdso.so file. If you modify the kernel and, say, have numberOfTheBeast() return 42, then unless you load that kernel, you still will get 666. Even if you compile the test example above with the newer modified-to-42 vdso.so.
-
-Another way of getting the vdso.so file is by writing a program that extracts the vDSO memory from a running executable. Numerous sources on-line explain how to do this, but I briefly describe it here. The vDSO page, which is mapped into the memory of every running process, can be in a non-deterministic memory range of your executing process, thanks to Linux's address space layout randomization (ASLR). To get this address, a running program can find its memory information from the file /proc/self/maps. In there, a line with the text [vdso] exists. That line contains the address range in the executing process of the vDSO page. For example, you could run cat /proc/self/maps. 
-
-
- Note that running this command multiple times produces different address ranges for [vdso] thanks to (if your kernel supports it) address space layout randomization.
+Note that running this command multiple times produces different address ranges for [vdso] thanks to (if your kernel supports it) address space layout randomization.
 
 The output should look something similar to:
 
-
+```
 ...
 7fff40d71000-7fff40d72000 r-xp 00000000 00:00 0 [vdso]
 ...
+```
 
-The above range is showing for the cat process you just executed that the address range for the vDSO page is located starting at 7fff40d71000 and ending at 7fff40d7200. Subtracting the start and end range, you get 0x1000 or 4096 bytes. 4096 is the page size often used in the kernel. Listing 1 shows code for extracting the vDSO from a running kernel, and it is based on code from the "Examining the Linux VDSO" article listed in Resources. 
+The above range is showing for the cat process you just executed that the address range for the vDSO page is located starting at `7fff40d71000` and ending at `7fff40d7200`. Subtracting the start and end range, you get `0x1000` or `4096` bytes. `4096` is the page size often used in the kernel. Listing 1 shows code for extracting the vDSO from a running kernel, and it is based on code from the "Examining the Linux VDSO" article listed in Resources. 
 
+A simple dumping of the dynamic object symbols can be conducted via:
 
+```objdump -T vdso.so```
 
- A simple dumping of the dynamic object symbols can be conducted via:
+Because a shared library is also an elf, the readelf tool also can be used on `vdso.so`. 
 
-
-objdump -T vdso.so
-
-Because a shared library is also an elf, the readelf tool also can be used on vdso.so. 
-
-
- Security Implication
+> **Security Implication**
 
 Anytime you dabble with the kernel, you should consider the security implications. If you think you can "own" someone by creating your own vDSO calls, you might want to think again. Because adding a vDSO requires users to bake their own kernels, the only people they could be compromising is their system and the users on their system. Of course, any dabbling with kernel resources should be done with much consideration. Remember, playing with vDSO goodies occurs in userland; however, your vDSOs can access kernel data. And, your kernel can read vDSO data. That can be a concern, but I'll leave that up to you as an exercise for finding anything exploitable.
 
 Finally, this article is just a little one-two on how to cook up your own vDSO. Now go make yourself a smoking kernel. 
 
 
-Sources & Useful links:
+> **Sources & Useful link**
 
-1. http://www.linuxjournal.com/content/creating-vdso-colonels-other-chicken?page=0,0
-2. http://lwn.net/Articles/446528/
-3. http://davisdoesdownunder.blogspot.in/2011/02/linux-syscall-vsyscall-and-vdso-oh-my.html
-4. http://www.trilithium.com/johan/2005/08/linux-gate/
-
-
-    Awesome tutorial, how to create your own vDSO.
-    vsyscall and vDSO, nice article
-    useful article and links
-    What is linux-gate.so.1?
-
-
-
-
-
-
+1. [Awesome tutorial, how to create your own vDSO](http://www.linuxjournal.com/content/creating-vdso-colonels-other-chicken?page=0,0)
+2. [vsyscall and vDSO, nice article](http://lwn.net/Articles/446528/)
+3. [Useful article and links](http://davisdoesdownunder.blogspot.in/2011/02/linux-syscall-vsyscall-and-vdso-oh-my.html)
+4. [What is linux-gate.so.1?](http://www.trilithium.com/johan/2005/08/linux-gate/)
 

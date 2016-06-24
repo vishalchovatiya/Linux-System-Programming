@@ -2,8 +2,7 @@
 
 - A vDSO (virtual dynamic shared object) is shared library(.so file) used to provide an alternative mechanism of cycle-expensive system call interface that the GNU/Linux kernel provides
 
-Why VDSO
-
+> **Why VDSO**
 
 -The traditional mechanism of communication between userland applications and the kernel is something called a system call. 
 -Syscalls are implemented as software interrupts providing the userland application with some kernel functionality
@@ -12,7 +11,7 @@ Why VDSO
 
 -Certain functions that merely return a value stored in the kernel, such as gettimeofday(), are wasting kernel resourse for little work done, But we can use VDSO to mend the flow of this function & save many CPU cycles & kernel resourse
 
-How VDSO Works
+> **How VDSO Works**
 
 - This kind of system call hooks are provided via the glibc library using VDSO support
 
@@ -28,7 +27,7 @@ How VDSO Works
 
 -One perfect example is gettimeofday(). This routine not only is timing-sensitive, but it is used at a high frequency. Consider that it takes the kernel time to hop memory segments. Once the clock is sampled, cycles must be spent to flip memory segments. The longer this takes, the less accurate the returned time value will be. 
 
-Creating VDSO syscall
+> **Creating VDSO syscall**
 
 Let's create a syscall that produce an integer value of, oh, the number of the beast, 666. Let's call this function, number_of_the_beast(). Because I'm not sure that the true number of the beast is static (hey, beasts might change), let's make this function do just that, tell us the number of the beast. (It could be like a president and change every few years.) Create a file in linux-2.6.37/arch/x86/vdso/ called vnumber_of_the_beast.c, and inside there, define your function: 
 

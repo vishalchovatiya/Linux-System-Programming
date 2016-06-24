@@ -39,22 +39,17 @@ notrace int __vdso_numberOfTheBeast(void)
     return 0xDEAD - 56339;
 }
 ```
-notrace macro defined in linux-2.6.37/arch/x86/include/asm/linkage.h as being:
+notrace macro defined in linux-2.6.37/arch/x86/include/asm/linkage.h expands:
 
+```#define notrace __attribute__((no_instrument_function))```
 
-#define notrace __attribute__((no_instrument_function))
+You also need to tell the compiler to link a userland-accessible function called `numberOfTheBeast`, which is also a weak symbol(that do not resolve until runtime). If the symbol does not exist, no warnings are issued, as no symbol is acceptable in this case. The alias associates the local `__vdso_numberOfTheBeast` to the world-accessible version, `numberOfTheBeast`. Add the following piece just after the function previously added:
 
-You also need to tell the compiler to link a userland-accessible function called numberOfTheBeast, which is also a weak symbol(that do not resolve until runtime). If the symbol does not exist, no warnings are issued, as no symbol is acceptable in this case. The alias associates the local __vdso_numberOfTheBeast to the world-accessible version, numberOfTheBeast. Add the following piece just after the function previously added:
+````int numberOfTheBeast(void)    __attribute__((weak, alias("__vdso_numberOfTheBeast")));```
 
+Now, change linker script`(linux-2.6.37/arch/x86/vdso/vdso.lds.S)` so that when the kernel builds, your code will get built and linked into the vdso.so shared object as follows: Add the function names you just added:
 
-int numberOfTheBeast(void)
-    __attribute__((weak, alias("__vdso_numberOfTheBeast")));
-
-Now, change linker script so that when the kernel builds, your code will get built and linked into the vdso.so shared object as follows:
-
- linux-2.6.37/arch/x86/vdso/vdso.lds.S to add the function names you just added:
-
-
+```
 VERSION {
     LINUX_2.6 {
         global:
@@ -71,16 +66,17 @@ VERSION {
         local: *;
     };
 }
+```
 
+One more thing, you need to tell the compiler actually to compile the information in `vnumberOfTheBeast.c`. To do this, just toss some information into the Makefile located in `linux-2.6.37/arch/x86/vdso/Makefile`. Add the name of the file, with a .o instead of a .c extension. And, after make wizardry, it will be compiled at compile time. Again, break out the text editor, and add the name to the list of object files for the variable vobjs-y. Your result should look something similar to the following:
 
-One more thing, you need to tell the compiler actually to compile the information in vnumberOfTheBeast.c. To do this, just toss some information into the Makefile located in linux-2.6.37/arch/x86/vdso/Makefile. Add the name of the file, with a .o instead of a .c extension. And, after make wizardry, it will be compiled at compile time. Again, break out the text editor, and add the name to the list of object files for the variable vobjs-y. Your result should look something similar to the following:
-
-
+```
 # files to link into the vdso
 vobjs-y := vdso-note.o vclock_gettime.o vgetcpu.o 
  ↪vvar.o vnumberOfTheBeast.o
+```
 
-- If the vDSO is operating in userland, how do you access kernel-land variables? Well, it all depends how the userland version, the vDSO version, accesses the kernel data.
+If the vDSO is operating in userland, how do you access kernel-land variables? Well, it all depends how the userland version, vDSO version, accesses the kernel data.
 
 - For gettimeofday(), a special time variable is mapped into memory where the kernel updates it and the userland (vDSO version) can read it. The kernel merely copies what it knows about time into that variable, and when a vDSO is made, that call just reads the information saving the overhead of crossing memory segments. 
 

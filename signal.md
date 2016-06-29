@@ -25,6 +25,7 @@ int main(void)
 
 - Signals = software interrupts.
 - The command kill -l on the bash would give us the following.
+
 ```
  1) SIGHUP            2) SIGINT         3) SIGQUIT     4) SIGILL     5) SIGTRAP
  6) SIGABRT           7) SIGBUS         8) SIGFPE      9) SIGKILL   10) SIGUSR1
@@ -42,4 +43,3 @@ int main(void)
 ```
 
 - Signals are also delivered to a process with the help of kill command. The manual page (man kill) of kill command says that the default and easier version of kill command is the kill pid. Where pid is the process ID that is found via the ps command. The default signal is SIGTERM (15). Alternatively a signal number is specified to the kill command such as kill -2 1291 making a delivery of SIGINT(2) signal to the process ID 1291
-- 

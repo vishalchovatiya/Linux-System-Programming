@@ -58,6 +58,11 @@ int main(void) {
 
 > **Points to Remember**
 
-1) Fork returns 0 in the child process & pid of the child process in the parent process, which you can see in above example. returns -1 on failer.
+1) When we fork in any process it simply creates copy of same process which we call child process
+
+                        Parent          Child
+return value            PID             0            
+
+Fork returns 0 in the child process & pid of the child process in the parent process, which you can see in above example. returns -1 on failer.
 
 2) Create copy of process including memory varibles & stored value in it with its own address space

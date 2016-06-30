@@ -37,10 +37,8 @@ int main()
         char *Msg1 = "Enter Number Two No\n";
         char *Msg2 = "sum = ";
 
-        // int sem_init(sem_t *sem, int pshared, unsigned int value);  
-        // sem = pointer to semaphore variable
-        // pshared = is a flag, If =0: can only be used by the calling activity, If !=0 can be used by all activities
-        // valueinitial value of the semaphore counter
+        // int sem_init(sem_t *sem /*pointer to semaphore variable*/, 
+                        int pshared /* If = 0: can only be used by the calling activity, If !=0 can be used by all activities*/, unsigned int value /*initial value of the semaphore counter*/);  
         // return value 0 on successful & -1 on failure
         sem_init( &sem, 0, 0);
 

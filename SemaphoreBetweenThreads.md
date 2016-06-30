@@ -57,9 +57,9 @@ int main()
 
 - Two types of implementation of semaphore
 
-1) **POSIX-semaphore**: sem_init(),sem_wait(),sem_trywait(),sem_post(),sem_getvalue(),sem_destroy()
+1) **POSIX-semaphore**: sem_init(), sem_destroy(), sem_wait(), sem_post(), sem_trywait(), sem_getvalue()
 
-2) **System-V-semaphore**: semget(),semop(),semctl()
+2) **System-V-semaphore**: semget(), semop(), semctl()
 
 
 

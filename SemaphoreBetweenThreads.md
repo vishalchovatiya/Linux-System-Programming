@@ -1,4 +1,4 @@
-> **Example**
+> **Example of POSIX-semaphore**
 
 ```
 #include<stdio.h>
@@ -37,6 +37,11 @@ int main()
         char *Msg1 = "Enter Number Two No\n";
         char *Msg2 = "sum = ";
 
+        // int sem_init(sem_t *sem, int pshared, unsigned int value);  
+        // sem = pointer to semaphore variable
+        // pshared = is a flag, If =0: can only be used by the calling activity, If !=0 can be used by all activities
+        // valueinitial value of the semaphore counter
+        // return value 0 on successful & -1 on failure
         sem_init( &sem, 0, 0);
 
         pthread_create( &thread1, NULL, (void*) ScanNumbers, (void*)Msg1);
@@ -52,6 +57,13 @@ int main()
         return 0;
 }
 ```
+- sem_init() : Initialize Semaphore
+- sem_destroy() : releases all resources
+- sem_wait() : Wait for semaphore to acquire
+- sem_post() : Release semaphore
+- sem_trywait() : Only works when caller does not have to wait
+- sem_getvalue() : Reads the counter value of the semaphore
+
 
 > **Things to remember**
 

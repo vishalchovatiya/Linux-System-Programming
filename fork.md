@@ -21,8 +21,11 @@ int main(void)
 
 > **Output**
 
+```
 Parent Process: ParentPID = 2640, ChildPID  = 2641
 Child  Process: ChildPID  = 2641, ParentPID = 0
+```
+
 
 > **Example 2**
 

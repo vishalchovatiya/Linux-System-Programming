@@ -1,9 +1,9 @@
 > **Example of POSIX-semaphore**
 
 ```
-#include<stdio.h>
-#include<pthread.h>
-#include<semaphore.h>
+#include <stdio.h>
+#include <pthread.h>
+#include <semaphore.h>
 
 int a,b;
 sem_t sem;
@@ -61,13 +61,17 @@ int main()
 - sem_post() : Release semaphore
 - sem_trywait() : Only works when caller does not have to wait
 - sem_getvalue() : Reads the counter value of the semaphore
+- sem_open() : Connects to, & optionally creates, a named semaphore( like sem_init() )
+- sem_unlink() : Ends connection to an open semaphore & causes the semaphore to be removed when the last process closes it( like sem_destroy()) 
 
 
 > **Things to remember**
 
+- To understand Semaphorem, assume it as a file
+
 - Two types of implementation of semaphore
 
-1) **POSIX-semaphore**: sem_init(), sem_destroy(), sem_wait(), sem_post(), sem_trywait(), sem_getvalue()
+1) **POSIX-semaphore**: sem_init(), sem_destroy(), sem_wait(), sem_post(), sem_trywait(), sem_getvalue(), sem_open(), sem_unlink()
 
 2) **System-V-semaphore**: semget(), semop(), semctl()
 

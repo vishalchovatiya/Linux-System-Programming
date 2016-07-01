@@ -38,7 +38,7 @@ int main()
         char *Msg2 = "sum = ";
 
         // int sem_init(sem_t *sem /* pointer to semaphore variable*/, 
-                        int pshared /* If = 0: Semaphore can be used in threads only, else in process*/, 
+                        int pshared /* If = 0: can be used in threads only, else in process(must be map in shared memory)*/, 
                         unsigned int value /* initial value of the semaphore counter*/);  
         // return value 0 on successful & -1 on failure
         

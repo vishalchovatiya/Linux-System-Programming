@@ -1,4 +1,4 @@
-> ** Example **
+> **Example**
 
 - The program is passed a filename as an argument. It opens the file, get the file status parameters, maps it, closes it, prints the file byte-by-byte to standard out, and then unmaps the file from memory.
 

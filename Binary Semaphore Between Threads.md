@@ -69,9 +69,9 @@ int main()
 
 > **Things to remember**
 
-- To understand Semaphorem, assume it as a file
+- Semaphore's internal implementation is like memory mapped file
 
-- Two types of implementation of semaphore
+- Two standard of semaphore mechanism
 
 1) **POSIX-semaphore**: sem_init(), sem_destroy(), sem_wait(), sem_post(), sem_trywait(), sem_getvalue(), sem_open(), sem_unlink()
 

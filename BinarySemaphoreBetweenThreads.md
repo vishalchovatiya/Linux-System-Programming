@@ -37,10 +37,12 @@ int main()
         char *Msg1 = "Enter Number Two No\n";
         char *Msg2 = "sum = ";
 
-        // int sem_init(sem_t *sem /*pointer to semaphore variable*/, 
-                        int pshared /* If = 0: can only be used by the calling activity, If !=0 can be used by all activities*/, unsigned int value /*initial value of the semaphore counter*/);  
+        // int sem_init(sem_t *sem /* pointer to semaphore variable*/, 
+                        int pshared /* If = 0: Semaphore can be used in threads only, else in process*/, 
+                        unsigned int value /* initial value of the semaphore counter*/);  
         // return value 0 on successful & -1 on failure
-        sem_init( &sem, 0, 0);
+        
+        sem_init( &sem, 0, 0);          // Can also use `sem = sem_open( "SemaphoreName", O_CREAT, 0777, 0);`
 
         pthread_create( &thread1, NULL, (void*) ScanNumbers, (void*)Msg1);
         pthread_create( &thread2, NULL, (void*) SumAndPrint, (void*)Msg2);
@@ -50,7 +52,7 @@ int main()
 
         printf("Wait For Both Thread To Finish\n");
 
-        sem_destroy(&sem);
+        sem_destroy(&sem);          // Can also use `sem_unlink( "SemaphoreName");`
 
         return 0;
 }

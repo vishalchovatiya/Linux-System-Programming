@@ -69,7 +69,7 @@ int main()
 
 > **Things to remember**
 
-- Semaphore's internal implementation is like memory mapped file
+- Semaphore's internal implementation is like memory mapped file(mmap)
 
 - Two standard of semaphore mechanism
 

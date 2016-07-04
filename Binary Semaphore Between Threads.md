@@ -69,12 +69,12 @@ int main()
 
 > **Things to remember**
 
-- Semaphore's internal implementation is like memory mapped file(mmap)
+* Semaphore's internal implementation is like memory mapped file(mmap)
 
-- Two standard of semaphore mechanism
+* Two standard of semaphore mechanism
 
-        i. **POSIX-semaphore**: sem_init(), sem_destroy(), sem_wait(), sem_post(), sem_trywait(), sem_getvalue(), sem_open(), sem_unlink()
-        ii. **System-V-semaphore**: semget(), semop(), semctl()
+        1. **POSIX-semaphore**: sem_init(), sem_destroy(), sem_wait(), sem_post(), sem_trywait(), sem_getvalue(), sem_open(), sem_unlink()
+        2. **System-V-semaphore**: semget(), semop(), semctl()
 
 
 

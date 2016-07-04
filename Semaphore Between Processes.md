@@ -1,5 +1,7 @@
 > **Example**
 
+- Program simply creates two process & print messages in synchronized manner
+
 ```
 #include <stdio.h>
 #include <stdlib.h>
@@ -79,3 +81,7 @@ int main(int argc, char *argv[])
 	return 0;
 }
 ```
+- sem_open() : Connects to, & optionally creates, a named semaphore( like sem_init() )
+- sem_unlink() : Ends connection to an open semaphore & causes the semaphore to be removed when the last process closes it( like sem_destroy()) 
+- sem_wait() : Wait for semaphore to acquire
+- sem_post() : Release semaphore

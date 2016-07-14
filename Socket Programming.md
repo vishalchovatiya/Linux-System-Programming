@@ -61,7 +61,7 @@ void ErrorAndExit(const char *str)
 }
 
 ```
-- `socket()` creates socket inside the kernel & returns socket descriptor. 
+- `**socket()**` creates socket inside the kernel & returns socket descriptor. 
     1. AF_INET represents IPv4 addresses. 
     2. SOCK_STREAM specifies communication semantics means how communcations would carried out.
     3. The 3rd argument is zero to let the kernel decide the default protocol to use for this connection. The default protocol used is TCP.

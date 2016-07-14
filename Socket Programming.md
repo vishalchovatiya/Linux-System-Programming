@@ -102,9 +102,7 @@ int main()
 
         serv_addr.sin_family = AF_INET;
         serv_addr.sin_port = htons(PORT);
-
-        if(inet_pton(AF_INET, IP, &serv_addr.sin_addr)<=0)
-                ErrorAndExit("inet_pton error occured");
+        serv_addr.sin_addr.s_addr = inet_addr(IP);
 
         if( connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
                 ErrorAndExit("Connect Failed");
@@ -128,3 +126,6 @@ void ErrorAndExit(const char *str)
         exit(EXIT_FAILURE);
 }
 ```
+- **socket()** do work same as mentioned in server
+- **connect()** will connect this socket with remote host whose IP-Port & other info bundled up in a structure `sockaddr_in`.
+- Once the sockets are connected, the server sends the data on clients socket through clients socket descriptor and client can read it through normal read call on the its socket descriptor.

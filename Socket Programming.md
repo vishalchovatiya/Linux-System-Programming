@@ -44,16 +44,14 @@ int main(int argc, char *argv[])
         if( (listen(listenfd, 10)  ) < 0 )
                 ErrorAndExit("Could not listen");
 
-        while(1)
-        {
-                if( ( connfd = accept(listenfd, (struct sockaddr*)NULL, NULL) ) < 0 )
-                        ErrorAndExit("Could not accept");
+        if( ( connfd = accept(listenfd, (struct sockaddr*)NULL, NULL) ) < 0 )
+                ErrorAndExit("Could not accept");
 
-                write(connfd, "Server Message", strlen("Server Message"));
+        write(connfd, "Server Message", strlen("Server Message"));
 
-                close(connfd);
-                sleep(1);
-        }
+        close(connfd);
+        
+        return 0;
 }
 
 void ErrorAndExit(const char *str)
@@ -63,6 +61,14 @@ void ErrorAndExit(const char *str)
 }
 
 ```
+- `socket()` creates socket inside the kernel & returns socket descriptor. 
+    1. AF_INET represents IPv4 addresses. 
+    2. SOCK_STREAM specifies communication semantics means how communcations would carried out.
+    3. The 3rd argument is zero to let the kernel decide the default protocol to use for this connection. The default protocol used is TCP.
+- `bind()`, wait for client requests on particular IP-Port specified in the structure `serv_addr`.
+- `listen()` with second argument as `10` specifies maximum number of client connections that server will queue for this listening socket.
+- `accept()`, put the server into sleep & when client requests, the three way TCP handshake* is complete, the function `accept()` wakes up & returns the socket descriptor representing the client socket. 
+- As soon as server gets a request from client, it prepares its message & writes on the client socket through the descriptor returned by accept().
 
 ### Client Example
 
@@ -89,7 +95,7 @@ int main()
         char recvBuff[1024];
         struct sockaddr_in serv_addr = {0};
 
-        memset(recvBuff, '0',sizeof(recvBuff));
+        memset(recvBuff, `0`,sizeof(recvBuff));
 
         if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
                 ErrorAndExit("Could not create socket");

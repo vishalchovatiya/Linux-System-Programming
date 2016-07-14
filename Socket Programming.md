@@ -121,5 +121,4 @@ void ErrorAndExit(const char *str)
     3. Shared memory
 - To communicate between two process over network, you need SOCKET
 - Socket = End point of communication between two systems on a network OR Combination of IP & Port Number
--
 

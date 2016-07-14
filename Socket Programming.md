@@ -65,9 +65,9 @@ void ErrorAndExit(const char *str)
     1. AF_INET represents IPv4 addresses. 
     2. SOCK_STREAM specifies communication semantics means how communcations would carried out.
     3. The 3rd argument is zero to let the kernel decide the default protocol to use for this connection. The default protocol used is TCP.
-- `bind()`, wait for client requests on particular IP-Port specified in the structure `serv_addr`.
-- `listen()` with second argument as `10` specifies maximum number of client connections that server will queue for this listening socket.
-- `accept()`, put the server into sleep & when client requests, the three way TCP handshake* is complete, the function `accept()` wakes up & returns the socket descriptor representing the client socket. 
+- **bind()**, wait for client requests on particular IP-Port specified in the structure `serv_addr`.
+- **listen()** with second argument as `10` specifies maximum number of client connections that server will queue for this listening socket.
+- **accept()**, put the server into sleep & when client requests, the three way TCP handshake* is complete, the function wakes up & returns the socket descriptor representing the client socket. 
 - As soon as server gets a request from client, it prepares its message & writes on the client socket through the descriptor returned by accept().
 
 ### Client Example

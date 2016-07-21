@@ -1,5 +1,3 @@
-> **General**
-
 1. [Binary Semaphore Between Thread](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/Binary%20Semaphore%20Between%20Threads.md).
 2. [Binary Semaphore Between Process](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/Semaphore%20Between%20Processes.md).
 3. [Create Process fork()](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/fork.md).

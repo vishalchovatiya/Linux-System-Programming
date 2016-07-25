@@ -17,7 +17,7 @@
 int main( int argc, char *argv[])
 {
         char buf[1024];
-        struct pollfd pfds[1] = { 0, POLLIN};   // No of files to poll for
+        struct pollfd pfds[1] = { STDIN, POLLIN};   // No of files discriptors to poll for
         int timeout = 5000;                     // Time Out
 
         int ret = poll(pfds, 1, timeout);       // Polling for file discriptors provided with timeout

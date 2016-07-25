@@ -11,7 +11,7 @@ int main()
 {
         char c;
         int shmid;
-        int shmflg = IPC_CREAT | 0666;  // shmflg to be passed to shmget()
+        int shmflg = IPC_CREAT | 0666;  // flags like create, access permission
         key_t key = 5678;               // Name of Shared Memory Segment
         char *shm, *s;
 
@@ -49,10 +49,11 @@ int main()
 int main()
 {
         int shmid;
+        int shmflg = 0666;  // flags like create, access permission
         key_t key = 5678;
         char *shm, *s;
 
-        if ((shmid = shmget(key, SHMSZ, 0666)) < 0) {   // Locate the segment
+        if ((shmid = shmget(key, SHMSZ, shmflg)) < 0) {         // Locate the segment
                 perror("shmget");
                 return 1;
         }
@@ -66,7 +67,7 @@ int main()
                 putchar(*s);
         putchar('\n');
 
-        *shm = '*';     // Acknowledge other proces
+        *shm = '*';                     // Acknowledge other proces
 
         return 0;
 }

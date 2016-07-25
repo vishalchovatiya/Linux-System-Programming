@@ -11,10 +11,11 @@ int main()
 {
         char c;
         int shmid;
-        key_t key = 5678;       // Name of Shared Memory Segment
+        int shmflg = IPC_CREAT | 0666;  // shmflg to be passed to shmget()
+        key_t key = 5678;               // Name of Shared Memory Segment
         char *shm, *s;
 
-        if ((shmid = shmget(key, SHMSZ, IPC_CREAT | 0666)) < 0) {       //Create the segment
+        if ((shmid = shmget(key, SHMSZ, shmflg)) < 0) {         //Create the segment
                 perror("shmget");
                 return 1;
         }
@@ -24,7 +25,7 @@ int main()
                 return 1;
         }
 
-        s = shm;        // Fill memory to read by other process
+        s = shm;                // Fill memory to read by other process
 
         for (c = 'a'; c <= 'z'; c++)
                 *s++ = c;
@@ -35,7 +36,6 @@ int main()
 
         return 0;
 }
-
 ```
 ### Client.c
 ```

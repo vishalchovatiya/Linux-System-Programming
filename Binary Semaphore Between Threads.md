@@ -1,4 +1,4 @@
-> **Example of POSIX-semaphore**
+### Example of POSIX-semaphore
 
 ```
 #include <stdio.h>
@@ -67,7 +67,7 @@ int main()
 - sem_unlink() : Ends connection to an open semaphore & causes the semaphore to be removed when the last process closes it( like sem_destroy()) 
 
 
-> **Things to remember**
+### Things to remember
 
 * Semaphore's internal implementation is like memory mapped file(mmap)
 

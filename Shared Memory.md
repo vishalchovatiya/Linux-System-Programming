@@ -73,3 +73,7 @@ int main()
 }
 ```
 ### Points to be note
+- shmget() : Creates a shared memory segment, The key argument could be semaphore ID
+- shmat() : Shared segment can be attached to a process address space using this API
+- It can be detached using shmdt() (see shmop()), A shared segment can be attached multiple times by the same process
+- The original owner of a shared memory segment can assign ownership to another user with shmctl()

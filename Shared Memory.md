@@ -77,3 +77,6 @@ int main()
 - shmat() : Shared segment can be attached to a process address space using this API
 - It can be detached using shmdt() (see shmop()), A shared segment can be attached multiple times by the same process
 - The original owner of a shared memory segment can assign ownership to another user with shmctl()
+- List out shared memory areas by `ipcs -m`
+- Get more info on particular shared memory area `ipcs -m -i [shmid]`
+- Remove shared memory `ipcrm shm [shmid]`

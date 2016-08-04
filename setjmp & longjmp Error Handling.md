@@ -36,11 +36,10 @@ int main()              (entry)---+         ^         V
 
 ### Important Notes:
 
-    You cannot pass 0 to longjmp. If you do, 1 is returned by setjmp.
+- You cannot pass 0 to longjmp. If you do, 1 is returned by setjmp.
+- You must not return from the function that called setjmp before the corresponding longjmp. In other words, longjmp must only be called above setjmp in the call stack.
+- You cannot actually store the result of setjmp. If you want to return in several different ways, you can use a switch, though:
 
-    You must not return from the function that called setjmp before the corresponding longjmp. In other words, longjmp must only be called above setjmp in the call stack.
-
-    (Thanks to @wildplasser:) You cannot actually store the result of setjmp. If you want to return in several different ways, you can use a switch, though:
 ```
     switch (setjmp(&env))
     {

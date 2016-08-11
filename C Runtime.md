@@ -88,4 +88,5 @@ _start		  |        ./arch/x86_64/crt_arch.h
 _start_c		   |     ./crt/crt1.c
 __libc_start_main	|./src/env/__libc_start_main.c
 main		|	          Our Program
+exit		|	          Close process
 _init & _fini(pop)	 | ./crt/x86_64/crtn.s

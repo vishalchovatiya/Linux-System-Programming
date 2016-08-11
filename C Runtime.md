@@ -5,6 +5,11 @@ Some definitions:
 - PIE - position independent executable (-fPIE -pie)
 - crt - C runtime
 
+First Header | Second Header
+------------ | -------------
+Content from cell 1 | Content from cell 2
+Content in the first column | Content in the second column
+
 1. crt0.o 	=  Will contain the _start function that initializes the process
 2. crtbegin.o	=  GCC uses this to find the start of the constructors(init).
 3. crtend.o	=  GCC uses this to find the start of the destructors(fini).

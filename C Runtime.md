@@ -16,7 +16,9 @@ Scrt1.o    |Used in place of crt1.o when generating PIEs.
 
 - There could be crt1.o, crt2.o & so on, depending upon implementation, crt0.c is runtime 0 & funs first
 - glibc ports call this file 'start.S' while uClibc ports call this crt0.S or crt1.S
-- General linking order: crt1.o crti.o crtbegin.o [-L paths] [user objects] [gcc libs] [C libs] [gcc libs] crtend.o crtn.o
+- General linking order: 
+
+ **crt1.o crti.o crtbegin.o [-L paths] [user objects] [gcc libs] [C libs] [gcc libs] crtend.o crtn.o**
 
 ### crt0.s 
 ```

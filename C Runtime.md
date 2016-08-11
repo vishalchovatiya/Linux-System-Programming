@@ -1,9 +1,13 @@
 ## Points To Remember
 
 crt0.o 		  =  Will contain the _start function that initializes the process
+
 crtbegin.o	=  Call init
+
 crtend.o	  =  Call fini
+
 crti.o		  =  Header of init & fini (for push in stack)
+
 crtn.o 		  =  Footer of init & fini (for pop in stack)
 
 - There could be crt1.o, crt2.o & so on, depending upon implementation, crt0.c is runtime 0 & funs first

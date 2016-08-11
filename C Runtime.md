@@ -81,11 +81,11 @@ _fini:
 ```
 
 ### Flow of x86 C program
-```
-_init & _fini(push)	  ./crt/x86_64/crti.s
-1. _start		          ./arch/x86_64/crt_arch.h
-2. _start_c		        ./crt/crt1.c
-3. __libc_start_main	./src/env/__libc_start_main.c
-4. main			          Our Program
-_init & _fini(pop)	  ./crt/x86_64/crtn.s
-```
+Routine | File
+------------ | -------------
+_init & _fini(push)	 | ./crt/x86_64/crti.s
+_start		  |        ./arch/x86_64/crt_arch.h
+_start_c		   |     ./crt/crt1.c
+__libc_start_main	|./src/env/__libc_start_main.c
+main		|	          Our Program
+_init & _fini(pop)	 | ./crt/x86_64/crtn.s

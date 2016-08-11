@@ -1,14 +1,22 @@
 ## Points To Remember
+**
+Some definitions:
+PIC - position independent code (-fPIC)
+PIE - position independent executable (-fPIE -pie)
+crt - C runtime
+**
 
-crt0.o 		  =  Will contain the _start function that initializes the process
+crt0.o 	=  Will contain the _start function that initializes the process
 
 crtbegin.o	=  Call init
 
-crtend.o	  =  Call fini
+crtend.o	=  Call fini
 
-crti.o		  =  Header of init & fini (for push in stack)
+crti.o		=  Header of init & fini (for push in stack)
 
-crtn.o 		  =  Footer of init & fini (for pop in stack)
+crtn.o 	=  Footer of init & fini (for pop in stack)
+
+Scrt1.o       =  Used in place of crt1.o when generating PIEs.
 
 - There could be crt1.o, crt2.o & so on, depending upon implementation, crt0.c is runtime 0 & funs first
 - glibc ports call this file 'start.S' while uClibc ports call this crt0.S or crt1.S

@@ -6,11 +6,11 @@ Some definitions:
 - crt - C runtime
 
 1. crt0.o 	=  Will contain the _start function that initializes the process
-2. crtbegin.o	=  Call init
-3. crtend.o	=  Call fini
-4. crti.o		=  Header of init & fini (for push in stack)
+2. crtbegin.o	=  GCC uses this to find the start of the constructors(init).
+3. crtend.o	=  GCC uses this to find the start of the destructors(fini).
+4. crti.o	=  Header of init & fini (for push in stack)
 5. crtn.o 	=  Footer of init & fini (for pop in stack)
-6. Scrt1.o       =  Used in place of crt1.o when generating PIEs.
+6. Scrt1.o    =  Used in place of crt1.o when generating PIEs.
 
 - There could be crt1.o, crt2.o & so on, depending upon implementation, crt0.c is runtime 0 & funs first
 - glibc ports call this file 'start.S' while uClibc ports call this crt0.S or crt1.S

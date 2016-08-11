@@ -80,7 +80,7 @@ _fini:
         ret
 ```
 
-### Flow of x86 C program
+### Flow of x86 C program with runtime
 Routine | File
 ------------ | -------------
 _init & _fini(push)	 | ./crt/x86_64/crti.s

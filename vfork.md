@@ -54,5 +54,5 @@ PARENT: -16
 - Before good memory management, fork() made a full copy of the parent's memory, so it was pretty expensive. 
 - since in many cases a fork() was followed by exec(), which discards the current memory map and creates a new one, it was a needless expense. 
 - Nowadays, fork() doesn't copy the memory; it's simply set as "copy on write", so fork()+exec() is just as efficient as vfork()+exec()
-- In Some OSs, vfork shares same address space
+- In Some OSs, vfork shares same address space as of parents
 - vfork & fork internally calls clone

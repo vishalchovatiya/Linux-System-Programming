@@ -14,3 +14,4 @@
 14. [Thread Conditional Wait with Mutex(pthread_cond_t)](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/Thread%20Conditional%20Wait%20with%20Mutex(pthread_cond_t).md)
 15. [vfork](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/vfork.md)
 16. [Unix Domain Socket](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/Unix%20Domain%20Socket%20Example.md)
+17. [Understanding ELF file Quickly](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/Understanding%20ELF%20file%20Quickly.md)

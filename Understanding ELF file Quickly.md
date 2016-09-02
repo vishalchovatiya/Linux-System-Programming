@@ -169,9 +169,32 @@ Program Headers:
 
 **Note**: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.
 
-> **Dynamic Section**
+> **Dynamic Section & Dynamic linking with the ELF interpreter**
 
-- 
+- First the dynamic linker (contained within the interpreter) looks at the `Dynamic section`, whose address is stored in the Program Header.
+- There it finds the `NEEDED` entries determining which libraries have to be loaded before the program can be run, the `REL` entries giving the address of the relocation tables, the `VER` entries which contain symbol versioning information, etc.
+- So the dynamic linker loads the needed libraries and performs relocations (either directly at program startup or later(lazy resolution)).
+- Finally control is transferred to the address given by the symbol `_start` in the binary. Normally some `gcc/glibc` startup code lives there, which in the end calls `main()`.
+```
+    greek0@iphigenie:~$ readelf -d /bin/bash
+    Dynamic section at offset 0xa0214 contains 22 entries:
+      Tag        Type                         Name/Value
+     0x00000001 (NEEDED)                     Shared library: [libncurses.so.5]
+     0x00000001 (NEEDED)                     Shared library: [libdl.so.2]
+     0x00000001 (NEEDED)                     Shared library: [libc.so.6]
+     0x0000000a (STRSZ)                      29922 (bytes)
+     0x0000000b (SYMENT)                     16 (bytes)
+     0x00000003 (PLTGOT)                     0x80e92f0
+     0x00000002 (PLTRELSZ)                   1448 (bytes)
+     0x00000014 (PLTREL)                     REL
+     0x00000017 (JMPREL)                     0x805ad04
+     0x00000011 (REL)                        0x805acc4
+     0x00000012 (RELSZ)                      64 (bytes)
+     0x6ffffffe (VERNEED)                    0x805ac34
+     0x6fffffff (VERNEEDNUM)                 2
+     0x6ffffff0 (VERSYM)                     0x8059d22
+     0x00000000 (NULL)                       0x0
+```
 
 > **Procedure Linkage Table(.plt)**
 

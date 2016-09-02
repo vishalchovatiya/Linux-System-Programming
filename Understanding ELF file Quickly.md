@@ -13,11 +13,11 @@ This file name : **readELF.txt**
 
 > **Sections**
 
-- Sections contain information needed during linking
+- Sections contain information needed during linking time
 
 > **Segments**
 
-- Segments contain information needed at runtime
+- Segments contain information needed at run time
 
 > **Relocation Records** 
 

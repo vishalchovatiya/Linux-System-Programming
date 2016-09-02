@@ -1,7 +1,5 @@
 Command Format   : `readelf -a [Executable] > readELF.txt`
 
-This file name : **readELF.txt**
-
 ## Keyword Understanding
 
 > **Shared Library(.so)**

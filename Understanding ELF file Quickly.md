@@ -78,7 +78,7 @@ greek0@iphigenie:~$ readelf -h /bin/bash
 - Contains information for the kernel on how to start the program
 - The `LOAD` directives determinate what parts of the ELF file get mapped into memory. 
 - The `INTERP` directive specifies an ELF interpreter, which is normally `/lib/ld-linux.so.2` on Linux systems.
-- The `DYNAMIC` entry points to the .dynamic section which contains information used by the ELF interpreter to setup the binary.
+- The `DYNAMIC` entry points to the `.dynamic` section which contains information used by the ELF interpreter to setup the binary.
 
 ```
 greek0@iphigenie:~$ readelf -l /bin/bash

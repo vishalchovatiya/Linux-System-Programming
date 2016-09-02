@@ -8,7 +8,8 @@ This file name : **readELF.txt**
 
 > **Shared Library(.so)**
 
-Combination of multiple objects, Single Copy loaded in memory shared by multiple process(that's why shared object)
+- Combination of multiple objects
+- Single Copy loaded in memory shared by multiple process(that's why shared object)
 
 > **Sections**
 

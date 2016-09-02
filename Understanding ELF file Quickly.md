@@ -8,16 +8,16 @@ This file name : **readELF.txt**
 
 > **Shared Library(.so)**
 
-- Combination of multiple objects(or object files)
+- Combination of multiple objects
 - Single Copy loaded in memory shared by multiple process(that's why shared object)
 
 > **Sections**
 
-Link time info
+- Sections contain information needed during linking
 
 > **Segments**
 
-Run time info
+- Segments contain information needed at runtime
 
 > **Relocation Records** 
 

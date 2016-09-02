@@ -197,7 +197,9 @@ Program Headers:
 
 > **Procedure Linkage Table(.plt)**
 
-- is Table of addresses *resides in text segment* used to store address of all functions needed at runtime (address not known at the time of linking)
+- is table of addresses 
+- *resides in text segment* 
+- used to store address of all functions needed at runtime (address not known at the time of linking)
 - The PLT uses what is called lazy resolution. Means it resolves procedure address once when it calls method
 - *How PLT works* -
   1. A function func is called and the compiler translates this to a call to func@plt.

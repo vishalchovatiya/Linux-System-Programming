@@ -209,8 +209,10 @@ Program Headers:
 
 > **Global Offset Table(.got)**
 
-- is Table of addresses *resides in data segment* used to store relative address of variables & produres which is mapped with absolute address
-- *How PLT works* -
+- is table of addresses 
+- *resides in data segment* 
+- used to store relative address of variables & produres which is mapped with absolute address
+- *How GOT works* -
   1. If some instruction in text segment, wants to refer to a variable it must normally use an absolute memory address.
   2. Instead of referring to the absolute memory address, it refers to the GOT, whose location is known. 
 

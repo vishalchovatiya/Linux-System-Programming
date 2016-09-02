@@ -21,7 +21,7 @@ This file name : **readELF.txt**
 
 > **Relocation Table OR Relocation Section** 
 
-- Relocation is the process of connecting symbolic references(functions,varialbe names) with symbolic definitions(function or variable definitions). 
+- Relocation is the process of connecting symbolic references(functions,variable,etc names) with symbolic definitions(function, variable,etc definitions). 
 - For example, when a program calls a function(at runtime), the associated call instruction must transfer control to the proper destination address at execution. 
 
 

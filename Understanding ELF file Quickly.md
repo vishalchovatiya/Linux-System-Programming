@@ -12,7 +12,6 @@ Command Format   : `readelf -a [Executable] > readELF.txt`
 
 - Neither the `Section Header` nor the `Program Header` have fixed positions, they can be located anywhere in an ELF file. To find them the ELF header is used, which is located at the very start of the file.
 - The first bytes contain the elf magic "\x7fELF", followed by the class ID (32 or 64 bit ELF file), the data format ID (little endian/big endian), the machine type, etc.
-- At the end of the ELF header are then pointers to the SHT and PHT.
 ```
 greek0@iphigenie:~$ readelf -h /bin/bash
     ELF Header:

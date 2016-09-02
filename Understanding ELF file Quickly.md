@@ -27,8 +27,8 @@ This file name : **readELF.txt**
 
 > **Symbol Table : Two Meaning**
 
-1. Symbol table in object/executable files will contain identifiers of function & variables with addresses which is used by Linker to resolve any unresolved references during linking. 
-2. There's also the symbol table in a shared library/DLL produced by the (compile time)linker which is used by dynamic linker to do run-time linking & resolving open references to those names to the location where the library is loaded in memory.
+1. Symbol table in object/executable files will contain symbolic name of functions & variables with addresses which is used by Linker to resolve any unresolved references during linking. 
+2. There's also the symbol table in a shared library/DLL produced by the linker(at compile time) which is used by dynamic linker to do run-time linking & resolving open references to those names to the location where the library is loaded in memory.
 
 **Note**: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.
 

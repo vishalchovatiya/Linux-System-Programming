@@ -19,9 +19,11 @@ This file name : **readELF.txt**
 
 - Segments contain information needed at run time
 
-> **Relocation Records** 
+> **Relocation Table OR Relocation Section** 
 
-Contain object files's references, Linker uses the relocation records to find all of the addresses that need to be filled in process image.
+- Relocation is the process of connecting symbolic references(functions,varialbe names) with symbolic definitions(function or variable definitions). 
+- For example, when a program calls a function(at runtime), the associated call instruction must transfer control to the proper destination address at execution. 
+
 
 > **Symbol Table : Two Meaning**
 

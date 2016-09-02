@@ -169,32 +169,6 @@ Program Headers:
 
 **Note**: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.
 
-- When searching for a symbol the dynamic linker looks through the dynamic symbol table `.dynsym`, so all symbols present there are usable by other programs.
-```
-Symbol table '.dynsym' contains 7 entries:
-   Num:    Value          Size Type    Bind   Vis      Ndx Name
-     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND
-     1: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND puts@GLIBC_2.2.5 (2)
-     2: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND fclose@GLIBC_2.2.5 (2)
-     3: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main@GLIBC_2.2.5 (2)
-     4: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND fgets@GLIBC_2.2.5 (2)
-     5: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND __gmon_start__
-     6: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND fopen@GLIBC_2.2.5 (2)
-
-Symbol table '.symtab' contains 68 entries:
-   Num:    Value          Size Type    Bind   Vis      Ndx Name
-     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND
-     1: 0000000000400238     0 SECTION LOCAL  DEFAULT    1
-     2: 0000000000400254     0 SECTION LOCAL  DEFAULT    2
-     3: 0000000000400274     0 SECTION LOCAL  DEFAULT    3
-     4: 0000000000400298     0 SECTION LOCAL  DEFAULT    4
-     5: 00000000004002b8     0 SECTION LOCAL  DEFAULT    5
-     6: 0000000000400360     0 SECTION LOCAL  DEFAULT    6
-     7: 00000000004003b0     0 SECTION LOCAL  DEFAULT    7
-....
-....
-```
-
 > **Dynamic Section**
 
 - 
@@ -218,241 +192,24 @@ Symbol table '.symtab' contains 68 entries:
 
 **NOTE** : By this kind of address tables we can effectively use relocating of objects, with just updating entry each time relocation performed
 
-====================== Output Starts ====================================
+> **Program loading in the kernel**
+
+- The execution of a program starts inside the kernel, in the exec system call. There the file type is looked up and the appropriate handler is called. 
+- The `binfmt-elf` handler then loads the `ELF header` and the `Program Header`, followed by lots of sanity checks.
+- The kernel then loads the parts specified in the `LOAD` directives in the `Program Header` into memory. If an `INTERP` entry is present, the interpreter is loaded too. 
+- Statically linked binaries can do without an interpreter; dynamically linked programs always need `/lib/ld-linux.so` as interpreter because it includes some startup code, loads shared libraries needed by the binary, and performs relocations.
+
+Finally control can be transfered to the program, to the interpreter, if present, otherwise to the binary itself.
 ```
-ELF Header:
-  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 
-  Class:                             ELF64
-  Data:                              2's complement, little endian
-  Version:                           1 (current)
-  OS/ABI:                            UNIX - System V
-  ABI Version:                       0
-  Type:                              EXEC (Executable file)
-  Machine:                           Advanced Micro Devices X86-64
-  Version:                           0x1
-  Entry point address:               0x400510
-  Start of program headers:          64 (bytes into file)
-  Start of section headers:          4360 (bytes into file)
-  Flags:                             0x0
-  Size of this header:               64 (bytes)
-  Size of program headers:           56 (bytes)
-  Number of program headers:         7
-  Size of section headers:           64 (bytes)
-  Number of section headers:         22
-  Section header string table index: 19
-```
-
-```
-Section Headers:
-  [Nr] Name              Type             Address           Offset
-       Size              EntSize          Flags  Link  Info  Align
-  [ 0]                   NULL             0000000000000000  00000000
-       0000000000000000  0000000000000000           0     0     0
-  [ 1] .interp           PROGBITS         00000000004001c8  000001c8
-       0000000000000034  0000000000000000   A       0     0     1
-  [ 2] .hash             HASH             0000000000400200  00000200
-       000000000000004c  0000000000000004   A       3     0     8
-  [ 3] .dynsym           DYNSYM           0000000000400250  00000250
-       0000000000000150  0000000000000018   A       4     1     8
-  [ 4] .dynstr           STRTAB           00000000004003a0  000003a0
-       00000000000000b5  0000000000000000   A       0     0     1
-  [ 5] .rela.plt         RELA             0000000000400458  00000458
-       0000000000000060  0000000000000018   A       3     7     8
-  [ 6] .init             PROGBITS         00000000004004b8  000004b8
-       0000000000000003  0000000000000000  AX       0     0     1
-  [ 7] .plt              PROGBITS         00000000004004c0  000004c0
-       0000000000000050  0000000000000010  AX       0     0     16
-  [ 8] .text             PROGBITS         0000000000400510  00000510
-       000000000000011c  0000000000000000  AX       0     0     16
-  [ 9] .fini             PROGBITS         000000000040062c  0000062c
-       0000000000000003  0000000000000000  AX       0     0     1
-  [10] .rodata           PROGBITS         0000000000400630  00000630
-       0000000000000013  0000000000000000   A       0     0     8
-  [11] .eh_frame         PROGBITS         0000000000400648  00000648
-       0000000000000064  0000000000000000   A       0     0     8
-  [12] .init_array       INIT_ARRAY       0000000000600e58  00000e58
-       0000000000000008  0000000000000000  WA       0     0     8
-  [13] .fini_array       FINI_ARRAY       0000000000600e60  00000e60
-       0000000000000008  0000000000000000  WA       0     0     8
-  [14] .jcr              PROGBITS         0000000000600e68  00000e68
-       0000000000000008  0000000000000000  WA       0     0     8
-  [15] .dynamic                    0000000000600e70  00000e70
-       0000000000000190  0000000000000010  WA       4     0     8
-  [16] .got.plt          PROGBITS         0000000000601000  00001000
-       0000000000000038  0000000000000008  WA       0     0     8
-  [17] .bss              NOBITS           0000000000601038  00001038
-       0000000000000008  0000000000000000  WA       0     0     4
-  [18] .comment          PROGBITS         0000000000000000  00001038
-       000000000000002c  0000000000000001  MS       0     0     1
-  [19] .shstrtab         STRTAB           0000000000000000  00001064
-       00000000000000a4  0000000000000000           0     0     1
-  [20] .symtab           SYMTAB           0000000000000000  00001688
-       00000000000004c8  0000000000000018          21    35     8
-  [21] .strtab           STRTAB           0000000000000000  00001b50
-       00000000000001b0  0000000000000000           0     0     1
-Key to Flags:
-  W (write), A (alloc), X (execute), M (merge), S (strings), l (large)
-  I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)
-  O (extra OS processing required) o (OS specific), p (processor specific)
-
-There are no section groups in this file.
-```
-
-```
-Program Headers:
-  Type           Offset             VirtAddr           PhysAddr
-                 FileSiz            MemSiz              Flags  Align
-  PHDR           0x0000000000000040 0x0000000000400040 0x0000000000400040
-                 0x0000000000000188 0x0000000000000188  R E    8
-  INTERP         0x00000000000001c8 0x00000000004001c8 0x00000000004001c8
-                 0x0000000000000034 0x0000000000000034  R      1
-      [Requesting program interpreter: /home/vishal/workspace/musl/lib/ld-musl-x86_64.so.1]
-  LOAD           0x0000000000000000 0x0000000000400000 0x0000000000400000
-                 0x00000000000006ac 0x00000000000006ac  R E    200000
-  LOAD           0x0000000000000e58 0x0000000000600e58 0x0000000000600e58
-                 0x00000000000001e0 0x00000000000001e8  RW     200000
-          0x0000000000000e70 0x0000000000600e70 0x0000000000600e70
-                 0x0000000000000190 0x0000000000000190  RW     8
-  GNU_STACK      0x0000000000000000 0x0000000000000000 0x0000000000000000
-                 0x0000000000000000 0x0000000000000000  RW     10
-  GNU_RELRO      0x0000000000000e58 0x0000000000600e58 0x0000000000600e58
-                 0x00000000000001a8 0x00000000000001a8  R      1
-
- Section to Segment mapping:
-  Segment Sections...
-   00     
-   01     .interp 
-   02     .interp .hash .dynsym .dynstr .rela.plt .init .plt .text .fini .rodata .eh_frame 
-   03     .init_array .fini_array .jcr .dynamic .got.plt .bss 
-   04     .dynamic 
-   05     
-   06     .init_array .fini_array .jcr .dynamic 
-
-```
-
-```
-Dynamic section at offset 0xe70 contains 20 entries:
-  Tag        Type                         Name/Value
- 0x0000000000000001 (NEEDED)             Shared library: [./libSharedMusl.so]
- 0x0000000000000001 (NEEDED)             Shared library: [./lib/libc.so]
- 0x0000000000000001 (NEEDED)             Shared library: [libc.so]
- 0x000000000000000c (INIT)               0x4004b8
- 0x000000000000000d (FINI)               0x40062c
- 0x0000000000000019 (INIT_ARRAY)         0x600e58
- 0x000000000000001b (INIT_ARRAYSZ)       8 (bytes)
- 0x000000000000001a (FINI_ARRAY)         0x600e60
- 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)
- 0x0000000000000004 (HASH)               0x400200
- 0x0000000000000005 (STRTAB)             0x4003a0
- 0x0000000000000006 (SYMTAB)             0x400250
- 0x000000000000000a (STRSZ)              181 (bytes)
- 0x000000000000000b (SYMENT)             24 (bytes)
- 0x0000000000000015 (DEBUG)              0x0
- 0x0000000000000003 (PLTGOT)             0x601000
- 0x0000000000000002 (PLTRELSZ)           96 (bytes)
- 0x0000000000000014 (PLTREL)             RELA
- 0x0000000000000017 (JMPREL)             0x400458
- 0x0000000000000000 (NULL)               0x0
-
-```
-
-```
-Relocation section '.rela.plt' at offset 0x458 contains 4 entries:
-  Offset          Info           Type           Sym. Value    Sym. Name + Addend
-000000601018  000100000007 R_X86_64_JUMP_SLO 0000000000000000 puts + 0
-000000601020  000800000007 R_X86_64_JUMP_SLO 0000000000000000 print1 + 0
-000000601028  000a00000007 R_X86_64_JUMP_SLO 0000000000000000 print2 + 0
-000000601030  000c00000007 R_X86_64_JUMP_SLO 0000000000000000 __libc_start_main + 0
-
-The decoding of unwind sections for machine type Advanced Micro Devices X86-64 is not currently supported.
-
-```
-
-```
-Symbol table '.dynsym' contains 14 entries:
-   Num:    Value          Size Type    Bind   Vis      Ndx Name
-     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND 
-     1: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND puts
-     2: 00000000004004b8     0 NOTYPE  GLOBAL DEFAULT    6 _init
-     3: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND _ITM_registerTMCloneTable
-     4: 0000000000400510     0 NOTYPE  GLOBAL DEFAULT    8 _start
-     5: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND _ITM_deregisterTMCloneTab
-     6: 0000000000601038     0 NOTYPE  GLOBAL DEFAULT   17 __bss_start
-     7: 000000000040062c     0 NOTYPE  GLOBAL DEFAULT    9 _fini
-     8: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND print1
-     9: 0000000000601038     0 NOTYPE  GLOBAL DEFAULT   16 _edata
-    10: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND print2
-    11: 0000000000601040     0 NOTYPE  GLOBAL DEFAULT   17 _end
-    12: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main
-    13: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND _Jv_RegisterClasses
-
-Symbol table '.symtab' contains 51 entries:
-   Num:    Value          Size Type    Bind   Vis      Ndx Name
-     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND 
-     1: 00000000004001c8     0 SECTION LOCAL  DEFAULT    1 
-     2: 0000000000400200     0 SECTION LOCAL  DEFAULT    2 
-     3: 0000000000400250     0 SECTION LOCAL  DEFAULT    3 
-     4: 00000000004003a0     0 SECTION LOCAL  DEFAULT    4 
-     5: 0000000000400458     0 SECTION LOCAL  DEFAULT    5 
-     6: 00000000004004b8     0 SECTION LOCAL  DEFAULT    6 
-     7: 00000000004004c0     0 SECTION LOCAL  DEFAULT    7 
-     8: 0000000000400510     0 SECTION LOCAL  DEFAULT    8 
-     9: 000000000040062c     0 SECTION LOCAL  DEFAULT    9 
-    10: 0000000000400630     0 SECTION LOCAL  DEFAULT   10 
-    11: 0000000000400648     0 SECTION LOCAL  DEFAULT   11 
-    12: 0000000000600e58     0 SECTION LOCAL  DEFAULT   12 
-    13: 0000000000600e60     0 SECTION LOCAL  DEFAULT   13 
-    14: 0000000000600e68     0 SECTION LOCAL  DEFAULT   14 
-    15: 0000000000600e70     0 SECTION LOCAL  DEFAULT   15 
-    16: 0000000000601000     0 SECTION LOCAL  DEFAULT   16 
-    17: 0000000000601038     0 SECTION LOCAL  DEFAULT   17 
-    18: 0000000000000000     0 SECTION LOCAL  DEFAULT   18 
-    19: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS crtstuff.c
-    20: 0000000000600e68     0 OBJECT  LOCAL  DEFAULT   14 __JCR_LIST__
-    21: 0000000000400540     0 FUNC    LOCAL  DEFAULT    8 deregister_tm_clones
-    22: 0000000000400570     0 FUNC    LOCAL  DEFAULT    8 register_tm_clones
-    23: 00000000004005b0     0 FUNC    LOCAL  DEFAULT    8 __do_global_dtors_aux
-    24: 0000000000601038     1 OBJECT  LOCAL  DEFAULT   17 completed.6337
-    25: 0000000000600e60     0 OBJECT  LOCAL  DEFAULT   13 __do_global_dtors_aux_fin
-    26: 00000000004005d0     0 FUNC    LOCAL  DEFAULT    8 frame_dummy
-    27: 0000000000600e58     0 OBJECT  LOCAL  DEFAULT   12 __frame_dummy_init_array_
-    28: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS test.c
-    29: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS crtstuff.c
-    30: 00000000004006a8     0 OBJECT  LOCAL  DEFAULT   11 __FRAME_END__
-    31: 0000000000600e68     0 OBJECT  LOCAL  DEFAULT   14 __JCR_END__
-    32: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS 
-    33: 0000000000600e70     0 OBJECT  LOCAL  DEFAULT   15 _
-    34: 0000000000601000     0 OBJECT  LOCAL  DEFAULT   16 _GLOBAL_OFFSET_TABLE_
-    35: 0000000000601038     0 OBJECT  GLOBAL HIDDEN    16 __TMC_END__
-    36: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND puts
-    37: 0000000000400630     0 OBJECT  GLOBAL HIDDEN    10 __dso_handle
-    38: 00000000004004b8     0 NOTYPE  GLOBAL DEFAULT    6 _init
-    39: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND _ITM_registerTMCloneTable
-    40: 0000000000400510     0 NOTYPE  GLOBAL DEFAULT    8 _start
-    41: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND _ITM_deregisterTMCloneTab
-    42: 0000000000601038     0 NOTYPE  GLOBAL DEFAULT   17 __bss_start
-    43: 0000000000400600    41 FUNC    GLOBAL DEFAULT    8 main
-    44: 000000000040062c     0 NOTYPE  GLOBAL DEFAULT    9 _fini
-    45: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND print1
-    46: 0000000000601038     0 NOTYPE  GLOBAL DEFAULT   16 _edata
-    47: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND print2
-    48: 0000000000601040     0 NOTYPE  GLOBAL DEFAULT   17 _end
-    49: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main
-    50: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND _Jv_RegisterClasses
-
-```
-
-```
-Histogram for bucket list length (total of 3 buckets):
- Length  Number     % of total  Coverage
-      0  0          (  0.0%)
-      1  0          (  0.0%)      0.0%
-      2  1          ( 33.3%)     15.4%
-      3  0          (  0.0%)     15.4%
-      4  1          ( 33.3%)     46.2%
-      5  0          (  0.0%)     46.2%
-      6  0          (  0.0%)     46.2%
-      7  1          ( 33.3%)    100.0%
-
-No version information found in this file.
+    greek0@iphigenie:~$ readelf -l /bin/bash
+    Program Headers:
+      Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+      PHDR           0x000034 0x08048034 0x08048034 0x00100 0x00100 R E 0x4
+      INTERP         0x000134 0x08048134 0x08048134 0x00013 0x00013 R   0x1
+          [Requesting program interpreter: /lib/ld-linux.so.2]
+      LOAD           0x000000 0x08048000 0x08048000 0xa0200 0xa0200 R E 0x1000
+      LOAD           0x0a0200 0x080e9200 0x080e9200 0x04b44 0x09728 RW  0x1000
+      DYNAMIC        0x0a0214 0x080e9214 0x080e9214 0x000d8 0x000d8 RW  0x4
+      GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
+    ...
 ```

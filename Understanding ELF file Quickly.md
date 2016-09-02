@@ -129,6 +129,38 @@ Program Headers:
 - Relocation is the process of connecting symbolic references(functions,variable,etc names) with symbolic definitions(function, variable,etc definitions). 
 - For example, when a program calls a function(at runtime), the associated call instruction must transfer control to the proper destination address at execution. 
 
+```
+    greek0@iphigenie:~$ readelf -r /bin/bash
+
+    Relocation section '.rel.dyn' at offset 0x12cc4 contains 8 entries:
+     Offset     Info    Type            Sym.Value  Sym. Name
+    080e92ec  00078006 R_386_GLOB_DAT    00000000   __gmon_start__
+    080edd68  00035205 R_386_COPY        080edd68   stdout
+    080edd6c  00035d05 R_386_COPY        080edd6c   stderr
+    080edd70  00046405 R_386_COPY        080edd70   PC
+    080edd74  00067405 R_386_COPY        080edd74   stdin
+    080edd78  0006e305 R_386_COPY        080edd78   UP
+
+    Relocation section '.rel.plt' at offset 0x12d04 contains 181 entries:
+     Offset     Info    Type            Sym.Value  Sym. Name
+    080e9368  00012c07 R_386_JUMP_SLOT   00000000   fileno
+    080e936c  00013807 R_386_JUMP_SLOT   00000000   strcmp
+    080e9370  00014107 R_386_JUMP_SLOT   0805b4a4   close
+    080e9374  00015307 R_386_JUMP_SLOT   00000000   dlsym
+    080e937c  00016a07 R_386_JUMP_SLOT   00000000   fprintf
+    080e9388  00018307 R_386_JUMP_SLOT   00000000   fflush
+    080e9390  00019c07 R_386_JUMP_SLOT   0805b524   unlink
+    080e930c  00003307 R_386_JUMP_SLOT   00000000   regexec
+    080e9328  00007a07 R_386_JUMP_SLOT   00000000   ferror
+    080e9330  00008307 R_386_JUMP_SLOT   00000000   readdir64
+    080e9334  00008f07 R_386_JUMP_SLOT   00000000   strchr
+    080e9338  0000a507 R_386_JUMP_SLOT   00000000   fdopen
+    080e9344  0000da07 R_386_JUMP_SLOT   00000000   getpid
+    080e9360  00012207 R_386_JUMP_SLOT   00000000   write
+    080e95cc  00078707 R_386_JUMP_SLOT   00000000   strcpy
+    ...
+    ...
+````
 
 > **Symbol Table : Two Meaning**
 

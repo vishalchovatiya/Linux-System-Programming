@@ -161,7 +161,7 @@ Program Headers:
     ...
 ````
 
-> **Symbol Table : Two Meaning**
+> **Symbol Table : Two Use Case**
 
 1. Symbol table in object/executable files will contain symbolic name of functions & variables with addresses which is used by Linker to resolve any unresolved references during linking. 
 2. There's also the symbol table in a shared library/DLL produced by the linker(at compile time) which is used by dynamic linker to do run-time linking & resolving open references to those names to the location where the library is loaded in memory.

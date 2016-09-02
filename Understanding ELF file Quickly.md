@@ -8,6 +8,12 @@ Command Format   : `readelf -a [Executable] > readELF.txt`
 
 ### Keyword Understanding
 
+> **ELF Header**
+
+- Neither the `Section Header` nor the `Program Header` have fixed positions, they can be located anywhere in an ELF file. To find them the ELF header is used, which is located at the very start of the file.
+- The first bytes contain the elf magic "\x7fELF", followed by the class ID (32 or 64 bit ELF file), the data format ID (little endian/big endian), the machine type, etc.
+- At the end of the ELF header are then pointers to the SHT and PHT.
+
 > **Section Headers OR Section Header Table**
 
 - Gives an complete overview on the sections contained in the ELF file
@@ -48,7 +54,7 @@ Command Format   : `readelf -a [Executable] > readELF.txt`
 
 - Contains information for the kernel on how to start the program
 - The `LOAD` directives determinate what parts of the ELF file get mapped into memory. 
-- The `INTERP` directive specifies an ELF interpreter, which is normally /lib/ld-linux.so.2 on Linux systems.
+- The `INTERP` directive specifies an ELF interpreter, which is normally `/lib/ld-linux.so.2` on Linux systems.
 - The `DYNAMIC` entry points to the .dynamic section which contains information used by the ELF interpreter to setup the binary.
 
 ```

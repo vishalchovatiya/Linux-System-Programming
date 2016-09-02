@@ -1,6 +1,12 @@
 Command Format   : `readelf -a [Executable] > readELF.txt`
 
-## Keyword Understanding
+### Intro to ELF 
+
+- ELF is the file format used for object files (.o's), binaries, shared libraries and core dumps in Linux.
+- ELF has the same layout for all architectures, however endianness and word size can differ; relocation types, symbol types and the like may have platform-specific values, and of course the contained code is arch specific.
+- An ELF file provides 2 views on the data it contains: A linking view and an execution view. Those two views can be accessed by two headers: the section header table and the program header table.
+
+### Keyword Understanding
 
 > **Shared Library(.so)**
 

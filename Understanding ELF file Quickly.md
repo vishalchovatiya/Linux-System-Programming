@@ -12,9 +12,37 @@ Command Format   : `readelf -a [Executable] > readELF.txt`
 
 - Gives an complete overview on the sections contained in the ELF file
 ```
-
+ greek0@iphigenie:~$ readelf -S /bin/bash
+ There are 26 section headers, starting at offset 0xa4e10:
+ Section Headers:
+   [Nr] Name             Type        Addr      Off   Size   ES Flg Lk Inf Al
+   [ 0]                  NULL        00000000 00000 000000 00      0   0  0
+   [ 1] .interp          PROGBITS    08048134 00134 000013 00   A  0   0  1
+   [ 2] .note.ABI-tag    NOTE        08048148 00148 000020 00   A  0   0  4
+   [ 3] .hash            HASH        08048168 00168 002e48 04   A  4   0  4
+   [ 4] .dynsym          DYNSYM      0804afb0 02fb0 007890 10   A  5   1  4
+   [ 5] .dynstr          STRTAB      08052840 0a840 0074e2 00   A  0   0  1
+   [ 6] .gnu.version     VERSYM      08059d22 11d22 000f12 02   A  4   0  2
+   [ 7] .gnu.version_r   VERNEED     0805ac34 12c34 000090 00   A  5   2  4
+   [ 8] .rel.dyn         REL         0805acc4 12cc4 000040 08   A  4   0  4
+   [ 9] .rel.plt         REL         0805ad04 12d04 0005a8 08   A  4  11  4
+   [10] .init            PROGBITS    0805b2ac 132ac 000017 00  AX  0   0  4
+   [11] .plt             PROGBITS    0805b2c4 132c4 000b60 04  AX  0   0  4
+   [12] .text            PROGBITS    0805be30 13e30 077154 00  AX  0   0 16
+   [13] .fini            PROGBITS    080d2f84 8af84 00001a 00  AX  0   0  4
+   [14] .rodata          PROGBITS    080d2fa0 8afa0 015198 00   A  0   0 32
+   [15] .eh_frame_hdr    PROGBITS    080e8138 a0138 00002c 00   A  0   0  4
+   [16] .eh_frame        PROGBITS    080e8164 a0164 00009c 00   A  0   0  4
+   [17] .ctors           PROGBITS    080e9200 a0200 000008 00  WA  0   0  4
+   [18] .dtors           PROGBITS    080e9208 a0208 000008 00  WA  0   0  4
+   [19] .jcr             PROGBITS    080e9210 a0210 000004 00  WA  0   0  4
+   [20] .dynamic         DYNAMIC     080e9214 a0214 0000d8 08  WA  5   0  4
+   [21] .got             PROGBITS    080e92ec a02ec 000004 04  WA  0   0  4
+   [22] .got.plt         PROGBITS    080e92f0 a02f0 0002e0 04  WA  0   0  4
+   [23] .data            PROGBITS    080e95e0 a05e0 004764 00  WA  0   0 32
+   [24] .bss             NOBITS      080edd60 a4d44 004bc8 00  WA  0   0 32
+   [25] .shstrtab        STRTAB      00000000 a4d44 0000cc 00      0   0  1
 ```
-
 
 > **Program Headers OR Program Headers Table**
 
@@ -22,6 +50,36 @@ Command Format   : `readelf -a [Executable] > readELF.txt`
 - The `LOAD` directives determinate what parts of the ELF file get mapped into memory. 
 - The `INTERP` directive specifies an ELF interpreter, which is normally /lib/ld-linux.so.2 on Linux systems.
 - The `DYNAMIC` entry points to the .dynamic section which contains information used by the ELF interpreter to setup the binary.
+
+```
+greek0@iphigenie:~$ readelf -l /bin/bash
+Elf file type is EXEC (Executable file)
+Entry point 0x805be30
+There are 8 program headers, starting at offset 52
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  PHDR           0x000034 0x08048034 0x08048034 0x00100 0x00100 R E 0x4
+  INTERP         0x000134 0x08048134 0x08048134 0x00013 0x00013 R   0x1
+      [Requesting program interpreter: /lib/ld-linux.so.2]
+  LOAD           0x000000 0x08048000 0x08048000 0xa0200 0xa0200 R E 0x1000
+  LOAD           0x0a0200 0x080e9200 0x080e9200 0x04b44 0x09728 RW  0x1000
+  DYNAMIC        0x0a0214 0x080e9214 0x080e9214 0x000d8 0x000d8 RW  0x4
+  NOTE           0x000148 0x08048148 0x08048148 0x00020 0x00020 R   0x4
+  GNU_EH_FRAME   0x0a0138 0x080e8138 0x080e8138 0x0002c 0x0002c R   0x4
+  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
+
+ Section to Segment mapping:
+  Segment Sections...
+   00
+   01     .interp
+   02     .interp .note.ABI-tag .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .rel.plt ...
+   03     .ctors .dtors .jcr .dynamic .got .got.plt .data .bss
+   04     .dynamic
+   05     .note.ABI-tag
+   06     .eh_frame_hdr
+   07
+```
 
 > **Shared Library(.so)**
 

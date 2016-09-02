@@ -202,7 +202,7 @@ Program Headers:
 - used to store address of all functions needed at runtime (address not known at the time of linking)
 - The PLT uses what is called lazy resolution. Means it resolves procedure address once when it calls method
 - *How PLT works* -
-  1. A function func is called and the compiler translates this to a call to func@plt.
+  1. A function `func` is called and the compiler translates this to a call to func@plt(you can see this in binary dump).
   2. The program jumps to the PLT. The PLT points to the GOT. If the function has not been previously called, the GOT points back into the PLT to a resolver routine, otherwise it points to the function itself.
   3. If the function has not been previously called, PLT resolve routine & update the GOT entry with actual address of the function.
 

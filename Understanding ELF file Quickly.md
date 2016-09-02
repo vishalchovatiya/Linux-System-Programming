@@ -11,6 +11,10 @@ Command Format   : `readelf -a [Executable] > readELF.txt`
 > **Section Headers OR Section Header Table**
 
 - Gives an complete overview on the sections contained in the ELF file
+```
+
+```
+
 
 > **Program Headers OR Program Headers Table**
 

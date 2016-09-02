@@ -30,9 +30,9 @@ This file name : **readELF.txt**
 
 **Note**: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.
 
-> **.dynamic**
+> **Dynamic Section**
 
-Section holds the addresses of other dynamic linking information[[See This](http://stackoverflow.com/questions/14152841/how-is-lib-dependence-written-into-dynamic-section-of-the-elf-executable-in-sta)].
+- 
 
 > **Procedure Linkage Table(.plt)**
 

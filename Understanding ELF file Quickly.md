@@ -169,6 +169,32 @@ Program Headers:
 
 **Note**: While reverse engineering an executable, many tools refer to the symbol table to check what addresses have been assigned to global variables and known functions. If the symbol table has been stripped or cleaned out before being converted into an executable, tools will find it harder to determine addresses or understand anything about the program.
 
+- When searching for a symbol the dynamic linker looks through the dynamic symbol table `.dynsym`, so all symbols present there are usable by other programs.
+```
+Symbol table '.dynsym' contains 7 entries:
+   Num:    Value          Size Type    Bind   Vis      Ndx Name
+     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND
+     1: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND puts@GLIBC_2.2.5 (2)
+     2: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND fclose@GLIBC_2.2.5 (2)
+     3: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main@GLIBC_2.2.5 (2)
+     4: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND fgets@GLIBC_2.2.5 (2)
+     5: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND __gmon_start__
+     6: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND fopen@GLIBC_2.2.5 (2)
+
+Symbol table '.symtab' contains 68 entries:
+   Num:    Value          Size Type    Bind   Vis      Ndx Name
+     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND
+     1: 0000000000400238     0 SECTION LOCAL  DEFAULT    1
+     2: 0000000000400254     0 SECTION LOCAL  DEFAULT    2
+     3: 0000000000400274     0 SECTION LOCAL  DEFAULT    3
+     4: 0000000000400298     0 SECTION LOCAL  DEFAULT    4
+     5: 00000000004002b8     0 SECTION LOCAL  DEFAULT    5
+     6: 0000000000400360     0 SECTION LOCAL  DEFAULT    6
+     7: 00000000004003b0     0 SECTION LOCAL  DEFAULT    7
+....
+....
+```
+
 > **Dynamic Section**
 
 - 

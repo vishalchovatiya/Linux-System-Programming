@@ -13,45 +13,49 @@
 
 const char *semName = "asdfsd";
 
-static void parent(void)
+void parent(void)
 {
 	sem_t *sem_id = sem_open(semName, O_CREAT, 0600, 0);
 
 	if(sem_id == SEM_FAILED) 
 	{
-		perror("parent sem_open Failed\n");
+		perror("Parent  : [sem_open] Failed\n");
 		return;
 	}
 
-	printf("Parent: Wait for Child to Print\n");
+	printf("Parent  : Wait for Child to Print\n");
 
 	if( sem_wait(sem_id) < 0 )
-		printf("Failed sem_wait\n"); 
+		printf("Parent  : [sem_wait] Failed\n"); 
 
-	
-	printf("Parent: Child Printed! ");
 
-	if( sem_unlink( semName) < 0 )
-		printf("\nFailed sem_unlink()\n");
-	else
-		printf(" Exiting\n");
+	printf("Parent  : Child Printed! \n");
 
+	if (sem_close(sem_id) != 0) {
+		perror("Parent	: [sem_close] Failed\n");
+		return ;
+	} 
+
+	if( sem_unlink(semName) < 0 ){
+		printf("Parent  : [sem_unlink] Failed\n");
+		return ;
+	}
 }
 
-static void child(void)
+void child(void)
 {
 	sem_t *sem_id = sem_open(semName, O_CREAT, 0600, 0);
 
 	if(sem_id == SEM_FAILED) 
 	{
-		perror("child sem_open Failed\n");
+		perror("Child   : [sem_open] Failed\n");
 		return;
 	}
 
-	printf("Child: I am done! Release Semaphore\n");
+	printf("Child	: I am done! Release Semaphore\n");
 
 	if( sem_post(sem_id) < 0 )
-		printf("Failed sem_post()\n");
+		printf("Child   : [sem_post] Failed \n");
 }
 
 int main(int argc, char *argv[])
@@ -68,15 +72,16 @@ int main(int argc, char *argv[])
 	if(!pid) 
 	{
 		child();    
+		printf("Child	: Done with sem_open \n");	
 	} 
 	else 
 	{
 		int status;
 		parent();
 		wait(&status);
+		printf("Parent  : Done with sem_open \n");	
 	}
 
-	printf("Done with sem_open\n");
 
 	return 0;
 }

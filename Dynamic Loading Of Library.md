@@ -25,4 +25,5 @@
 		- **RTLD_DEEPBIND**	= Place the lookup scope of the symbols ahead of the global scope. This means use own symbols in preference to other already loaded library symbols
 
 
-- While you're debugging, you'll probably want to use `RTLD_NOW`; using `RTLD_LAZY` can create inscrutable errors if there are unresolved references. Using `RTLD_NOW` makes opening the library take slightly longer (but it speeds up lookups later); if this causes a user interface problem you can switch to `RTLD_LAZY` later.
+- Note :
+	- While you're debugging, you'll probably want to use `RTLD_NOW`; using `RTLD_LAZY` can create inscrutable errors if there are unresolved references. Using `RTLD_NOW` makes opening the library take slightly longer (but it speeds up lookups later); if this causes a user interface problem you can switch to `RTLD_LAZY` later.

@@ -43,4 +43,4 @@
 - The `handle` is the value returned from dlopen.
 - And symbol is a NULL-terminated string. 
 - `dlsym()` will return a NULL result if the symbol wasn't found.
-- 
+

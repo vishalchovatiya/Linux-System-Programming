@@ -51,3 +51,32 @@
 - Closes a Dynamically loaded library. 
 - The Dynamically loaded library maintains link counts for dynamic file handles, so a dynamic library is not actually deallocated until dlclose has been called on it as many times as dlopen has succeeded on it. Thus, it's not a problem for the same program to load the same library multiple times. 
 - `dlclose()` returns 0 on success, and non-zero on error; some Linux manual pages don't mention this.
+
+### Eaample
+
+```
+    #include <stdlib.h>
+    #include <stdio.h>
+    #include <dlfcn.h>
+
+    int main(int argc, char **argv) {
+        void *handle;
+        double (*cosine)(double);
+        char *error;
+
+        handle = dlopen ("/lib/libm.so.6", RTLD_LAZY);
+        if (!handle) {
+            fputs (dlerror(), stderr);
+            exit(1);
+        }
+
+        cosine = dlsym(handle, "cos");
+        if ((error = dlerror()) != NULL)  {
+            fputs(error, stderr);
+            exit(1);
+        }
+
+        printf ("%f\n", (*cosine)(2.0));
+        dlclose(handle);
+    }
+``

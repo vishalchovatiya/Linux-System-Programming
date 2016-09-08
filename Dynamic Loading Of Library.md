@@ -21,7 +21,7 @@
 		- **RTLD_GLOBAL**	= Symbols defined by this library will be made available for symbol resolution of subsequently loaded libraries. 
 		- **RTLD_LOCAL**	= Symbols defined in this library are not made available to resolve references in subsequently loaded libraries. 
 		- **RTLD_NODELETE**	= Do not unload the library during `dlclose()`. Consequently, the library's static variables are not reinitialized if the library is reloaded with `dlopen()` at a later time.
-		- **RTLD_NOLOAD**	= Don't load the library. To test library is already loaded or not. Can also be used to reload library, for example a library that was previously loaded with `RTLD_LOCAL` can be reopened with `RTLD_NOLOAD | RTLD_GLOBAL`.
+		- **RTLD_NOLOAD**	= Don't load the library. To test library is already loaded or not. Can also be used to reload library with new configuration, for example a library that was previously loaded with `RTLD_LOCAL` can be reopened with `RTLD_NOLOAD | RTLD_GLOBAL`.
 		- **RTLD_DEEPBIND**	= Place the lookup scope of the symbols ahead of the global scope. This means use own symbols in preference to other already loaded library symbols
 
 

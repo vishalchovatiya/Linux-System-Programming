@@ -29,3 +29,18 @@
 	- While you're debugging, you'll probably want to use `RTLD_NOW`; using `RTLD_LAZY` can create inscrutable errors if there are unresolved references. Using `RTLD_NOW` makes opening the library take slightly longer (but it speeds up lookups later); if this causes a user interface problem you can switch to `RTLD_LAZY` later.
 	- If the libraries depend on each other (e.g., X depends on Y), then you need to load the dependees first (in this example, load Y first, and then X).
 	- `dlopen()` will return NULL if the attempt to load does not succeed, and you need to check for this. If the same library is loaded more than once with `dlopen()`, the same file handle is returned
+
+# dlerror()
+
+```char *dlerror(void);```
+
+- Errors can be reported by calling dlerror(), which returns a string describing the error from the last call to dlopen(), dlsym(), or dlclose().
+ 
+# dlsym()
+
+```void *dlsym(void *handle, const char *symbol);```
+
+- The `handle` is the value returned from dlopen.
+- And symbol is a NULL-terminated string. 
+- `dlsym()` will return a NULL result if the symbol wasn't found.
+- 

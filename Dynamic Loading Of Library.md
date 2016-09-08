@@ -1,5 +1,4 @@
-dlopen()
------------- 
+# dlopen()
 
 ```void * dlopen(const char *filename, int flag);```
 
@@ -9,12 +8,12 @@ dlopen()
 	2. The list of libraries specified in `/etc/ld.so.cache` (which is generated from `/etc/ld.so.conf`).
 	3. `/lib`, followed by `/usr/lib`.
 
-### Main flags ###
+### Main flags
 
 - **RTLD_LAZY**	= resolve undefined symbols as code from the dynamic library is executed
 - **RTLD_NOW**	= resolve all undefined symbols before dlopen() returns and fail if this cannot be done
 
-> **Flags to use for OR'ing**
+### Flags to use for OR'ing
 
 - **RTLD_GLOBAL**	= Symbols defined by this library will be made available for symbol resolution of subsequently loaded libraries. 
 - **RTLD_LOCAL**	= Symbols defined in this library are not made available to resolve references in subsequently loaded libraries. 

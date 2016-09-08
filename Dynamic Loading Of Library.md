@@ -44,3 +44,10 @@
 - And symbol is a NULL-terminated string. 
 - `dlsym()` will return a NULL result if the symbol wasn't found.
 
+# dlclose()
+
+```int dlclose(void *handle);```
+
+- Closes a Dynamically loaded library. 
+- The Dynamically loaded library maintains link counts for dynamic file handles, so a dynamic library is not actually deallocated until dlclose has been called on it as many times as dlopen has succeeded on it. Thus, it's not a problem for the same program to load the same library multiple times. 
+- `dlclose()` returns 0 on success, and non-zero on error; some Linux manual pages don't mention this.

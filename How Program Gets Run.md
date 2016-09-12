@@ -91,7 +91,7 @@ current->flags &= ~PF_NPROC_EXCEEDED;
 ```
 - If these two checks were successful we unset `PF_NPROC_EXCEEDED` flag in the flags of the current process to prevent fail of the execve. 
 - In the next step we call the `unshare_files` function that defined in the `kernel/fork.c` and unshares the files of the current task and check the result of this function:
-- 
+
 ```
 retval = unshare_files(&displaced);
 if (retval)
@@ -274,7 +274,9 @@ int search_binary_handler(struct linux_binprm *bprm)
     return retval;
 ```
 
-- Where the `load_binary` for example checks the magic number (each elf binary file contains magic number in the header) in the `linux_bprm` buffer (remember that we read first `128` bytes from the executable binary file): and exit if it is not elf binary:
+- Where the `load_binary` for example checks the magic number (each elf binary file contains magic number in the header) in the `linux_bprm` buffer (remember that we read first `128` bytes from the executable binary file) & exit if it is not elf binary:
+
+### Executing
 
 ```
 static int load_elf_binary(struct linux_binprm *bprm)
@@ -288,8 +290,6 @@ static int load_elf_binary(struct linux_binprm *bprm)
         goto out;
 ```
 
-### Executing
-
 - If the given executable file is in elf format, the `load_elf_binary` continues & checks the architecture and type of the executable file and exit if there is wrong architecture and executable file non executable non shared:
 
 ```
@@ -299,7 +299,7 @@ if (!elf_check_arch(&loc->elf_ex))
     goto out;
 ```
 
-- Tries to load the `program header` table:
+- Tries to load the `program header` table that describes `segments`. Read the program interpreter and libraries that linked with the our executable binary file from disk and load it to memory. 
 
 ```
 elf_phdata = load_elf_phdrs(&loc->elf_ex, bprm->file);
@@ -307,11 +307,10 @@ if (!elf_phdata)
     goto out;
 ```
 
-that describes `segments`. Read the program interpreter and libraries that linked with the our executable binary file from disk and load it to memory. 
 - The program interpreter specified in the `.interp` section of the executable file (in most cases, linkers is - `/lib64/ld-linux-x86-64.so.2` for the `x86_64`). 
 - It setups the stack and map elf binary into the correct location in memory. It maps the bss and the brk sections and does many many other different things to prepare executable file to execute.
 
-- In the end of the execution of the `load_elf_binary` we call the start_thread function and pass three arguments to it:
+- In the end of the execution of the `load_elf_binary` we call the `start_thread` function and pass three arguments to it:
 
 ```
     start_thread(regs, elf_entry, bprm->p);
@@ -329,6 +328,7 @@ out_ret:
     - Address of the top of the stack for the new task.
 
 - As we can understand from the function's name, it starts new thread, but it is not so. The `start_thread` function just prepares new task's registers to be ready to run. Let's look on the implementation of this function:
+- 
 ```
 void
 start_thread(struct pt_regs *regs, unsigned long new_ip, unsigned long new_sp)
@@ -359,9 +359,9 @@ start_thread_common(struct pt_regs *regs, unsigned long new_ip,
 }
 ```
 
-- The `start_thread_common` function fills fs segment register with zero and es and ds with the value of the data segment register. After this we set new values to the instruction pointer, cs segments etc. In the end of the `start_thread_common` function we can see the `force_iret` macro that force a system call return via iret instruction. Ok, we prepared new thread to run in userspace and now we can return from the `exec_binprm` and now we are in the `do_execveat_common` again. After the exec_binprm will finish its execution we release memory for structures that was allocated before and return.
+- The `start_thread_common` function fills `fs` segment register with zero and `es` and `ds` with the value of the data segment register. After this we set new values to the instruction pointer, `cs` segments etc. In the end of the `start_thread_common` function we can see the `force_iret` macro that force a system call return via iret instruction. Ok, we prepared new thread to run in userspace and now we can return from the `exec_binprm` and now we are in the `do_execveat_common` again. After the `exec_binprm` will finish its execution we release memory for structures that was allocated before and return.
 
-- After we returned from the `execve` system call handler, execution of our program will be started. We can do it, because all context related information already configured for this purpose. As we saw the execve system call does not return control to a process, but code, data and other segments of the caller process are just overwritten of the program segments. The exit from our application will be implemented through the exit system call.
+- After we returned from the `execve` system call handler, execution of our program will be started. We can do it, because all context related information already configured for this purpose. As we saw the `execve` system call does not return control to a process, but code, data and other segments of the caller process are just overwritten of the program segments. The exit from our application will be implemented through the exit system call.
 
 That's all. From this point our program will be executed.
 

@@ -59,20 +59,24 @@ SYSCALL_DEFINE3(execve,
     return do_execve(getname(filename), argv, envp);
 }
 ```
-- Implementation of the `execve` is pretty simple here, as we can see it just returns the result of the `do_execve function`. The `do_execve` function defined in the same source code file and do the following things:
-
-    - Initialize two pointers on a userspace data with the given arguments and environment variables;
-    - return the result of the `do_execveat_common`.
+- Implementation of the `execve` is pretty simple here, as we can see it just returns the result of the `do_execve` function which initialize two pointers on a userspace data with the given arguments and environment variables & return the result of the `do_execveat_common`.
 
 We can see its implementation:
 ```
-struct user_arg_ptr argv = { .ptr.native = __argv };
-struct user_arg_ptr envp = { .ptr.native = __envp };
-return do_execveat_common(AT_FDCWD, filename, argv, envp, 0);
+int do_execve(struct filename *filename,
+        const char __user *const __user *__argv,
+        const char __user *const __user *__envp)
+{
+        struct user_arg_ptr argv = { .ptr.native = __argv };
+        struct user_arg_ptr envp = { .ptr.native = __envp };
+        return do_execveat_common(AT_FDCWD, filename, argv, envp, 0);
+}
 ```
-- The `do_execveat_common` function does main work - it executes a new program. This function takes similar set of arguments, but as you can see it takes five arguments instead of three. 
-- The first argument is the file descriptor that represent directory with our application, in our case the `AT_FDCWD` means that the given pathname is interpreted relative to the current working directory of the calling process. The fifth argument is flags. In our case we passed `0` to the `do_execveat_common`. We will check in a next step, so will see it latter.
-- First of all the `do_execveat_common` function checks the filename pointer and returns if it is `NULL`. After this we check flags of the current process that limit of running processes is not exceed:
+- The `do_execveat_common` function takes similar set of arguments, but having 2 extra arguments. 
+- The first argument is the file descriptor that represent directory with our application, in our case the `AT_FDCWD` means that the given pathname is interpreted relative to the current working directory of the calling process. 
+- The fifth argument is flags. In our case we passed `0` . We will check in a next step, so will see it latter.
+- `do_execveat_common` function checks the filename pointer & returns if it is `NULL`. 
+- After this we check flags of the current process that limit of running processes is not exceed:
 ```
 if (IS_ERR(filename))
     return PTR_ERR(filename);
@@ -85,21 +89,33 @@ if ((current->flags & PF_NPROC_EXCEEDED) &&
 
 current->flags &= ~PF_NPROC_EXCEEDED;
 ```
-- If these two checks were successful we unset `PF_NPROC_EXCEEDED` flag in the flags of the current process to prevent fail of the execve. You can see that in the next step we call the `unshare_files` function that defined in the `kernel/fork.c` and unshares the files of the current task and check the result of this function:
+- If these two checks were successful we unset `PF_NPROC_EXCEEDED` flag in the flags of the current process to prevent fail of the execve. 
+- In the next step we call the `unshare_files` function that defined in the `kernel/fork.c` and unshares the files of the current task and check the result of this function:
+- 
 ```
 retval = unshare_files(&displaced);
 if (retval)
     goto out_ret;
 ```
-We need to call this function to eliminate potential leak of the execve'd binary's file descriptor. In the next step we start preparation of the bprm that represented by the struct `linux_binprm` structure (defined in the `include/linux/binfmts.h` header file). The `linux_binprm` structure is used to hold the arguments that are used when loading binaries. For example it contains vma field which has `vm_area_struct` type and represents single memory area over a contiguous interval in a given address space where our application will be loaded, `mm` field which is memory descriptor of the binary, pointer to the top of memory and many other different fields.
 
-First of all we allocate memory for this structure with the kzalloc function and check the result of the allocation:
+- We need to call this function to eliminate potential leak of the `execve'd` binary's file descriptor. In the next step we start preparation of the bprm that represented by the struct `linux_binprm` structure (defined in the `include/linux/binfmts.h` header file). 
+
+### Preparing Binary Process Module 
+
+- The `linux_binprm` structure is used to hold the arguments that are used when loading binaries. 
+- For example it contains `vm_area_struct` & represents single memory area over a contiguous interval in a given address space where our application will be loaded, 
+- `mm` field which is memory descriptor of the binary, pointer to the top of memory and many other different fields.
+
+- First of all we allocate memory for this structure with the kzalloc function and check the result of the allocation:
+- 
 ```
 bprm = kzalloc(sizeof(*bprm), GFP_KERNEL);
 if (!bprm)
     goto out_files;
 ```
-After this we start to prepare the binprm credentials with the call of the `prepare_bprm_creds` function:
+
+- After this we start to prepare the binprm credentials with the call of the `prepare_bprm_creds` function:
+
 ```
 retval = prepare_bprm_creds(bprm);
     if (retval)
@@ -108,9 +124,16 @@ retval = prepare_bprm_creds(bprm);
 check_unsafe_exec(bprm);
 current->in_execve = 1;
 ```
-Initialization of the binprm credentials in other words is initialization of the cred structure that stored inside of the `linux_binprm` structure. The cred structure contains the security context of a task for example real uid of the task, real guid of the task, `uid` and `guid` for the virtual file system operations etc. In the next step as we executed preparation of the `bprm` credentials we check that now we can safely execute a program with the call of the `check_unsafe_exec` function and set the current process to the `in_execve` state.
 
-After all of these operations we call the `do_open_execat` function that checks the flags that we passed to the `do_execveat_common` function (remember that we have `0` in the flags) and searches and opens executable file on disk, checks that our we will load a binary file from `noexec` mount points (we need to avoid execute a binary from filesystems that do not contain executable binaries like proc or sysfs), initializes `file` structure and returns pointer on this structure. Next we can see the call the `sched_exec` after this:
+- Initialization of the cred structure that stored inside of the `linux_binprm` structure contains the security context of a task, for example real `uid` of the task, real `guid` of the task, `uid` and `guid` for the virtual file system operations etc. 
+- In the next step, we can safely execute a program with the call of the `check_unsafe_exec` function and set the current process to the `in_execve` state.
+- After all of these operations we call the `do_open_execat` function which 
+    - Searches & opens executable file on disk & checks that,  
+    - load a binary file from `noexec` mount points by passed flag `0`(we need to avoid execute a binary from filesystems that do not contain executable binaries like proc or sysfs), 
+    - initializes `file` structure & returns pointer on this structure. 
+
+- Next we can see the call the `sched_exec` after this. The `sched_exec` function is used to determine the least loaded processor that can execute the new program & to migrate the current process to it.
+
 ```
 file = do_open_execat(fd, filename, flags);
 retval = PTR_ERR(file);
@@ -119,11 +142,11 @@ if (IS_ERR(file))
 
 sched_exec();
 ```
-The sched_exec function is used to determine the least loaded processor that can execute the new program and to migrate the current process to it.
 
-After this we need to check file descriptor of the give executable binary. We try to check does the name of the our binary file starts from the / symbol or does the path of the given executable binary is interpreted relative to the current working directory of the calling process or in other words file descriptor is `AT_FDCWD` (read above about this).
+- After this we need to check file descriptor of the give executable binary. We try to check does the name of the our binary file starts from the `/` symbol or does the path of the given executable binary is interpreted relative to the current working directory of the calling process or in other words file descriptor is `AT_FDCWD`.
 
 If one of these checks is successful we set the binary parameter filename:
+
 ```
 bprm->file = file;
 
@@ -131,7 +154,9 @@ if (fd == AT_FDCWD || filename->name[0] == '/') {
     bprm->filename = filename->name;
 }
 ```
-Otherwise if the filename is empty we set the binary parameter filename to the `/dev/fd/%d` or `/dev/fd/%d/%s` depends on the filename of the given executable binary which means that we will execute the file to which the file descriptor refers:
+
+- Otherwise if the filename is empty we set the binary parameter filename to the `/dev/fd/%d` or `/dev/fd/%d/%s` depends on the filename of the given executable binary which means that we will execute the file to which the file descriptor refers:
+
 ```
 } else {
     if (filename->name[0] == '\0')
@@ -149,15 +174,22 @@ Otherwise if the filename is empty we set the binary parameter filename to the `
 
 bprm->interp = bprm->filename;
 ```
-Note that we set not only the bprm->filename but also bprm->interp that will contain name of the program interpreter. For now we just write the same name there, but later it will be updated with the real name of the program interpreter depends on binary format of a program. You can read above that we already prepared cred for the `linux_binprm`. The next step is initialization of other fields of the `linux_binprm`. First of all we call the `bprm_mm_init` function and pass the bprm to it:
+
+- Note that we set not only the `bprm->filename` but also `bprm->interp` that will contain name of the program interpreter. 
+- For now we just write the same name there, but later it will be updated with the real name of the program interpreter depends on binary format of a program. 
+
+- The next step is initialization of other fields of the `linux_binprm`. First of all we call the `bprm_mm_init` function and pass the bprm to it:
+
 ```
 retval = bprm_mm_init(bprm);
 if (retval)
     goto out_unmark;
 ```
-The `bprm_mm_init` defined in the same source code file and as we can understand from the function's name, it makes initialization of the memory descriptor or in other words the `bprm_mm_init` function initializes `mm_struct` structure. This structure defined in the `include/linux/mm_types.h` header file and represents address space of a process. We will not consider implementation of the `bprm_mm_init` function because we do not know many important stuff related to the Linux kernel memory manager, but we just need to know that this function initializes `mm_struct` and populate it with a temporary stack `vm_area_struct`.
 
-After this we calculate the count of the command line arguments which are were passed to the our executable binary, the count of the environment variables and set it to the `bprm->argc` and `bprm->envc` respectively:
+- The `bprm_mm_init` defined in the same source code file initializes `mm_struct` structure & populate it with a temporary stack `vm_area_struct` which is defined in the `include/linux/mm_types.h` header file & represents address space of a process. 
+
+- After this we calculate the count of the command line arguments & environment variables and set it to the `bprm->argc` and `bprm->envc` respectively:
+
 ```
 bprm->argc = count(argv, MAX_ARG_STRINGS);
 if ((retval = bprm->argc) < 0)
@@ -167,16 +199,21 @@ bprm->envc = count(envp, MAX_ARG_STRINGS);
 if ((retval = bprm->envc) < 0)
     goto out;
 ```
-As you can see we do this operations with the help of the count function that defined in the same source code file and calculates the count of strings in the argv array. The `MAX_ARG_STRINGS` macro defined in the `include/uapi/linux/binfmts.h` header file and as we can understand from the macro's name, it represents maximum number of strings that were passed to the `execve` system call. The value of the `MAX_ARG_STRINGS`:
+
+As you can see,  `MAX_ARG_STRINGS` is upper limit macro defined in the `include/uapi/linux/binfmts.h` header file represents maximum number of strings that were passed to the `execve` system call. The value of the `MAX_ARG_STRINGS`:
+
 `#define MAX_ARG_STRINGS 0x7FFFFFFF`
 
-After we calculated the number of the command line arguments and environment variables, we call the `prepare_binprm` function. We already call the function with the similar name before this moment. This function is called `prepare_binprm_cred` and we remember that this function initializes cred structure in the `linux_bprm`. Now the `prepare_binprm` function:
+- Now, call of `prepare_binprm` function fills the `linux_binprm` structure with the `uid` from `inode` and read `128` bytes from the binary executable file. We read only first `128` from the executable file because we need to check a type of our executable. We will read the rest of the executable file in the later step. 
+ 
 ```
 retval = prepare_binprm(bprm);
 if (retval < 0)
     goto out;
 ```
-fills the `linux_binprm structure` with the `uid` from inode and read 128 bytes from the binary executable file. We read only first `128` from the executable file because we need to check a type of our executable. We will read the rest of the executable file in the later step. After the preparation of the `linux_bprm` structure we copy the filename of the executable binary file, command line arguments and environment variables to the `linux_bprm` with the call of the `copy_strings_kernel` function:
+
+- After the preparation of the `linux_bprm` structure we copy the filename of the executable binary file, command line arguments and environment variables to the `linux_bprm` from the kernel with the call of the `copy_strings_kernel` function:
+
 ```
 retval = copy_strings_kernel(1, &bprm->filename, bprm);
 if (retval < 0)
@@ -190,28 +227,25 @@ retval = copy_strings(bprm->argc, argv, bprm);
 if (retval < 0)
     goto out;
 ```
-And set the pointer to the top of new program's stack that we set in the `bprm_mm_init` function:
-`bprm->exec = bprm->p;`
-The top of the stack will contain the program filename and we store this filename to the `exec` field of the `linux_bprm` structure.
 
-Now we have filled `linux_bprm structure`, we call the `exec_binprm` function:
+- And set the pointer to the top of new program's stack that we set in the `bprm_mm_init` function `bprm->exec = bprm->p;`
+- The top of the stack will contain the program filename and we store this filename to the `exec` field of the `linux_bprm` structure.
+
+### Processing Binary Process Module
+
+- Now we have filled `linux_bprm` structure, we call the `exec_binprm` function which stores the pid from the namespace of the current task before it changes
+
 ```
 retval = exec_binprm(bprm);
 if (retval < 0)
     goto out;
 ```
-First of all we store the `pid` and `pid` that seen from the namespace of the current task in the `exec_binprm`:
-```
-old_pid = current->pid;
-rcu_read_lock();
-old_vpid = task_pid_nr_ns(current, task_active_pid_ns(current->parent));
-rcu_read_unlock();
-```
-and call the:
+
+- and call the:
 
 `search_binary_handler(bprm);`
 
-function. This function goes through the list of handlers that contains different binary formats. Currently the Linux kernel supports following binary formats:
+function which goes through the list of handlers that contains different binary formats. Currently the Linux kernel supports following binary formats:
 
     - `binfmt_script`  support for interpreted scripts that are starts from the #! line;
     - `binfmt_misc` - support different binary formats, according to runtime configuration of the Linux kernel;
@@ -221,7 +255,8 @@ function. This function goes through the list of handlers that contains differen
     - `binfmt_elf_fdpic` - Support for elf FDPIC binaries;
     - `binfmt_em86` - support for Intel elf binaries running on Alpha machines.
 
-So, the `search_binary_handler` tries to call the `load_binary` function and pass `linux_binprm` to it. If the binary handler supports the given executable file format, it starts to prepare the executable binary for execution:
+- So, the `search_binary_handler` tries to call the `load_binary` function and pass `linux_binprm` to it. If the binary handler supports the given executable file format, it starts to prepare the executable binary for execution:
+
 ```
 int search_binary_handler(struct linux_binprm *bprm)
 {
@@ -238,7 +273,9 @@ int search_binary_handler(struct linux_binprm *bprm)
 
     return retval;
 ```
-Where the `load_binary` for example for the elf checks the magic number (each elf binary file contains magic number in the header) in the `linux_bprm` buffer (remember that we read first `128` bytes from the executable binary file): and exit if it is not elf binary:
+
+- Where the `load_binary` for example checks the magic number (each elf binary file contains magic number in the header) in the `linux_bprm` buffer (remember that we read first `128` bytes from the executable binary file): and exit if it is not elf binary:
+
 ```
 static int load_elf_binary(struct linux_binprm *bprm)
 {
@@ -250,7 +287,9 @@ static int load_elf_binary(struct linux_binprm *bprm)
     if (memcmp(elf_ex.e_ident, ELFMAG, SELFMAG) != 0)
         goto out;
 ```
-If the given executable file is in elf format, the `load_elf_binary` continues to execute. The `load_elf_binary` does many different things to prepare on execution executable file. For example it checks the architecture and type of the executable file:
+
+- If the given executable file is in elf format, the `load_elf_binary` continues to execute. The `load_elf_binary` does many different things to prepare on execution executable file. For example it checks the architecture and type of the executable file:
+
 ```
 if (loc->elf_ex.e_type != ET_EXEC && loc->elf_ex.e_type != ET_DYN)
     goto out;

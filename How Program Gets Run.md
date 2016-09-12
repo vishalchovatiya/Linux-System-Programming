@@ -328,7 +328,7 @@ out_ret:
     - Address of the top of the stack for the new task.
 
 - As we can understand from the function's name, it starts new thread, but it is not so. The `start_thread` function just prepares new task's registers to be ready to run. Let's look on the implementation of this function:
-- 
+
 ```
 void
 start_thread(struct pt_regs *regs, unsigned long new_ip, unsigned long new_sp)

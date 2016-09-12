@@ -107,7 +107,7 @@ if (retval)
 - `mm` field which is memory descriptor of the binary, pointer to the top of memory and many other different fields.
 
 - First of all we allocate memory for this structure with the kzalloc function and check the result of the allocation:
-- 
+
 ```
 bprm = kzalloc(sizeof(*bprm), GFP_KERNEL);
 if (!bprm)
@@ -288,7 +288,9 @@ static int load_elf_binary(struct linux_binprm *bprm)
         goto out;
 ```
 
-- If the given executable file is in elf format, the `load_elf_binary` continues to execute. The `load_elf_binary` does many different things to prepare on execution executable file. For example it checks the architecture and type of the executable file:
+### Executing
+
+- If the given executable file is in elf format, the `load_elf_binary` continues & checks the architecture and type of the executable file and exit if there is wrong architecture and executable file non executable non shared:
 
 ```
 if (loc->elf_ex.e_type != ET_EXEC && loc->elf_ex.e_type != ET_DYN)
@@ -296,16 +298,21 @@ if (loc->elf_ex.e_type != ET_EXEC && loc->elf_ex.e_type != ET_DYN)
 if (!elf_check_arch(&loc->elf_ex))
     goto out;
 ```
-and exit if there is wrong architecture and executable file non executable non shared. Tries to load the `program header` table:
+
+- Tries to load the `program header` table:
+
 ```
 elf_phdata = load_elf_phdrs(&loc->elf_ex, bprm->file);
 if (!elf_phdata)
     goto out;
 ```
 
-that describes `segments`. Read the program interpreter and libraries that linked with the our executable binary file from disk and load it to memory. The program interpreter specified in the .interp section of the executable file and as you can read in the part that describes Linkers it is - `/lib64/ld-linux-x86-64.so.2` for the `x86_64`. It setups the stack and map elf binary into the correct location in memory. It maps the bss and the brk sections and does many many other different things to prepare executable file to execute.
+that describes `segments`. Read the program interpreter and libraries that linked with the our executable binary file from disk and load it to memory. 
+- The program interpreter specified in the `.interp` section of the executable file (in most cases, linkers is - `/lib64/ld-linux-x86-64.so.2` for the `x86_64`). 
+- It setups the stack and map elf binary into the correct location in memory. It maps the bss and the brk sections and does many many other different things to prepare executable file to execute.
 
-In the end of the execution of the `load_elf_binary` we call the start_thread function and pass three arguments to it:
+- In the end of the execution of the `load_elf_binary` we call the start_thread function and pass three arguments to it:
+
 ```
     start_thread(regs, elf_entry, bprm->p);
     retval = 0;
@@ -314,13 +321,14 @@ out:
 out_ret:
     return retval;
 ```
-These arguments are:
+
+- These arguments are:
 
     - Set of registers for the new task;
     - Address of the entry point of the new task;
     - Address of the top of the stack for the new task.
 
-As we can understand from the function's name, it starts new thread, but it is not so. The `start_thread` function just prepares new task's registers to be ready to run. Let's look on the implementation of this function:
+- As we can understand from the function's name, it starts new thread, but it is not so. The `start_thread` function just prepares new task's registers to be ready to run. Let's look on the implementation of this function:
 ```
 void
 start_thread(struct pt_regs *regs, unsigned long new_ip, unsigned long new_sp)
@@ -330,7 +338,8 @@ start_thread(struct pt_regs *regs, unsigned long new_ip, unsigned long new_sp)
 }
 ```
 
-As we can see the `start_thread` function just makes a call of the `start_thread_common` function that will do all for us:
+- As we can see the `start_thread` function just makes a call of the `start_thread_common` function that will do all for us:
+
 ```
 static void
 start_thread_common(struct pt_regs *regs, unsigned long new_ip,
@@ -349,9 +358,10 @@ start_thread_common(struct pt_regs *regs, unsigned long new_ip,
         force_iret();
 }
 ```
-The `start_thread_common` function fills fs segment register with zero and es and ds with the value of the data segment register. After this we set new values to the instruction pointer, cs segments etc. In the end of the `start_thread_common` function we can see the `force_iret` macro that force a system call return via iret instruction. Ok, we prepared new thread to run in userspace and now we can return from the `exec_binprm` and now we are in the `do_execveat_common` again. After the exec_binprm will finish its execution we release memory for structures that was allocated before and return.
 
-After we returned from the `execve` system call handler, execution of our program will be started. We can do it, because all context related information already configured for this purpose. As we saw the execve system call does not return control to a process, but code, data and other segments of the caller process are just overwritten of the program segments. The exit from our application will be implemented through the exit system call.
+- The `start_thread_common` function fills fs segment register with zero and es and ds with the value of the data segment register. After this we set new values to the instruction pointer, cs segments etc. In the end of the `start_thread_common` function we can see the `force_iret` macro that force a system call return via iret instruction. Ok, we prepared new thread to run in userspace and now we can return from the `exec_binprm` and now we are in the `do_execveat_common` again. After the exec_binprm will finish its execution we release memory for structures that was allocated before and return.
+
+- After we returned from the `execve` system call handler, execution of our program will be started. We can do it, because all context related information already configured for this purpose. As we saw the execve system call does not return control to a process, but code, data and other segments of the caller process are just overwritten of the program segments. The exit from our application will be implemented through the exit system call.
 
 That's all. From this point our program will be executed.
 

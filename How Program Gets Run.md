@@ -17,7 +17,7 @@ Written by Richard M. Stallman and David MacKenzie.
 
 ### Bash shell
 
-- So let's start with main function of `bash` shell. If you will look on the source code of the `bash` shell, you will find the main function in the `shell.c` source code file. This function makes many different things before the main thread loop of the bash started to work. For example this function:
+- So let's start with main function of `bash` shell. If you will look on the source code of the `bash` shell, you will find the main function in the `shell.c` source code file which makes many different things before the main thread loop of the bash started to work. For example this function:
 
     - checks and tries to open `/dev/tty`
     - check that shell running in debug mode
@@ -26,7 +26,7 @@ Written by Richard M. Stallman and David MacKenzie.
     - loads `.bashrc`, `.profile` and other configuration files
     - and many many more.
 
-- After all of these operations we can see the call of the `reader_loop` function which defined in the `eval.c` made all checks & read the given program name & arguments, it calls the `execute_command` function from the `execute_cmd.c` source code file. The `execute_command` function which in tern calls following function chain:
+- After all of these operations we can see the call of the `reader_loop` function which defined in the `eval.c` read the given program name & arguments, it calls the `execute_command` function from the `execute_cmd.c` source code file. The `execute_command` function which in turn calls following function chain:
 
 ```
 execute_command
@@ -38,13 +38,14 @@ execute_command
 which makes different checks like do we need to start `subshell`, was it builtin `bash` function or not etc. 
 
 - In the end of this process, the `shell_execve` function calls the `execve` system call which has following signature
+- 
 ```
 int execve(const char *filename, char *const argv [], char *const envp[]);
 ```
-and executes a program by the given filename, with the given arguments and environment variables.
 
-- So, a user application (bash in our case) calls the system call and as we already know the next step is Linux kernel.
+- Executes a program by the given filename, with the given arguments and environment variables. So, a user application (bash in our case) calls the system call & as we already know the next step is Linux kernel.
  
+
 ### execve system call
 
 - This system call defined in the `fs/exec.c` source code file & has following signature :

@@ -38,7 +38,7 @@ execute_command
 which makes different checks like do we need to start `subshell`, was it builtin `bash` function or not etc. 
 
 - In the end of this process, the `shell_execve` function calls the `execve` system call which has following signature
-- 
+
 ```
 int execve(const char *filename, char *const argv [], char *const envp[]);
 ```

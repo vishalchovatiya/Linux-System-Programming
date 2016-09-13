@@ -16,3 +16,4 @@
 16. [Unix Domain Socket](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/Unix%20Domain%20Socket%20Example.md)
 17. [Understanding ELF file Quickly](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/Understanding%20ELF%20file%20Quickly.md)
 18. [Dynamic Loading Of Library](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/Dynamic%20Loading%20Of%20Library.md)
+19. [How Program Gets Run](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/How%20Program%20Gets%20Run.md)

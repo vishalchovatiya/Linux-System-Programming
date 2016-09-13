@@ -273,7 +273,7 @@ int search_binary_handler(struct linux_binprm *bprm)
 
 - Where the `load_binary` for example checks the magic number (each elf binary file contains magic number in the header) in the `linux_bprm` buffer (remember that we read first `128` bytes from the executable binary file) & exit if it is not elf binary:
 
-### Executing
+### Executing Binary
 
 ```
 static int load_elf_binary(struct linux_binprm *bprm)

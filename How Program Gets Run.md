@@ -320,12 +320,11 @@ out:
 out_ret:
     return retval;
 ```
-
-    - These arguments are:
     
-        - Set of registers for the new task;
-        - Address of the entry point of the new task;
-        - Address of the top of the stack for the new task.
+    These Arguments are:
+        - Set of registers for the new task
+        - Address of the entry point of the new task
+        - Address of the top of the stack for the new task
 
 - As we can understand from the function's name, it starts new thread, but it is not so. The `start_thread` function just prepares new task's registers to be ready to run. Let's look on the implementation of this function:
 
@@ -359,9 +358,11 @@ start_thread_common(struct pt_regs *regs, unsigned long new_ip,
 }
 ```
 
-- The `start_thread_common` function fills `fs` segment register with zero and `es` and `ds` with the value of the data segment register. After this we set new values to the instruction pointer, `cs` segments etc. In the end of the `start_thread_common` function we can see the `force_iret` macro that force a system call return via iret instruction. Ok, we prepared new thread to run in userspace and now we can return from the `exec_binprm` and now we are in the `do_execveat_common` again. After the `exec_binprm` will finish its execution we release memory for structures that was allocated before and return.
+- The `start_thread_common` function fills `fs` segment register with zero and `es` & `ds` with the value of the data segment register. After this we set new values to the instruction pointer, `cs` segments etc. In the end of the `start_thread_common` function we can see the `force_iret` macro that force a system call return via iret instruction. 
+- Ok, we prepared new thread to run in userspace and now we can return from the `exec_binprm` and now we are in the `do_execveat_common` again. After the `exec_binprm` will finish its execution we release memory for structures that was allocated before and return.
+- After we returned from the `execve` system call handler, execution of our program will be started. We can do it, because all context related information already configured for this purpose. 
+- As we saw the `execve` system call does not return control to a process, but code, data and other segments of the caller process are just overwritten of the program segments. 
+- The exit from our application will be implemented through the exit system call.
 
-- After we returned from the `execve` system call handler, execution of our program will be started. We can do it, because all context related information already configured for this purpose. As we saw the `execve` system call does not return control to a process, but code, data and other segments of the caller process are just overwritten of the program segments. The exit from our application will be implemented through the exit system call.
-
-That's all. From this point our program will be executed.
+And we done with execution
 

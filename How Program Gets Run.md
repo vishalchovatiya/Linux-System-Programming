@@ -72,10 +72,9 @@ int do_execve(struct filename *filename,
 }
 ```
 - The `do_execveat_common` function takes similar set of arguments, but having 2 extra arguments. 
-- The first argument is the file descriptor that represent directory with our application, in our case the `AT_FDCWD` means that the given pathname is interpreted relative to the current working directory of the calling process. 
-- The fifth argument is flags. In our case we passed `0` . We will check in a next step, so will see it latter.
+- The first argument `AT_FDCWD` is the file descriptor of current directory & fifth argument is flags. which we will see it latter.
 - `do_execveat_common` function checks the filename pointer & returns if it is `NULL`. 
-- After this we check flags of the current process that limit of running processes is not exceed:
+- After this it check flags of the current process that limit of running processes is not exceed:
 ```
 if (IS_ERR(filename))
     return PTR_ERR(filename);
@@ -99,10 +98,10 @@ if (retval)
 
 - We need to call this function to eliminate potential leak of the `execve'd` binary's file descriptor. In the next step we start preparation of the bprm that represented by the struct `linux_binprm` structure (defined in the `include/linux/binfmts.h` header file). 
 
-### Preparing Binary Process Module 
+### Preparing Binary Parameter Struct
 
 - The `linux_binprm` structure is used to hold the arguments that are used when loading binaries. 
-- For example it contains `vm_area_struct` & represents single memory area over a contiguous interval in a given address space where our application will be loaded, 
+- For example it contains `vm_area_struct` which represents single memory area over a contiguous interval in a given address space where our application will be loaded, 
 - `mm` field which is memory descriptor of the binary, pointer to the top of memory and many other different fields.
 
 - First of all we allocate memory for this structure with the kzalloc function and check the result of the allocation:
@@ -125,7 +124,7 @@ current->in_execve = 1;
 ```
 
 - Initialization of the cred structure that stored inside of the `linux_binprm` structure contains the security context of a task, for example real `uid` of the task, real `guid` of the task, `uid` and `guid` for the virtual file system operations etc. 
-- In the next step, we can safely execute a program with the call of the `check_unsafe_exec` function and set the current process to the `in_execve` state.
+- In the next step, the call of the `check_unsafe_exec` function set the current process to the `in_execve` state.
 - After all of these operations we call the `do_open_execat` function which 
     - Searches & opens executable file on disk & checks that,  
     - load a binary file from `noexec` mount points by passed flag `0`(we need to avoid execute a binary from filesystems that do not contain executable binaries like proc or sysfs), 
@@ -198,8 +197,7 @@ bprm->envc = count(envp, MAX_ARG_STRINGS);
 if ((retval = bprm->envc) < 0)
     goto out;
 ```
-
-As you can see,  `MAX_ARG_STRINGS` is upper limit macro defined in the `include/uapi/linux/binfmts.h` header file represents maximum number of strings that were passed to the `execve` system call. The value of the `MAX_ARG_STRINGS`:
+- As you can see,  `MAX_ARG_STRINGS` is upper limit macro defined in the `include/uapi/linux/binfmts.h` header file represents maximum number of strings that were passed to the `execve` system call. The value of the `MAX_ARG_STRINGS`:
 
 `#define MAX_ARG_STRINGS 0x7FFFFFFF`
 
@@ -230,7 +228,7 @@ if (retval < 0)
 - And set the pointer to the top of new program's stack that we set in the `bprm_mm_init` function `bprm->exec = bprm->p;`
 - The top of the stack will contain the program filename and we store this filename to the `exec` field of the `linux_bprm` structure.
 
-### Processing Binary Process Module
+### Processing Binary Parameter Struct
 
 - Now we have filled `linux_bprm` structure, we call the `exec_binprm` function which stores the pid from the namespace of the current task before it changes
 

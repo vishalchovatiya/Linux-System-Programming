@@ -74,7 +74,7 @@ $ ldd main
         libc.so.6 => /lib64/libc.so.6 (0x00007fc5defbb000)
         /lib64/ld-linux-x86-64.so.2 (0x00007fc5df79b000)
 ```
-- So when you call malloc it will refer first occurence of symbol which is in our malloc.so file
+- So when you call malloc it will refer first occurence of symbol which is in our `malloc.so` file
 
 - But if you specify `libc.so.6` explicitly on before `malloc.so`, then compile & run will give you different result
 ```

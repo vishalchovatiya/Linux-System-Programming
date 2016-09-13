@@ -1,3 +1,5 @@
+- `RTLD_NEXT` simply search for second occurence of symbol in loaded shared libraries
+
 
 ### malloc.c
 

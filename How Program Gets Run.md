@@ -321,11 +321,11 @@ out_ret:
     return retval;
 ```
 
-- These arguments are:
-
-    - Set of registers for the new task;
-    - Address of the entry point of the new task;
-    - Address of the top of the stack for the new task.
+    - These arguments are:
+    
+        - Set of registers for the new task;
+        - Address of the entry point of the new task;
+        - Address of the top of the stack for the new task.
 
 - As we can understand from the function's name, it starts new thread, but it is not so. The `start_thread` function just prepares new task's registers to be ready to run. Let's look on the implementation of this function:
 

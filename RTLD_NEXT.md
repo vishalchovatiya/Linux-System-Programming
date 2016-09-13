@@ -1,5 +1,21 @@
-- `RTLD_NEXT` simply search for second occurence of symbol in loaded shared libraries
+### Intro
 
+- Let's understand by example
+- If There is four shared library is loaded dynamically named as `A`, `B`, `C` & `D`, In which `C` having following code :
+```
+        if ((fptr = (int (*)())dlsym(RTLD_NEXT, "funcXYZ")) == NULL) {
+                (void) printf("dlsym: %s\n", dlerror());
+                exit (1);
+        }
+        
+        return ((*fptr)());
+```
+- Then `funcXYZ` will be searched for in object D which just loaded after `C`
+
+### What is use of RTLD_NEXT ?
+
+- RTLD_NEXT allows one to provide a wrapper around a function defined in another shared library.
+- In other words, you can expoit methods defined in another library
 
 ### malloc.c
 
@@ -84,8 +100,6 @@ $ ldd main
 ```
 - Unlike earlier, `malloc.so` comes after `libc.so.6`. So when `dlsym()` is called inside `malloc.so` to search for functions, it skips `libc.so.6` since it precedes `malloc.so` in the search order list. That means the searches continue through to `ld-linux-x86-64.so.2` where they find linker/loader’s malloc/free and return pointers to those functions. And so, `malloc.so` ends up forwading calls to `ld-linux` instead of `libc`!
 
-> **What is use of RTLD_NEXT ?**
 
-- RTLD_NEXT allows one to provide a wrapper around a function defined in another shared library.
 
 

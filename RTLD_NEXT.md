@@ -1,7 +1,7 @@
 ### Intro
 
 - Let's understand by example
-- If there are four shared library loaded dynamically named as `A.so`, `B.so`, `C.so` & `D.so`. In which `C.so` having following code :
+- If there are four shared library loaded dynamically in order as `A.so`, `B.so`, `C.so` & `D.so`. In which `C.so` having following code :
 ```
 void funcXYZ()
 {
@@ -15,7 +15,7 @@ void funcXYZ()
         return ((*fptr)());
 }        
 ```
-- Then calling upon `funcXYZ` will be searched for in object `D.so` which just loaded after `C.so` & pointer to function is returned
+- Then calling upon `funcXYZ` will be searched for in object `D.so` which just loaded after `C.so` & pointer to function is returned as seen in above code.
 
 ### What Is RTLD_NEXT Used For ?
 

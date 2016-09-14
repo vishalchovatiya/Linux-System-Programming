@@ -32,9 +32,9 @@ void funcXYZ()
 
 void *malloc(size_t size)
 {
-        void *(*fptr)() = NULL;
+        static void *(*fptr)() = NULL;
 
-        /* look up of malloc, the first time we are here */
+        /* look up of malloc, only the first time we are here */
         if (fptr == NULL) {
                 fptr = (void *(*)(size_t))dlsym(RTLD_NEXT, "malloc");
                 if (fptr == NULL) {

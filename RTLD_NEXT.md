@@ -12,12 +12,12 @@
 ```
 - Then `funcXYZ` will be searched for in object `D.so` which just loaded after `C.so` & pointer to function is returned
 
-### What is RTLD_NEXT use for ?
+### What Is RTLD_NEXT Used For ?
 
 - RTLD_NEXT allows one to provide a wrapper around a function defined in another shared library.
 - In other words, you can exploit methods defined in another shared library
 
-### Let's Understand with example
+### Let's Understand With Example
 
 #### malloc.c
 
@@ -58,7 +58,7 @@ int main(){
 }
 ```
 
-#### Compilation & Run
+#### Compilation & Execution
 ```
 $ gcc -o malloc.so -shared -fPIC malloc.c -D_GNU_SOURCE
 $ gcc -o main main.c malloc.so -ldl
@@ -66,7 +66,7 @@ $ ./main
 Our Malloc
 ```
 
-### How it works
+### How It Works
 - When you compile your `main.c` by `gcc -o main main.c malloc.so -ldl`, you specify `malloc.so` explicitly on first order. We can verify this by `ldd` command
 ```
 $ ldd main

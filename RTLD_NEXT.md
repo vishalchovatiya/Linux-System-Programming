@@ -1,16 +1,21 @@
 ### Intro
 
 - Let's understand by example
-- If there is four shared library is loaded dynamically named as `A.so`, `B.so`, `C.so` & `D.so`. In which `C.so` having following code :
+- If there are four shared library loaded dynamically named as `A.so`, `B.so`, `C.so` & `D.so`. In which `C.so` having following code :
 ```
-        if ((fptr = (int (*)())dlsym(RTLD_NEXT, "funcXYZ")) == NULL) {
+void funcXYZ()
+{
+        void (*fptr)(void) = NULL
+        
+        if ((fptr = (void (*)(void))dlsym(RTLD_NEXT, "funcXYZ")) == NULL) {
                 (void) printf("dlsym: %s\n", dlerror());
                 exit (1);
         }
         
         return ((*fptr)());
+}        
 ```
-- Then `funcXYZ` will be searched for in object `D.so` which just loaded after `C.so` & pointer to function is returned
+- Then calling upon `funcXYZ` will be searched for in object `D.so` which just loaded after `C.so` & pointer to function is returned
 
 ### What Is RTLD_NEXT Used For ?
 

@@ -78,7 +78,7 @@ $ ldd main
 ```
 - So when you call malloc it will refer first occurence of symbol which is in our `malloc.so` file & in which definition of our mallic, we exctract original malloc from next loaded shared library `lib64/libdl.so.2` as can see in `mallo.c`
 
-### Danger of Shared Library Loading Sequence
+### Danger of Shared Library Loading Sequence With RTLD_NEXT
 
 - But if you specify `libc.so.6` explicitly on before `malloc.so`, then compile & run will give you different result
 ```

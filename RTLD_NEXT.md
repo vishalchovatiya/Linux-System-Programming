@@ -76,13 +76,12 @@ $ ldd main
         libc.so.6 => /lib64/libc.so.6 (0x00007fc5defbb000)
         /lib64/ld-linux-x86-64.so.2 (0x00007fc5df79b000)
 ```
-- So when you call malloc it will refer first occurence of symbol which is in our `malloc.so` file & we exctract original malloc from next loaded shared library `lib64/libdl.so.2`
+- So when you call malloc it will refer first occurence of symbol which is in our `malloc.so` file & in which definition of our mallic, we exctract original malloc from next loaded shared library `lib64/libdl.so.2` as can see in `mallo.c`
+
+### Danger of Shared Library Loading Sequence
 
 - But if you specify `libc.so.6` explicitly on before `malloc.so`, then compile & run will give you different result
 ```
-$ export LD_LIBRARY_PATH=$(pwd)
-$ echo $LD_LIBRARY_PATH
-/home/vishal/workspace/next
 $ gcc -o main main.c /usr/lib64/libc.so.6 ./malloc.so.1 -ldl
 $ ./main
 $

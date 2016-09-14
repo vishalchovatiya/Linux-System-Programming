@@ -85,7 +85,6 @@ $ ldd main
 $ gcc -o main main.c /usr/lib64/libc.so.6 ./malloc.so.1 -ldl
 $ ./main
 $
-
 ```
 - Now It calls malloc function defined in `ld-linux-x86-64.so.2`  which is the dynamic linker/loader insted of `libc.so.6`
 - Well dynamic linker/loader has its own copy of `malloc()` and `free()`. Why? Because `ld-linux` has to allocate memory from the heap before it loads `libc.so.6`. 

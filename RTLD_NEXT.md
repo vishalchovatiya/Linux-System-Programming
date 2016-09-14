@@ -1,4 +1,4 @@
-### Intro
+### Brief
 
 - Let's understand by example
 - If there are four shared library loaded dynamically in order as `A.so`, `B.so`, `C.so` & `D.so`. In which `C.so` having following code :

@@ -1,7 +1,7 @@
 ### Intro
 
 - Let's understand by example
-- If There is four shared library is loaded dynamically named as `A`, `B`, `C` & `D`, In which `C` having following code :
+- If there is four shared library is loaded dynamically named as `A.so`, `B.so`, `C.so` & `D.so`. In which `C.so` having following code :
 ```
         if ((fptr = (int (*)())dlsym(RTLD_NEXT, "funcXYZ")) == NULL) {
                 (void) printf("dlsym: %s\n", dlerror());
@@ -10,14 +10,16 @@
         
         return ((*fptr)());
 ```
-- Then `funcXYZ` will be searched for in object D which just loaded after `C`
+- Then `funcXYZ` will be searched for in object `D.so` which just loaded after `C.so` & pointer to function is returned
 
-### What is use of RTLD_NEXT ?
+### What is RTLD_NEXT use for ?
 
 - RTLD_NEXT allows one to provide a wrapper around a function defined in another shared library.
-- In other words, you can expoit methods defined in another library
+- In other words, you can exploit methods defined in another shared library
 
-### malloc.c
+### Let's Understand with example
+
+#### malloc.c
 
 ```
 #include    <stdio.h>
@@ -42,7 +44,7 @@ void *malloc(size_t size)
 }
 ```
 
-### main.c
+#### main.c
 
 ```
 #include<stdio.h>
@@ -56,7 +58,7 @@ int main(){
 }
 ```
 
-### Compilation & Run
+#### Compilation & Run
 ```
 $ gcc -o malloc.so -shared -fPIC malloc.c -D_GNU_SOURCE
 $ gcc -o main main.c malloc.so -ldl

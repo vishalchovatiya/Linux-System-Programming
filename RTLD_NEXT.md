@@ -27,14 +27,14 @@
 
 void *malloc(size_t size)
 {
-        static void * (* fptr)() = 0;
+        void *(*fptr)() = NULL;
 
         /* look up of malloc, the first time we are here */
-        if (fptr == 0) {
-                fptr = (void * (*)())dlsym(RTLD_NEXT, "malloc");
+        if (fptr == NULL) {
+                fptr = (void *(*)(size_t))dlsym(RTLD_NEXT, "malloc");
                 if (fptr == NULL) {
                         printf("dlsym: %s\n", dlerror());
-                        return (0);
+                        return NULL;
                 }
         }
 
@@ -76,7 +76,7 @@ $ ldd main
         libc.so.6 => /lib64/libc.so.6 (0x00007fc5defbb000)
         /lib64/ld-linux-x86-64.so.2 (0x00007fc5df79b000)
 ```
-- So when you call malloc it will refer first occurence of symbol which is in our `malloc.so` file
+- So when you call malloc it will refer first occurence of symbol which is in our `malloc.so` file & we exctract original malloc from next loaded shared library `lib64/libdl.so.2`
 
 - But if you specify `libc.so.6` explicitly on before `malloc.so`, then compile & run will give you different result
 ```

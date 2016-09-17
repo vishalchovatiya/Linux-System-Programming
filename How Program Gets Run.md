@@ -361,5 +361,5 @@ start_thread_common(struct pt_regs *regs, unsigned long new_ip,
 - As we saw the `execve` system call does not return control to a process, but code, data and other segments of the caller process are just overwritten of the program segments. 
 - The exit from our application will be implemented through the exit system call.
 
-And we done with execution
+And we are done with execution
 

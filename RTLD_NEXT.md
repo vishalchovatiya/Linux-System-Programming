@@ -70,6 +70,10 @@ $ gcc -o main main.c malloc.so -ldl
 $ ./main
 Our Malloc
 ```
+Note: Your can also use `LD_PRELOAD` in following way, which loads specified library first
+```
+$ LD_PRELOAD=`pwd`/malloc.so ./main
+```
 
 ### How It Works
 - When you compile your `main.c` by `gcc -o main main.c malloc.so -ldl`, you specify `malloc.so` explicitly on first order. We can verify this by `ldd` command

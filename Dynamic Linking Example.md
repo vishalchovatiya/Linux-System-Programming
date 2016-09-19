@@ -1,3 +1,5 @@
+- Following example covers almost all dynamic linking related APIs & Flags.
+
 
 ### flags.c
 ```

@@ -1,7 +1,7 @@
 
 ### Compiling Hello World With Autotools
 
-configure.ac
+#### configure.ac
 ```
 AC_INIT([PackageName], [1.0], [bug-report@address])
 AM_INIT_AUTOMAKE
@@ -10,11 +10,11 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT
 ```
-Makefile.am
+#### Makefile.am
 ```
 SUBDIRS = src
 ```
-src/main.c
+#### src/main.c
 ```
 #include<stdio.h>
 
@@ -23,12 +23,21 @@ int main(){
         return 0;
 }
 ```
-src/Makefile.am
+#### src/Makefile.am
 ```
 bin_PROGRAMS = hello
 hello_SOURCES = main.c
 ```
-> Preparing the Package
+#### Directory Structre
+```
+$ ls -R
+.:
+configure.ac  Makefile.am  src
+
+./src:
+main.c  Makefile.am
+```
+Preparing the Package
 
 ```
 $ autoreconf --install
@@ -58,7 +67,7 @@ packagename-1.0.tar.gz
 
 ### Generating Shared Library With Autotools
 
-configure.ac
+#### configure.ac
 ```
 AC_INIT([PackageName], [1.0], [bug-report@address])
 AM_INIT_AUTOMAKE([foreign])
@@ -70,12 +79,12 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile sum/Makefile src/Makefile])
 AC_OUTPUT
 ```
-Makefile.am
+#### Makefile.am
 ```
 SUBDIRS = sum src
 ACLOCAL_AMFLAGS = -I m4
 ```
-src/main.c
+#### src/main.c
 ```
 #include<stdio.h>
 
@@ -84,13 +93,13 @@ int main(){
         return 0;
 }
 ```
-src/Makefile.am
+#### src/Makefile.am
 ```
 bin_PROGRAMS = sum
 sum_SOURCES = main.c
 sum_LDADD = ../sum/libsum.la
 ```
-sum/sum.c
+#### sum/sum.c
 ```
 #include<stdio.h>
 
@@ -99,11 +108,24 @@ int sum(int a, int b)
         return a + b;
 }
 ```
-sum/Makefile.am
+#### sum/Makefile.am
 ```
 lib_LTLIBRARIES = libsum.la
 libsum_la_SOURCES = sum.c
 ```
+#### Directory Structre
+```
+$ ls -R
+.:
+configure.ac  Makefile.am  src  sum
+
+./src:
+main.c  Makefile.am
+
+./sum:
+Makefile.am  sum.c
+```
+
 > Preparing the Package
 
 ```

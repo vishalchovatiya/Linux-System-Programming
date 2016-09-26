@@ -28,3 +28,13 @@ src/Makefile.am
 bin_PROGRAMS = hello
 hello_SOURCES = main.c
 ```
+> Preparing the Package
+
+```
+$ autoreconf --install
+$ ./configure --prefix=$(pwd)
+$ make
+$ bin/hello
+Hello World !
+$
+```

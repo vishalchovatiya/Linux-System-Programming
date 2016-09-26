@@ -1,3 +1,7 @@
+### Brief
+- Suite of programming tools used to make source code packages portable to many Unix-like systems
+- Autotools consists of the GNU utility programs Autoconf, Automake, and Libtool
+### Why we need Autotools
 
 ### Compiling Hello World With Autotools
 

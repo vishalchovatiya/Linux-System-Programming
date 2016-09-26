@@ -1,6 +1,8 @@
 
 ### Compiling Hello World With Autotools
 
+- Creating following files in empty directory
+
 #### configure.ac
 ```
 AC_INIT([PackageName], [1.0], [bug-report@address])

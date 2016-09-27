@@ -1,10 +1,12 @@
 ### Brief
-- Autotools is suite of programming tools used to make source code packages portable to many Unix-like systems
-- Autotools mainly consists of the GNU utility programs Autoconf, Automake, and Libtool
 
-### Why we need Autotools
+- Autotools is suite of programming tools used to make source code packages portable to many Unix-like systems.
+- Autotools mainly consists of the GNU utility programs Autoconf, Automake & Libtool.
 
-- Portable Build, Uniform Packages
+### Why We Need Autotools
+
+- Portable Packeges
+- Uniform Builds
 
 ### Compiling Hello World With Autotools
 

@@ -114,7 +114,7 @@ __Note__ : Run `libtoolize`, If you use `LT_INIT` to create shared library with 
 
 - `Libtool` Helps manage the creation of static and dynamic libraries on various Unix-like operating systems
 
-### Generating Packege
+### Distributing Packege
 
 ```
 $ make distcheck

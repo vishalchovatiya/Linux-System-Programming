@@ -71,13 +71,14 @@ At this stage, there are lot of other files are generated as follows :
 
 - `autoreconf` is a helper that knows how to call `autoconf`, `autoheader`, `aclocal`, `automake`, `libtoolize`, `autopoint`, etc tools in the right order.
 
-**Behind autoreconf**
+**Behind `autoreconf`**
 
-- `libtoolize` : If you use with `LT_INIT`(to create shared lib) in configure.ac otherwise you got error prompt as `configure.ac:[LINE]: error: required file './ltmain.sh' not found`.
 - `aclocal` : Scan `configure.ac` for uses of third-party macros, and gather definitions in `aclocal.m4`.
 - `autoconf` : Create `configure` from `configure.ac` & `aclocal.m4`.
 - `autoheader` : Create `config.h.in` from `configure.ac`.
 - `automake --add-missing` : Create `Makefile.in`s from `Makefile.am`s, `configure.ac` & `aclocal.m4`. `--add-missing` option will add required file(like `config.guess`, `config.sub`, `missing`, `depcomp`, `install-sh`, etc) to carry out build process.
+
+Note : Run `libtoolize`, If you use `LT_INIT`(to create shared lib macro) in `configure.ac` otherwise you got error prompt as `configure.ac:[LINE]: error: required file './ltmain.sh' not found`.
 
 ##### Step 2 : `./configure --prefix=$(pwd)`
 

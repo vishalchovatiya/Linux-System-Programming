@@ -5,8 +5,9 @@
 
 ### Why We Need Autotools
 
-- Portable Packeges
-- Uniform Builds
+- `Autoconf` : automatically generates configure script by scans of existing tree to find its dependencies, that are supposed to work on all kinds of platforms. Configure generates a `config.h` file (from a template) which programs can include to work around portability issues. For example, if `HAVE_LIBPTHREAD` is not defined, use forks instead.
+- `Automake` : No need to write lengthy & complex makefiles. just define target, dependencies, flags, etc.
+- `Libtool` : simplifying the building and installation of shared libraries on any Unix-like system. 
 
 ### Compiling Hello World With Autotools
 
@@ -202,7 +203,10 @@ $ ldd ./bin/sum
 
 ### What Next ?
 
-- This is just short introduction of How Autotools help us ! There are lot to discover, here are some resouces.
+- This is just short introduction of How Autotools help us ! There are lot to discover about its competitors like [CMake](https://cmake.org/), [Scons](www.scons.org), etc.
+
+#### Souces 
+
 1. [Autotools](https://www.lrde.epita.fr/~adl/dl/autotools.pdf)
 2. [GNU Build System](https://en.wikipedia.org/wiki/GNU_Build_System)
 3. [Automake](https://www.gnu.org/software/automake/manual/automake.html)

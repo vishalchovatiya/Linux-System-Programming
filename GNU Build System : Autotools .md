@@ -129,7 +129,7 @@ packagename-1.0.tar.gz
 ```
 AC_INIT([PackageName], [1.0], [bug-report@address])
 AM_INIT_AUTOMAKE([foreign])
-LT_INIT                         # Used to initialize libtool                                      
+LT_INIT                         # Used to initialize libtool to create shared library                                     
 AC_PROG_CC
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile sum/Makefile src/Makefile])

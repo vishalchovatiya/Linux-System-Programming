@@ -12,12 +12,12 @@
 
 #### configure.ac
 ```
-AC_INIT([PackageName], [1.0], [bug-report@address])
-AM_INIT_AUTOMAKE
-AC_PROG_CC
-AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile src/Makefile])
-AC_OUTPUT
+AC_INIT([PackageName], [1.0], [bug-report@address])     # Initialize `Autoconf`. Specify package's name, version & bug-report address.
+AM_INIT_AUTOMAKE                                        # Initialize Automake
+AC_PROG_CC                                              # Check for a C compiler
+AC_CONFIG_HEADERS([config.h])                           # Declare config.h as output header
+AC_CONFIG_FILES([Makefile src/Makefile])                # Declare Makefile & src/Makefile as output files 
+AC_OUTPUT                                               # Output all declared files
 ```
 #### Makefile.am
 ```
@@ -78,7 +78,7 @@ At this stage, there are lot of other files are generated as follows :
 - `autoheader` : Create `config.h.in` from `configure.ac`.
 - `automake --add-missing` : Create `Makefile.in`s from `Makefile.am`s, `configure.ac` & `aclocal.m4`. `--add-missing` option will add required file(like `config.guess`, `config.sub`, `missing`, `depcomp`, `install-sh`, etc) to carry out build process.
 
-Note : Run `libtoolize`, If you use `LT_INIT`(to create shared lib macro) in `configure.ac` otherwise you got error prompt as `configure.ac:[LINE]: error: required file './ltmain.sh' not found`.
+__Note__ : Run `libtoolize`, If you use `LT_INIT` to create shared library with `libtool` in `configure.ac`, otherwise you will get error as `configure.ac:[LINE]: error: required file './ltmain.sh' not found`.
 
 ##### Step 2 : `./configure --prefix=$(pwd)`
 

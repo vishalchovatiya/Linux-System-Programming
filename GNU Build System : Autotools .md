@@ -25,7 +25,7 @@ SUBDIRS = src                                           # Build recursively in s
 ```
 #### src/Makefile.am
 ```
-bin_PROGRAMS = hello                                    # hello is target & will be installed in bin(as specify "bin_")
+bin_PROGRAMS = hello                                    # "hello" is target & will be installed in bindir (as specify "bin_")
 hello_SOURCES = main.c                                  # Dependencies of target hello is main.c
 ```
 #### src/main.c
@@ -129,9 +129,7 @@ packagename-1.0.tar.gz
 ```
 AC_INIT([PackageName], [1.0], [bug-report@address])
 AM_INIT_AUTOMAKE([foreign])
-AC_CONFIG_MACRO_DIR([m4])
-LT_INIT
-
+LT_INIT                         # Used to initialize libtool                                      
 AC_PROG_CC
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile sum/Makefile src/Makefile])
@@ -140,7 +138,6 @@ AC_OUTPUT
 #### Makefile.am
 ```
 SUBDIRS = sum src
-ACLOCAL_AMFLAGS = -I m4
 ```
 #### src/main.c
 ```
@@ -155,7 +152,7 @@ int main(){
 ```
 bin_PROGRAMS = sum
 sum_SOURCES = main.c
-sum_LDADD = ../sum/libsum.la
+sum_LDADD = ../sum/libsum.la    # add & link sum against libsum.so
 ```
 #### sum/sum.c
 ```

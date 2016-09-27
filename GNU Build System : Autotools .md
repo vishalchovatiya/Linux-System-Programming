@@ -56,7 +56,8 @@ $ bin/hello
 Hello World !
 $
 ```
-- At this stage, there are lot of other files are generated as follows.
+At this stage, there are lot of other files are generated as follows : 
+
 - `Makefile.in`, `config.h.in`, `config*` : expected configuration templates.
 - `aclocal.m4` : definitions for third-party macros used in `configure.ac`.
 - `depcomp`, `install-sh`, `missing` : auxiliary tools used during the build .
@@ -71,11 +72,12 @@ $
 - `autoreconf` is a helper that knows how to call `autoconf`, `autoheader`, `aclocal`, `automake`, `libtoolize`, `autopoint`, etc tools in the right order.
 
 **Behind autoreconf**
-0. `libtoolize` : If you use with `LT_INIT`(to create shared lib) in configure.ac otherwise you got error prompt as `configure.ac:[LINE]: error: required file './ltmain.sh' not found`.
-1. `aclocal` : Scan `configure.ac` for uses of third-party macros, and gather definitions in `aclocal.m4`.
-2. `autoconf` : Create `configure` from `configure.ac` & `aclocal.m4`.
-3. `autoheader` : Create `config.h.in` from `configure.ac`.
-4. `automake --add-missing` : Create `Makefile.in`s from `Makefile.am`s, `configure.ac` & `aclocal.m4`. `--add-missing` option will add required file(like `config.guess`, `config.sub`, `missing`, `depcomp`, `install-sh`, etc) to carry out build process.
+
+- `libtoolize` : If you use with `LT_INIT`(to create shared lib) in configure.ac otherwise you got error prompt as `configure.ac:[LINE]: error: required file './ltmain.sh' not found`.
+- `aclocal` : Scan `configure.ac` for uses of third-party macros, and gather definitions in `aclocal.m4`.
+- `autoconf` : Create `configure` from `configure.ac` & `aclocal.m4`.
+- `autoheader` : Create `config.h.in` from `configure.ac`.
+- `automake --add-missing` : Create `Makefile.in`s from `Makefile.am`s, `configure.ac` & `aclocal.m4`. `--add-missing` option will add required file(like `config.guess`, `config.sub`, `missing`, `depcomp`, `install-sh`, etc) to carry out build process.
 
 ##### Step 2 : `./configure --prefix=$(pwd)`
 

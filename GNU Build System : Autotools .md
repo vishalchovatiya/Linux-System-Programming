@@ -190,5 +190,17 @@ $ make install
 $ ./bin/sum
 sum(0,1) = 1
 $
+$ ldd ./bin/sum
+        linux-vdso.so.1 =>  (0x00007fff606ac000)
+        libsum.so.0 => /home/vishal/asdf/lib/libsum.so.0 (0x00007fdcf43a6000)
+        libc.so.6 => /lib64/libc.so.6 (0x00007fdcf3fcd000)
+        /lib64/ld-linux-x86-64.so.2 (0x00007fdcf45a9000)
 ```
 - At the end of `make install`, there are two folders named as `lib` & `bin` having shared library in `lib` & executable in `bin`.
+
+### What Next ?
+
+- This is just short introduction of How Autotools help us ! There are lot you can do with Autotools, here is some resouces.
+1. [Autotools](https://www.lrde.epita.fr/~adl/dl/autotools.pdf)
+2. [GNU Build System](https://en.wikipedia.org/wiki/GNU_Build_System)
+3. [Automake](https://www.gnu.org/software/automake/manual/automake.html)

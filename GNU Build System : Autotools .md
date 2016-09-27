@@ -200,7 +200,7 @@ $ ldd ./bin/sum
 
 ### What Next ?
 
-- This is just short introduction of How Autotools help us ! There are lot you can do with Autotools, here is some resouces.
+- This is just short introduction of How Autotools help us ! There are lot to discover, here are some resouces.
 1. [Autotools](https://www.lrde.epita.fr/~adl/dl/autotools.pdf)
 2. [GNU Build System](https://en.wikipedia.org/wiki/GNU_Build_System)
 3. [Automake](https://www.gnu.org/software/automake/manual/automake.html)

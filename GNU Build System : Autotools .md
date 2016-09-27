@@ -1,6 +1,6 @@
 ### Brief
 - Autotools is suite of programming tools used to make source code packages portable to many Unix-like systems
-- Autotools consists of the GNU utility programs Autoconf, Automake, and Libtool
+- Autotools mainly consists of the GNU utility programs Autoconf, Automake, and Libtool
 
 ### Why we need Autotools
 
@@ -46,7 +46,7 @@ configure.ac  Makefile.am  src
 ./src:
 main.c  Makefile.am
 ```
-Preparing the Package
+#### Build Package
 
 ```
 $ autoreconf --install
@@ -56,14 +56,57 @@ $ bin/hello
 Hello World !
 $
 ```
-- At this stage there are lot of other files are generated. we will look for it later.
+- At this stage, there are lot of other files are generated as follows : 
+        - Makefile.in, config.h.in, config* : expected configuration templates
+        - aclocal.m4 : definitions for third-party macros used in configure.ac
+        - depcomp, install-sh, missing : auxiliary tools used during the build 
+        - autom4te.cache/ : Autotools cache files
 
-- Makefile.in, config.h.in, configure* : expected con guration templates
-- aclocal.m4 : definitions for third-party macros used in configure.ac
-- depcomp*, install-sh*, missing* : auxiliary tools used during the build 
-- autom4te.cache/ : Autotools cache files
+### How Autotool Works
 
-> Generating Packege
+#### Understand Build Packege Procedure
+
+##### Step 1 : `autoreconf --install`
+
+- `autoreconf` is a helper that knows how to call autoconf, autoheader, aclocal, automake, libtoolize, autopoint, etc tools in the right order.
+
+- Behind autoreconf
+        0. libtoolize - If you use with `LT_INIT`(to create shared lib) in configure.ac otherwise you got error prompt as `configure.ac:[LINE]: error: required file './ltmain.sh' not found`
+        1. aclocal - Scan configure.ac for uses of third-party macros, and gather definitions in aclocal.m4 
+        2. autoconf - Create configure from configure.ac & aclocal.m4.
+        3. autoheader - Create config.h.in from configure.ac.
+        4. automake --add-missing - Create Makefile.ins from Makefile.ams, configure.ac & aclocal.m4. `--add-missing` option will add required file(like config.guess, config.sub, missing, depcomp, install-sh, etc) to carry out build process.
+
+##### Step 2 : `./configure --prefix=$(pwd)`
+
+- `configure` will create Makefiles from Makefile.ins
+
+##### Step 3 : `make & make install`
+
+- Finally `make & make install` - Do all things for you
+
+#### Generalise Idea
+
+- Practically, You do not have to remember the interaction of all tools, just call autoreconf yourself and let it deal with all the lower level tools. 
+- autoreconf is your friend. You only need a rough idea of the purpose of each tool to understand errors.
+
+##### GNU Autoconf
+        - autoconf  Create configure from configure.ac .
+        - autoheader  Create config.h.in from configure.ac.
+        - autoreconf  Run all tools in the right order.
+        - autoscan  Scan sources for common portability problems,and related macros missing from configure.ac.
+        - autoupdate  Update obsolete macros in configure.ac.
+        - ifnames  Gather identifiers from all #if/#ifdef/... directives.
+        - autom4te  The heart of Autoconf. It drives M4 and implements the features used by most of the above tools.  Useful forcreating more than just configure files.
+
+##### GNU Automake
+        - automake  Create Makefile.ins from Makefile.ams and configure.ac.
+        - aclocal  Scan configure.ac for uses of third-party macros, and gather definitions in aclocal.m4 
+
+##### GNU Libtool
+        - Libtool Helps manage the creation of static and dynamic libraries on various Unix-like operating systems
+
+### Generating Packege
 
 ```
 $ make distcheck
@@ -73,35 +116,6 @@ packagename-1.0.tar.gz
 =================================================
 ```
 - At the end of command execution you will find `packagename-1.0.tar.gz` in same folder.
-
-### How Autotool Works
-
-- `autoreconf` is a helper that knows how to call autoconf, autoheader, aclocal, automake, libtoolize, and autopoint (when appropriate)tools in the right order.
-
-
-GNU Autoconf
-- autoconf  Create configure from configure.ac .
-- autoheader  Create config.h.in from configure.ac.
-- autoreconf  Run all tools in the right order.
-- autoscan  Scan sources for common portability problems,and related macros missing from configure.ac.
-- autoupdate  Update obsolete macros in configure.ac.
-- ifnames  Gather identifiers from all #if/#ifdef/... directives.
-- autom4te  The heart of Autoconf. It drives M4 and implements the features used by most of the above tools.  Useful forcreating more than just configure files.
-
-GNU Automake
-- automake  Create Makefile.ins from Makefile.ams and configure.ac.
-- aclocal  Scan configure.ac for uses of third-party macros, and gather definitions in aclocal.m4 
-
-GNU Libtool
-- Libtool Helps manage the creation of static and dynamic libraries on various Unix-like operating systems
-
-You'll usually just call autoreconf yourself and let it deal with all the lower level tools ...
-
-Behind autoreconf
-1. aclocal - Scan configure.ac for uses of third-party macros, and gather definitions in aclocal.m4 
-2. autoconf - Create configure from configure.ac & aclocal.m4.
-3. autoheader - Create config.h.in from configure.ac.
-4. automake - Create Makefile.ins from Makefile.ams and configure.ac & aclocal.m4.
 
 ### Generating Shared Library With Autotools
 
@@ -164,7 +178,7 @@ main.c  Makefile.am
 Makefile.am  sum.c
 ```
 
-> Preparing the Package
+> Build Package
 
 ```
 $ autoreconf --install

@@ -57,6 +57,7 @@ Hello World !
 $
 ```
 - At this stage, there are lot of other files are generated as follows : 
+
         - `Makefile.in`, `config.h.in`, `config*` : expected configuration templates
         - `aclocal.m4` : definitions for third-party macros used in `configure.ac`
         - `depcomp`, `install-sh`, `missing` : auxiliary tools used during the build 

@@ -80,8 +80,8 @@ packagename-1.0.tar.gz
 
 
 GNU Autoconf
-- autoconf  Create configure from configure.ac.
-- autoheader  Create config.h.infrom configure.ac.
+- autoconf  Create configure from configure.ac .
+- autoheader  Create config.h.in from configure.ac.
 - autoreconf  Run all tools in the right order.
 - autoscan  Scan sources for common portability problems,and related macros missing from configure.ac.
 - autoupdate  Update obsolete macros in configure.ac.
@@ -92,7 +92,16 @@ GNU Automake
 - automake  Create Makefile.ins from Makefile.ams and configure.ac.
 - aclocal  Scan configure.ac for uses of third-party macros, and gather definitions in aclocal.m4 
 
+GNU Libtool
+- Libtool Helps manage the creation of static and dynamic libraries on various Unix-like operating systems
+
 You'll usually just call autoreconf yourself and let it deal with all the lower level tools ...
+
+Behind autoreconf
+1. aclocal - Scan configure.ac for uses of third-party macros, and gather definitions in aclocal.m4 
+2. autoconf - Create configure from configure.ac & aclocal.m4.
+3. autoheader - Create config.h.in from configure.ac.
+4. automake - Create Makefile.ins from Makefile.ams and configure.ac & aclocal.m4.
 
 ### Generating Shared Library With Autotools
 

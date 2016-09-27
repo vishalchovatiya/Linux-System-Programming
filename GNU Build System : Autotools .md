@@ -93,20 +93,23 @@ At this stage, there are lot of other files are generated as follows :
 - `autoreconf` is your friend. You only need a rough idea of the purpose of each tool to understand errors.
 
 ##### GNU Autoconf
-        - `autoconf`  Create `configure` from `configure.ac`.
-        - `autoheader`  Create `config.h.in` from `configure.ac`.
-        - `autoreconf`  Run all tools in the right order.
-        - `autoscan`  Scan sources for common portability problems,and related macros missing from `configure.ac`.
-        - `autoupdate`  Update obsolete macros in `configure.ac`.
-        - `ifnames`  Gather identifiers from all `#if/#ifdef/...` directives.
-        - `autom4te`  The heart of `Autoconf`. It drives `M4` and implements the features used by most of the above tools.  Useful for creating more than just configure files.
+
+- `autoconf`  Create `configure` from `configure.ac`.
+- `autoheader`  Create `config.h.in` from `configure.ac`.
+- `autoreconf`  Run all tools in the right order.
+- `autoscan`  Scan sources for common portability problems,and related macros missing from `configure.ac`.
+- `autoupdate`  Update obsolete macros in `configure.ac`.
+- `ifnames`  Gather identifiers from all `#if/#ifdef/...` directives.
+- `autom4te`  The heart of `Autoconf`. It drives `M4` and implements the features used by most of the above tools.  Useful for creating more than just configure files.
 
 ##### GNU Automake
-        - `automake`  Create `Makefile.in`s from `Makefile.am`s and `configure.ac`.
-        - `aclocal`  Scan `configure.ac` for uses of third-party macros, and gather definitions in `aclocal.m4`.
+
+- `automake`  Create `Makefile.in`s from `Makefile.am`s and `configure.ac`.
+- `aclocal`  Scan `configure.ac` for uses of third-party macros, and gather definitions in `aclocal.m4`.
 
 ##### GNU Libtool
-        - `Libtool` Helps manage the creation of static and dynamic libraries on various Unix-like operating systems
+
+- `Libtool` Helps manage the creation of static and dynamic libraries on various Unix-like operating systems
 
 ### Generating Packege
 

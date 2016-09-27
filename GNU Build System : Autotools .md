@@ -21,7 +21,12 @@ AC_OUTPUT                                               # Output all declared fi
 ```
 #### Makefile.am
 ```
-SUBDIRS = src
+SUBDIRS = src                                           # Build recursively in src directory 
+```
+#### src/Makefile.am
+```
+bin_PROGRAMS = hello                                    # hello is target & will be installed in bin(as specify "bin_")
+hello_SOURCES = main.c                                  # Dependencies of target hello is main.c
 ```
 #### src/main.c
 ```
@@ -31,11 +36,6 @@ int main(){
         puts("Hello World !");
         return 0;
 }
-```
-#### src/Makefile.am
-```
-bin_PROGRAMS = hello
-hello_SOURCES = main.c
 ```
 #### Directory Structre
 ```

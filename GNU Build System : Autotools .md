@@ -74,6 +74,26 @@ packagename-1.0.tar.gz
 ```
 - At the end of command execution you will find `packagename-1.0.tar.gz` in same folder.
 
+### How Autotool Works
+
+- `autoreconf` is a helper that knows how to call autoconf, autoheader, aclocal, automake, libtoolize, and autopoint (when appropriate)tools in the right order.
+
+
+GNU Autoconf
+- autoconf  Create configure from configure.ac.
+- autoheader  Create config.h.infrom configure.ac.
+- autoreconf  Run all tools in the right order.
+- autoscan  Scan sources for common portability problems,and related macros missing from configure.ac.
+- autoupdate  Update obsolete macros in configure.ac.
+- ifnames  Gather identifiers from all #if/#ifdef/... directives.
+- autom4te  The heart of Autoconf. It drives M4 and implements the features used by most of the above tools.  Useful forcreating more than just configure files.
+
+GNU Automake
+- automake  Create Makefile.ins from Makefile.ams and configure.ac.
+- aclocal  Scan configure.ac for uses of third-party macros, and gather definitions in aclocal.m4 
+
+You'll usually just call autoreconf yourself and let it deal with all the lower level tools ...
+
 ### Generating Shared Library With Autotools
 
 #### configure.ac

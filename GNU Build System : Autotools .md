@@ -8,7 +8,7 @@
 - `Autoconf` : automatically generates `configure` script by scans of existing tree to find its dependencies, that are supposed to work on all kinds of platforms. Configure generates a `config.h` file (from a template) which programs can include to work around portability issues. For example, if `HAVE_LIBPTHREAD` is not defined, use forks instead.
 - `Automake` : No need to write lengthy & complex makefiles. just define target, dependencies, flags, etc.
 - `Libtool` : simplifying the building and installation of shared libraries on any Unix-like system. 
-- By ue of Autotools, Cross Plateform Development is handled smoothly
+- Autotools can handle cross plateform development smoothly.
 
 ### Compiling Hello World With Autotools
 

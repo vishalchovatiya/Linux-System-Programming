@@ -181,7 +181,7 @@ main.c  Makefile.am
 Makefile.am  sum.c
 ```
 
-> Build Package
+#### Build Package
 
 ```
 $ autoreconf --install
@@ -191,4 +191,4 @@ $ ./bin/sum
 sum(0,1) = 1
 $
 ```
-- At the end of make install, there are two folders named as `lib` & `bin` having shared library in `lib` & executable in `bin`.
+- At the end of `make install`, there are two folders named as `lib` & `bin` having shared library in `lib` & executable in `bin`.

@@ -1,6 +1,6 @@
 - Following example is all in one which covers almost all dynamic linking related APIs & Flags.
 - API Covers dladdr, dlclose, dlerror, dlopen, dlsym, etc.
-- Flag Covers `RTLD_LAZY`, `RTLD_NOW`, `RTLD_GLOBAL`, `RTLD_LOCAL`, `RTLD_NODELETE`, `RTLD_NOLOAD`, `RTLD_DEEPBIND`, `RTLD_NEXT`, `RTLD_DEFAULT`, etc.
+- Flag Covers `RTLD_LAZY`, `RTLD_NOW`, `RTLD_GLOBAL`, `RTLD_LOCAL`, `RTLD_NODELETE`, `RTLD_NOLOAD`, `RTLD_NEXT`, `RTLD_DEFAULT`, etc.
 
 
 ### flags.c

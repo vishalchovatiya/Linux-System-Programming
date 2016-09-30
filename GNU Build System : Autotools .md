@@ -133,7 +133,9 @@ packagename-1.0.tar.gz
 ```
 AC_INIT([PackageName], [1.0], [bug-report@address])
 AM_INIT_AUTOMAKE([foreign])
-LT_INIT                         # Used to initialize libtool to create shared library                                     
+LT_INIT                         # Used to initialize libtool to create shared library       
+AM_MY_MACRO="-I ./"             # Delacring Custome Macro
+AC_SUBST([AM_MY_MACRO])         # Passing Custome Macro to Makefile.am
 AC_PROG_CC
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile sum/Makefile src/Makefile])
@@ -157,6 +159,7 @@ int main(){
 bin_PROGRAMS = sum
 sum_SOURCES = main.c
 sum_LDADD = ../sum/libsum.la    # add & link sum against libsum.so
+sum__LDFLAGS = $(AM_MY_MACRO)   # Macro Passed By configure.ac
 ```
 #### sum/sum.c
 ```

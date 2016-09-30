@@ -10,7 +10,7 @@
 - `Libtool` : simplifying the building and installation of shared libraries on any Unix-like system. 
 - Autotools can handle cross plateform development smoothly.
 
-Above statements may seems like alien right now. But just go through below example & then come again here. You will get what i just said
+Above statements may seems like alien right now. But just go through below example & then read again. You will get what i just said
 
 ### Compiling Hello World With Autotools
 

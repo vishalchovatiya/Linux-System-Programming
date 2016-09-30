@@ -20,3 +20,4 @@
 20. [RTLD_NEXT](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/RTLD_NEXT.md)
 21. [Dynamic Linking Example](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/Dynamic%20Linking%20Example.md)
 22. [GNU Build System : Autotools](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/GNU%20Build%20System%20:%20Autotools%20.md)
+23. [How do free and malloc work in C ?](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/How%20do%20free%20and%20malloc%20work%20in%20C.md)

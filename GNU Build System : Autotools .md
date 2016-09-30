@@ -1,6 +1,6 @@
 ### Brief
 
-- Autotools is suite of programming tools used to make source code packages portable to many Unix-like systems.
+- Autotools are suite of programming tools used to make source code packages portable to many Unix-like systems.
 - Autotools mainly consists of the GNU utility programs Autoconf, Automake & Libtool.
 
 ### Why We Need Autotools
@@ -9,6 +9,8 @@
 - `Automake` : No need to write lengthy & complex makefiles. just define target, dependencies, flags, etc.
 - `Libtool` : simplifying the building and installation of shared libraries on any Unix-like system. 
 - Autotools can handle cross plateform development smoothly.
+
+Above statements may seems like alien right now. But just go through below example & then come again here. You will get what i just said
 
 ### Compiling Hello World With Autotools
 
@@ -209,7 +211,7 @@ $ ldd ./bin/sum
 
 - This is just short introduction of How Autotools help us ! There are lot to discover about its competitors like [CMake](https://cmake.org/), [Scons](www.scons.org), etc.
 
-#### Souces 
+#### Sources 
 
 1. [Autotools](https://www.lrde.epita.fr/~adl/dl/autotools.pdf)
 2. [GNU Build System](https://en.wikipedia.org/wiki/GNU_Build_System)

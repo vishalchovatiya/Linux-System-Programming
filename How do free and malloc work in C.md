@@ -18,7 +18,7 @@ int brk(void end_data_segment);
 void *sbrk(intptr_t increment); 
 ```
 
-- The `brk()` system   call   sets   the   program   break   to   the   location   specified   by end_data_segment.Since virtual memory is located in units of pages, end_data_segment is effectively rounded up to the next page boundary
+- The `brk()` is system call which sets the program break to the location specified by end_data_segment.Since virtual memory is located in units of pages, end_data_segment is effectively rounded up to the next page boundary
 - A call to `sbrk()` adjusts the program break by adding increment to it. On Linux, `sbrk()` is a library function implemented on top of `brk()`. On  success,  `sbrk()`  returns  the  previous address  of  the  program  break.  In  other  words, if we have increased the program break, then the return value is a pointer to the start of the newly allocated block of memory. The  call  `sbrk(0)` returns  the  current  setting  of  the  program  break  without changing it. This can be useful if we want to track the size of the heap, perhaps in order to monitor the behavior of a memory allocation package.
 - After the program break is increased, the program may access any address in the newly allocated area, but no physical memory pages are allocated yet. The kernel automatically allocates new physical pages on the first attempt by the process to access addresses in those pages.
 

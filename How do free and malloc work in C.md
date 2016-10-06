@@ -24,10 +24,10 @@ void *sbrk(intptr_t increment);
 
 ### malloc 
 
-- I am not going to discuss argments & return type of these functions rather we directly jump to How They Works
+- I am not going to discuss argments & return type of these functions rather we directly jump to "How It Works ?"
 - There are 2 ways to get memory from system mmap, brk
-- When you request some byte to allocate by malloc it checks for MMAP_THRESHOLD limit. If you request more than that limit, then it uses mmap system call to get the required memory 
-- Else it use brk syscall & increament the program break size & gives you pointer to start of newly allocate contiguos block
+- When you request some byte to allocate by malloc it checks for `MMAP_THRESHOLD` limit. If you request more than that limit, then it uses mmap system call to get the required memory 
+- Else it use brk syscall, increament the program break size & gives you pointer to start of newly allocate contiguos block
 
 ### free
 

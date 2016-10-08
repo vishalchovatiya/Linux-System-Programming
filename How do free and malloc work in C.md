@@ -3,7 +3,7 @@ Pre-requisites : Memory Layout Of C Program OR Understanding Of Process Address 
 ### Allocating Memory on the Heap
 
 - A process can allocate memory by increasing the size of the heap.
-- Head is a variable-size segment of contiguous virtual memory that  begins just after the uninitialized data segment of a process and grows & shrinks as memory is allocated and freed. 
+- Heap is a variable-size segment of contiguous virtual memory that  begins just after the uninitialized data segment of a process and grows & shrinks as memory is allocated and freed. 
 - The current limit of the heap is referred to as the **program break** which is just at the end of the uninitialized data segment in process address space.
 - Resizing the heap (i.e., allocating or deallocating memory) is actually as simple as telling the kernel to adjust its idea of  where the process’s program break is.
 - To allocate memory, C programs normally use the malloc family of functions, which we describe shortly. However, we begin with a description of brk() and sbrk(), upon which the malloc functions are based.

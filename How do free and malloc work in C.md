@@ -49,7 +49,7 @@ void *sbrk(intptr_t increment);
 
 ### How does free know how much to free?
 
-- If you still can not figure out answer to this, you may read above topics again.
+- If you still can not figure out answer to this question, you may read above topics again.
 - Anyway. When you call malloc(), you specify the amount of memory to allocate. The amount of memory actually used is slightly more than this, and includes extra information that records (at least) how big the block is. 
 - You can't (reliably) access that other information - and nor should you.
 - When you call free(), it simply looks at the extra information to find out how big the block is.

@@ -25,7 +25,7 @@ void *sbrk(intptr_t increment);
 ### malloc 
 
 - When you malloc, it first checks how much memory you requested.
-- There are 2 ways to get memory from system : `mmap()`, `brk()`
+- There are 2 ways to get memory from system : 1. `mmap()`, 2. `brk()`
 - When you request some byte to be allocate by malloc it checks for `MMAP_THRESHOLD` limit(this also depends upon library implementations). If you request more than that limit, then `mmap()` system call is used to obtain the requested memory.
 - Else it use `brk()` syscall, increament the program break size & gives you pointer to start of newly allocate contiguos block
 - Whichever procedure it follows, it actually allocates a bit more memory than you asked for. This extra memory is used to store information such as the size of the allocated block, and a link to the next free/used block in a chain of blocks, and sometimes some guard data(that helps the system to detect if you write past the end of your allocated block). 

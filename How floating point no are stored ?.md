@@ -112,9 +112,10 @@ So our value of `3.14159` would be represented as something like
 
 ## Why we need NaN ?
 
-- Some operations of floating-point arithmetic are invalid, such as dividing by zero or taking the square root of a negative number. - The act of reaching an invalid result is called a floating-point exception(described in next topic). An exceptional result is represented by a special code called a NaN, for "Not a Number".
+- Some operations of floating-point arithmetic are invalid, such as dividing by zero or taking the square root of a negative number.
+- The act of reaching an invalid result is called a floating-point exception(described in next topic). An exceptional result is represented by a special code called a NaN, for "Not a Number".
 
-#### Floating point exceptions
+## Floating point exceptions
 
 - The `IEEE 754-1985` standard defines five exceptions that can occur during a calculation named as 
 

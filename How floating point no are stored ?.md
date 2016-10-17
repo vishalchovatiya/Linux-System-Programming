@@ -1,5 +1,6 @@
 The following article is a just simplification. I am not writing this in accordance with any particular hardware architecture. I will only discuss `How floating point no are stored in memory`, but if you will want to find more authoritative sources then go for
-1. What Every Computer Scientist Should Know About Floating-Point Arithmetic 
+
+1. [What Every Computer Scientist Should Know About Floating-Point Arithmetic](http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html)
 2. https://en.wikipedia.org/wiki/Floating_point.
 
 **Floating-point numbers are encoded by storing the significand & the exponent (along with a sign bit)**

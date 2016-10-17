@@ -98,8 +98,13 @@ So our value of `3.14159` would be represented as something like
 
 ## A bit more about repesenting numbers in memory
 
-- According to `IEEE 754-1985` world wide standard, you can also store negative & positive infinity and even NaN(Not a Number). Dont worry if you dont know what is NaN, i will give explanation shortly(But be worried, if you dont know infinity).
- 
+- According to `IEEE 754-1985` world wide standard, you can also store zero, negative/positive infinity and even NaN(Not a Number). Dont worry if you dont know what is NaN, i will give explanation shortly(But be worried, if you dont know infinity).
+
+### Zero representation
+- sign = 0 for positive zero, 1 for negative zero.
+- biased exponent = 0.
+- fraction = 0. 
+
 ### Positive & negative infinity representation
 - sign = 0,	 for positive infinity, 1 for negative infinity.
 - exponent = all 1 bits.

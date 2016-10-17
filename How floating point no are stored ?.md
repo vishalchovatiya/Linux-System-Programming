@@ -1,7 +1,8 @@
 The following article is a just simplification. I am not writing this in accordance with any particular hardware architecture. I will only discuss `How floating point no are stored in memory`, but if you will want to find more authoritative sources then go for
 
 1. [What Every Computer Scientist Should Know About Floating-Point Arithmetic](http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html)
-2. https://en.wikipedia.org/wiki/Floating_point.
+2. https://en.wikipedia.org/wiki/IEEE_754-1985
+3. https://en.wikipedia.org/wiki/Floating_point.
 
 **Floating-point numbers are encoded by storing the significand & the exponent (along with a sign bit)**
 
@@ -130,4 +131,11 @@ So our value of `3.14159` would be represented as something like
 4. **Underflow** : occurs when result of operation is small enough which unable to preserve precision. Rounding of result will be performed.
 5. **Inexact** : raised when rounded result is not exact. 
 
+## Floating Point Rounding
 
+- As we seen floating-point numbers have a limited number of digits, they cannot represent all real numbers accurately: when there are more digits than the format allows, the leftover ones are omitted - the number is rounded. 
+- There are 4 rounding modes :
+1. **Round to Nearest** : rounded to the nearest value with an even (zero) least significant bit, which occurs 50% of the time.
+2. **Round toward 0** – rounding towards zero
+3. **Round toward +∞** – rounding towards positive infinity
+4. **Round toward −∞** – rounding towards negative infinity.

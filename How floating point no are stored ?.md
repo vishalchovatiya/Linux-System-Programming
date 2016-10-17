@@ -7,7 +7,7 @@ The following article is a just simplification. I am not writing this in accorda
 
 - You will unable to understand above line until you read further
 
-#### Floating Point Memory Layout Basics
+## Floating Point Memory Layout Basics
 
 A typical 32-bit floating point memory layout have fields like the following: [Image]
 1. sign
@@ -52,7 +52,7 @@ A typical 32-bit floating point memory layout have fields like the following: [I
 
 OK ! We are done with basics.
 
-#### Understand By Example
+## Understand By Example
 
 - So let's starting with very famous float value `3.14159`(PI) example. What if we use base 2 instead of base 10, then value of PI will be
 
@@ -71,30 +71,30 @@ So our value of `3.14159` would be represented as something like
     |
     +------------------------- sign = 0 (positive)
 
-## Sign
+### Sign
 - You know why zero here !
 
-## Exponent
+### Exponent
 - In our case, Exponent is `4` which represents, 4 + 128 = 132 = `1000 0100`  in binary
 - The number of bits in the exponent determines the range (the minimum and maximum values you can represent). 
 
-## Significand
+### Significand
 - If you add up all the bits in the significand, they don't total `0.7853975`. They actually come out to `0.78539747`. 
 - There aren't quite enough bits to store the value exactly. we can only store an approximation. 
 - The number of bits in the significand determines the precision, or how many significant digits you can store. 
 - 23-bits gives us roughly 6 decimal digits of precision. 64-bit floating point types give roughly 12 to 15 digits of precision. 
 
 
-## Strange, But Fact
+### Strange, But Fact
 - There are values that cannot be represented exactly no matter how many bits you use. Just as values like 1/3 cannot be represented in a finite number of decimal digits, values like 1/10 cannot be represented in a finite number of bits. 
 - Since values are approximate, calculations with them are also approximate, and rounding errors accumulate. 
 
 
-#### Where decimal point is stored ?
+## Where decimal point is stored ?
 
 The decimal point is not explicitly stored anywhere. As i written line "Floating-point numbers are encoded by storing the significand and the exponent (along with a sign bit).", but you dont get it first time. Dont worry 99% people dont get it first including me.
 
-#### A bit more about repesenting numbers in memory
+## A bit more about repesenting numbers in memory
 
 According to `IEEE 754-1985` world wide standard, you can also store negative & positive infinity and even NaN(Not a Number). Dont worry if you dont know what is NaN, i will tell you below(But be worried is you dont know infinity).
  
@@ -108,7 +108,7 @@ sign = either 0 or 1.
 exponent = all 1 bits.
 fraction = anything except all 0 bits (since all 0 bits represents infinity)
 
-#### Why we need NaN ?
+## Why we need NaN ?
 
 Some operations of floating-point arithmetic are invalid, such as dividing by zero or taking the square root of a negative number. The act of reaching an invalid result is called a floating-point exception(described in next topic). An exceptional result is represented by a special code called a NaN, for "Not a Number".
 

@@ -136,6 +136,6 @@ So our value of `3.14159` would be represented as something like
 - As we seen floating-point numbers have a limited number of digits, they cannot represent all real numbers accurately: when there are more digits than the format allows, the leftover ones are omitted - the number is rounded. 
 - There are 4 rounding modes :
 1. **Round to Nearest** : rounded to the nearest value with an even (zero) least significant bit, which occurs 50% of the time.
-2. **Round toward 0** – rounding towards zero
+2. **Round toward 0** – simply truncate the extra digits.
 3. **Round toward +∞** – rounding towards positive infinity
 4. **Round toward −∞** – rounding towards negative infinity.

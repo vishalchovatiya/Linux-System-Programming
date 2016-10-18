@@ -39,7 +39,7 @@ A typical 32-bit floating point number store memory layout have fields like the 
 - The next 8 bits are used for the exponent which can be positive or negative, but instead of reserving another sign bit, they're encoded such that `1000 0000` represents `0`, so `0000 0000` represents `-128` and `1111 1111` represents `127`. 
 - How this encoding work ?
 
-	To get binary of exponent, add 128(max value can stored by 7 bit) to exponent
+	To get binary of exponent, add 128(max value can stored by 7 bit, called [exponent bias](https://en.wikipedia.org/wiki/Exponent_bias)) to exponent
 
 	- So exponent `0` represents, 0 + 128 = 128 = `1000 0000` in binary
 	- Same as exponent `127` represents, 127 + 128 = 255 = `1111 1111` in binary

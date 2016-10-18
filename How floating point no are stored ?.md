@@ -133,6 +133,45 @@ If you dont know how to convert decimal no in binary then refer this [float to b
 - There are values that cannot be represented exactly no matter how many bits you use. Just as values like 1/3 cannot be represented in a finite number of decimal digits, values like 1/10 cannot be represented in a finite number of bits. 
 - Since values are approximate, calculations with them are also approximate, and rounding errors accumulate. 
 
+## Let's See Practically
+
+```
+#include <stdio.h>
+#include <string.h>
+
+void intToBinary(unsigned int n)// Print binary stored in plain 32 bit block
+{
+        int c, k;
+
+        for (c = 31; c >= 0; c--)
+        {
+                k = n >> c;
+
+                if (k & 1)
+                        printf("1");
+                else
+                        printf("0");
+        }
+
+        printf("\n");
+}
+
+int main(void) {
+
+        float f = 3.14;
+
+        //printf("f = %a\n", f);  //See hex value in scientific(with exponential) form
+
+        unsigned int m;
+        memcpy(&m, &f, sizeof (m));     // Copy memory representation of float to plain 32 bit block
+
+        intToBinary(m);
+
+        return 0;
+}
+```
+
+- This code will print binary representation of float on console.
 
 ## Where decimal point is stored ?
 

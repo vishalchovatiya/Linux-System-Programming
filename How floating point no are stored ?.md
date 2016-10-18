@@ -17,6 +17,8 @@ A typical 32-bit floating point number store memory layout have fields like the 
 3. significand(AKA mantissa)
 
 ```
+|-------------32-bit---------------|
+
 +-+--------+-----------------------+
 |1| 8-bit  |       23-bit          |
 +-+--------+-----------------------+

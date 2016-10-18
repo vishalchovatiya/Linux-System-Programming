@@ -58,7 +58,7 @@ OK ! We are done with basics.
 
 ## Let's Understand By Example
 
-- So we consider very famous float value `3.14159`(PI) example. What if we use base 2 instead of base 10, then value of PI will be
+- So, we consider very famous float value `3.14159`(PI) example. What if we use base 2 instead of base 10, then value of PI will be
 
 `0.7853975 * 2^2`
 
@@ -105,7 +105,7 @@ So our value of `3.14159` would be represented as something like
 
 ### Zero representation
 - sign = 0 for positive zero, 1 for negative zero.
-- biased exponent = 0.
+- exponent = 0.
 - fraction = 0. 
 
 ### Positive & negative infinity representation

@@ -123,7 +123,7 @@ If you dont know how to convert decimal no in binary then refer this [float to b
 - The number of bits in the exponent determines the range (the minimum and maximum values you can represent). 
 
 #### Significand
-- If you add up all the bits in the significand, they don't total `0.7853975`. They actually come out to `0.78539747`. 
+- If you add up all the bits in the significand, they don't total `0.7853975`(which should be, according to 7 digit precision). They actually come out to `0.78539747`. 
 - There aren't quite enough bits to store the value exactly. we can only store an approximation. 
 - The number of bits in the significand determines the precision.
 - 23-bits gives us roughly 6 decimal digits of precision. 64-bit floating point types give roughly 12 to 15 digits of precision. 
@@ -137,7 +137,7 @@ If you dont know how to convert decimal no in binary then refer this [float to b
 ## Where decimal point is stored ?
 
 - The decimal point is not explicitly stored anywhere. 
-- As i written line `Floating-point numbers are encoded by storing the significand & the exponent (along with a sign bit)`, but you dont get it first time. Dont worry 99% people dont get it first including me.
+- As i written line `Floating-point numbers are encoded by storing the significand & the exponent (along with a sign bit)`, but you dont get it first time. Dont worry 99% people dont get it first, including me.
 
 ## A bit more about repesenting numbers in memory
 

@@ -39,7 +39,7 @@ A typical 32-bit floating point number store memory layout have fields like the 
 - The next 8 bits are used for the exponent which can be positive or negative, but instead of reserving another sign bit, they're encoded such that `1000 0000` represents `0`, so `0000 0000` represents `-128` and `1111 1111` represents `127`. 
 - How this encoding work ?
 
-	To get binary of exponent add 128(max value can stored by 7 bit) to exponent
+	To get binary of exponent, add 128(max value can stored by 7 bit) to exponent
 
 	- So exponent `0` represents, 0 + 128 = 128 = `1000 0000` in binary
 	- Same as exponent `127` represents, 127 + 128 = 255 = `1111 1111` in binary
@@ -56,9 +56,9 @@ A typical 32-bit floating point number store memory layout have fields like the 
 
 OK ! We are done with basics.
 
-## Understand By Example
+## Let's Understand By Example
 
-- So let's starting with very famous float value `3.14159`(PI) example. What if we use base 2 instead of base 10, then value of PI will be
+- So we consider very famous float value `3.14159`(PI) example. What if we use base 2 instead of base 10, then value of PI will be
 
 `0.7853975 * 2^2`
 

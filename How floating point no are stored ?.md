@@ -37,7 +37,7 @@ A typical 32-bit floating point number store memory layout have fields like the 
 
 #### Exponent
 - The next 8 bits are used for the exponent which can be positive or negative, but instead of reserving another sign bit, they're encoded such that `1000 0000` represents `0`, so `0000 0000` represents `-128` and `1111 1111` represents `127`. 
-- How this encoding work ? go to [exponent bias](https://en.wikipedia.org/wiki/Exponent_bias)) or learn it in next topic practically.
+- How this encoding work ? go to [exponent bias](https://en.wikipedia.org/wiki/Exponent_bias) or learn it in next topic practically.
 
 #### Significand
 - The remaining 23-bits are used for the significand(AKA mantissa). Each bit represents a negative power of 2 counting from the left, so:
@@ -52,12 +52,12 @@ OK ! We are done with basics.
 
 ## Let's Understand Practically
 
-- So, we consider very famous float value `3.14`(PI) example. What if we use base 2 instead of base 10, then value of PI will be
+- So, we consider very famous float value `3.14`(PI) example.
 
 
 #### Sign
 
-- You know why zero here !
+- Zero here, as PI is positive!
 
 #### Exponent
 
@@ -68,14 +68,23 @@ OK ! We are done with basics.
 The rest, 0.14
 
 0.14 x 2 = 0.28		0
+
 0.28 x 2 = 0.56		0
+
 0.56 x 2 = 1.12		1
+
 0.12 x 2 = 0.24		0
+
 0.24 x 2 = 0.48		0
+
 0.48 x 2 = 0.96		0
+
 0.96 x 2 = 1.92		1
+
 0.92 x 2 = 1.84		1
+
 0.84 x 2 = 1.68		1
+
 And so on . . . 
 
 `0.14 = 001000111...`

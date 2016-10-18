@@ -1,4 +1,4 @@
-The following article is a just simplification. I am not writing this in accordance with any particular hardware architecture. I will only discuss `How floating point no are stored in memory`, but if you will want to find more authoritative sources then go for
+The following article is just a simplification. I am not writing this in accordance with any particular hardware architecture. I will only discuss `How floating point no are stored in memory`, but if you will want to find more authoritative sources then go for
 
 1. [What Every Computer Scientist Should Know About Floating-Point Arithmetic](http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html)
 2. https://en.wikipedia.org/wiki/IEEE_754-1985
@@ -8,19 +8,17 @@ The following article is a just simplification. I am not writing this in accorda
 
 - You will unable to understand above line until you read further
 
-## Floating Point Number Memory Layout Basics
+## Floating Point Number Memory Layout
 
-A typical 32-bit floating point memory layout have fields like the following: [Image]
+A typical 32-bit floating point number store memory layout have fields like the following: [Image]
 
 1. sign
 2. exponent
 3. significand(AKA mantissa)
 
 ```
- 3 32222222 22211111111110000000000
- 1 09876543 21098765432109876543210
 +-+--------+-----------------------+
-| |        |                       |
+|1| 8-bit  |       23-bit          |
 +-+--------+-----------------------+
  ^    ^                ^
  |    |                |

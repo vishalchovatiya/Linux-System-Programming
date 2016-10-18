@@ -139,5 +139,11 @@ So our value of `3.14159` would be represented as something like
 - There are 4 rounding modes :
 1. **Round to Nearest** : rounded to the nearest value with an even (zero) least significant bit, which occurs 50% of the time.
 2. **Round toward 0** – simply truncate the extra digits.
-3. **Round toward +∞** – rounding towards positive infinity
+3. **Round toward +∞** – rounding towards positive infinity.
 4. **Round toward −∞** – rounding towards negative infinity.
+
+## Exatra Knowledge Points
+
+- In older time, embedded system processors does not use floating point numbers as they dont have such hardware capabilities.
+- So there is some alternative to floating point number, called Fixed Point Numbers.
+- Fixed point number is usually used in special-purpose applications on embedded processors that can only do integer arithmetic, but decimal fixed point('.') is manipulated by software library.

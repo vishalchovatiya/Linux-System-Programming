@@ -20,7 +20,7 @@ A typical 32-bit floating point number store memory layout have fields like the 
 |-------------32-bit---------------|
 
 +-+--------+-----------------------+
-|1| 8-bit  |       23-bit          |
+|1| 8-bit  |        23-bit         |
 +-+--------+-----------------------+
  ^    ^                ^
  |    |                |
@@ -32,16 +32,18 @@ A typical 32-bit floating point number store memory layout have fields like the 
 ```
 
 #### Sign
-- Like signed integer types, the high-order bit indicates sign; `0` indicates a positive value, `1` indicates negative.
+- The high-order bit indicates sign. 
+- `0` indicates a positive value, `1` indicates negative.
 
 #### Exponent
-- The next 8 bits are used for the exponent. Exponents can be positive or negative, but instead of reserving another sign bit, they're encoded such that `1000 0000` represents `0`, so `0000 0000` represents `-128` and `1111 1111` represents `127`. 
+- The next 8 bits are used for the exponent which can be positive or negative, but instead of reserving another sign bit, they're encoded such that `1000 0000` represents `0`, so `0000 0000` represents `-128` and `1111 1111` represents `127`. 
 - How this encoding work ?
+
 	To get binary of exponent add 128(max value can stored by 7 bit) to exponent
 
-	So exponent `0` represents, 0 + 128 = 128 = `1000 0000` in binary
-	Same as exponent `127` represents, 127 + 128 = 255 = `1111 1111` in binary
-	So does exponent `-128` represents, -128 + 128 = 0 = `0000 0000` in binary
+	- So exponent `0` represents, 0 + 128 = 128 = `1000 0000` in binary
+	- Same as exponent `127` represents, 127 + 128 = 255 = `1111 1111` in binary
+	- So does exponent `-128` represents, -128 + 128 = 0 = `0000 0000` in binary
 
 #### Significand
 - The remaining 23-bits are used for the significand(AKA mantissa). Each bit represents a negative power of 2 counting from the left, so:

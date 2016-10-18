@@ -123,7 +123,7 @@ So our value of `3.14159` would be represented as something like
 
 ## Floating point exceptions
 
-- The `IEEE 754-1985` standard defines five exceptions that can occur during a calculation named as 
+- The `IEEE 754-1985` standard defines five exceptions that can occur during a floating point calculation named as 
 
 1. **Invalid Operation** : occurs due to many causes like multiplication of infinte with zero or infinite, division of infinte by zero or infinite & vice-versa, sqaure root of operand less than zero, etc.
 2. **Division by Zero** : occures when "as its name sounds"

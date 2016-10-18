@@ -142,31 +142,23 @@ If you dont know how to convert decimal no in binary then refer this [float to b
 void intToBinary(unsigned int n)// Print binary stored in plain 32 bit block
 {
         int c, k;
-
         for (c = 31; c >= 0; c--)
         {
                 k = n >> c;
-
-                if (k & 1)
-                        printf("1");
-                else
-                        printf("0");
+                if (k & 1)  printf("1");
+                else        printf("0");
         }
-
         printf("\n");
 }
 
 int main(void) {
 
         float f = 3.14;
-
         //printf("f = %a\n", f);  //See hex value in scientific(with exponential) form
 
         unsigned int m;
         memcpy(&m, &f, sizeof (m));     // Copy memory representation of float to plain 32 bit block
-
         intToBinary(m);
-
         return 0;
 }
 ```

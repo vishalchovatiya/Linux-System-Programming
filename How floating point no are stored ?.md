@@ -67,48 +67,49 @@ OK ! We are done with basics.
 
 The rest, 0.14
 
-0.14 x 2 = 0.28		0
+0.14 x 2 = 0.28, 		0
 
-0.28 x 2 = 0.56		0
+0.28 x 2 = 0.56, 		0
 
-0.56 x 2 = 1.12		1
+0.56 x 2 = 1.12, 		1
 
-0.12 x 2 = 0.24		0
+0.12 x 2 = 0.24, 		0
 
-0.24 x 2 = 0.48		0
+0.24 x 2 = 0.48, 		0
 
-0.48 x 2 = 0.96		0
+0.48 x 2 = 0.96, 		0
 
-0.96 x 2 = 1.92		1
+0.96 x 2 = 1.92, 		1
 
-0.92 x 2 = 1.84		1
+0.92 x 2 = 1.84, 		1
 
-0.84 x 2 = 1.68		1
+0.84 x 2 = 1.68, 		1
 
 And so on . . . 
 
 `0.14 = 001000111...`
 
-If you dont know how to convert decimal no in binary then refer this (float to binary)[http://stackoverflow.com/questions/3954498/how-to-convert-float-number-to-binary]
+If you dont know how to convert decimal no in binary then refer this [float to binary](http://stackoverflow.com/questions/3954498/how-to-convert-float-number-to-binary).
 
 - Now add 3,
 
-11.001000111...	with exp 0    (3.14 * 2^0)
+`11.001000111...	   with exp 0    (3.14 * 2^0)`
 
 - Now shift it (normalize it) and adjust the exponent accordingly 
 
-1.1001000111... exp +2   	(1.57 * 2^1)
+`1.1001000111...    with exp +1   	(1.57 * 2^1)`
 
 - Now you only have to add the bias of 127 to the exponent 1 and store it(i.e. 128 = 1000 0000)
 
-0 1000 0000 1100 1000 111...
+`0 1000 0000 1100 1000 111...`
 
 - Forget the top 1 of the mantissa (which is always supposed to be 1, except for some special values, so it is not stored), and you get:
 
-0 10000000 1001 0001 111...
+`0 10000000 1001 0001 111...`
 
 - So our value of `3.14` would be represented as something like
 
+```
     0 10000000 10010001111010111000011
     ^     ^               ^
     |     |               |
@@ -117,6 +118,7 @@ If you dont know how to convert decimal no in binary then refer this (float to b
     |     +------------------- exponent = 1
     |
     +------------------------- sign = 0 (positive)
+```
 
 - The number of bits in the exponent determines the range (the minimum and maximum values you can represent). 
 

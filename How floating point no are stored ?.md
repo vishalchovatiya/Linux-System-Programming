@@ -200,8 +200,8 @@ int main(void) {
 
 1. **Invalid Operation** : occurs due to many causes like multiplication of infinte with zero or infinite, division of infinte by zero or infinite & vice-versa, sqaure root of operand less than zero, etc.
 2. **Division by Zero** : occures when "as its name sounds"
-3. **Overflow** : occurs when result of operation is large enough which unable to preserve precision. Rounding of result will be performed. Note : Whenever the overflow exception is raised, the inexact exception is also raised. 
-4. **Underflow** : occurs when result of operation is small enough which unable to preserve precision. Rounding of result will be performed.
+3. **Overflow** : This exception is raised whenever the result cannot be represented as a finite value in the precision format of the destination. 
+4. **Underflow** : The underflow exception is raised when an intermediate result is too small to be calculated accurately, or if the operation’s result rounded to the destination precision is too small to be normalized
 5. **Inexact** : raised when rounded result is not exact. 
 
 ## Floating Point Rounding

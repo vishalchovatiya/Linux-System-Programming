@@ -3,17 +3,17 @@ As we already seen what happen behind the scene when you type `./a.out` & hit en
 
 - Before moving to topic. we first clear fundamental architecture of the GNU/Linux operating system
 ```
-User Application
-        |
-    C Library
-        |
-Syscall Interface
-        |
-      Kernel
-        |
-Architecture Depedent Code
-        |
-  Hardware Plateform
+             |-----         User Application                            -------------|
+             |                  |                                                    |
+User Space---|               C Library                                               |
+             |-----             |                                                    |
+                        Syscall Interface       ------|                              |
+                                |                     |                              |-----GNU/Linux OS
+                              Kernel                  |                              |
+                                |                     |---Kernel Space               |
+                    Architecture Depedent Code        |                              |
+                                |               ------|                              |
+                        Hardware Plateform                              -------------|
 ```
 - To understand above architecture diagram practically, we consider following simple hello world program
 hello.c

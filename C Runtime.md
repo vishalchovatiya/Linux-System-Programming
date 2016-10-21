@@ -83,10 +83,11 @@ _fini:
 ### Flow of x86 C program with runtime
 Routine | File
 ------------ | -------------
-_init & _fini(push)	 | ./crt/x86_64/crti.s
 _start		  |        ./arch/x86_64/crt_arch.h
 _start_c		   |     ./crt/crt1.c
-__libc_start_main	|./src/env/__libc_start_main.c
+__libc_start_main	|      ./src/env/__libc_start_main.c
+_init (push)	 | ./crt/x86_64/crti.s
 main		|	          Our Program
 exit		|	          Close process
-_init & _fini(pop)	 | ./crt/x86_64/crtn.s
+_fini (pop)	 | ./crt/x86_64/crtn.s
+_Exit         |      Exit system call

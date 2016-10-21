@@ -83,7 +83,19 @@ _exit (status)
     }
 }
 ```
+## Execution Flow Summary 
 
+- Flow of x86 C program with runtime(according to glibc 2.14)
+
+Routine | File
+------------ | -------------
+_start		  |        crt1.o
+__libc_start_main	|      libc-start.c
+_init (constructor)	 | crti.s
+main		|	          Our Program
+exit		|	          exit.c
+_fini (destructor)	 | crtn.s
+_exit         |      Exit system call
 
 
 

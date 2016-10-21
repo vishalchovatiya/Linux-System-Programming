@@ -37,7 +37,7 @@ int main(){ printf("Hello World"); return 0;}
 - When execution control trasfer from kernel mode to user mode it first look for entry point.
 - This entry point is nothing but simple architecture dependent function named as `_start` written in assembly code.
 - You can find out this function code for x86 architecture in glibc(2.14) source code file [sysdeps/x86_64/elf/start.S](http://osxr.org/glibc/source/sysdeps/x86_64/elf/start.S?v=glibc-2.14).
-- After
+- Generally this entry point is found in `crt1.o` after compilation which will add explicitly by compiler at compile time(you can check it by `objdump -Dw crt1.o > dump`, find `_start`).
 - After getting command line argument, environment variables, address of `main`, `init`, `fini` & `exit`, `_start` function calls `__libc_start_main` located in [csu/libc-start.c](https://github.com/lattera/glibc/blob/master/csu/libc-start.c).
 ```
 ...

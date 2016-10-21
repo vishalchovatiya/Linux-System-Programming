@@ -1,25 +1,20 @@
 
-As we already seen what happen behind the scene when you type `./a.out` & hit enter in [How Program Gets Run](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/How%20Program%20Gets%20Run.md). In [How Program Gets Run](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/How%20Program%20Gets%20Run.md), we mostly focus on kernel level activity and left topic when our binary start running on processor core. In this article we will focus on complete user space activity life cycle of our program.
+As we already seen what happen behind the scene when you type `./a.out` & hit enter in [How Program Gets Run](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/How%20Program%20Gets%20Run.md). In [How Program Gets Run](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/How%20Program%20Gets%20Run.md), we mostly focus on kernel level activity and left topic when our binary start running on processor core. In this article we will focus on complete user space activity life cycle of our program & see How program gets execute : Before & After `main()`.
 
-There are some functions called before & after main.
-
-So in this article we will see what happens before & after main.
-
-
-Before going into detail. we first clear fundamental architecture of the GNU/Linux operating system [image]
-
+- Before moving to topic. we first clear fundamental architecture of the GNU/Linux operating system
+```
 User Application
-|
-C Library
-|
+        |
+    C Library
+        |
 Syscall Interface
-|
-Kernel
-|
+        |
+      Kernel
+        |
 Architecture Depedent Code
-|
-Hardware Plateform
-
+        |
+  Hardware Plateform
+```
 - To understand above architecture diagram practically, we consider following simple hello world program
 hello.c
 ```

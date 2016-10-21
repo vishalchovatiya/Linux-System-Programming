@@ -2,6 +2,7 @@
 As we already seen what happen behind the scene when you type `./a.out` & hit enter in [How Program Gets Run](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/How%20Program%20Gets%20Run.md). In [How Program Gets Run](https://github.com/VisheshPatel/Linux-System-Programming/blob/master/How%20Program%20Gets%20Run.md), we mostly focus on kernel level activity and left topic when our binary start running on processor core. In this article we will focus on complete user space activity life cycle of our program & see How program gets execute : Before & After `main()`.
 
 - Before moving to topic. we first clear fundamental architecture of the GNU/Linux operating system
+## Architecture of the GNU/Linux operating system
 ```
              |---------  User Application        -----------------------------------|
              |                  |                                                   |
@@ -57,7 +58,7 @@ exit (result);
 ```
 - There are also lot of functions execute between entry point & main which i have not discussed here because they are library helping routines which will hamper simplicity of this article.
 
-## After main
+## After `main()`
 
 - As seen clearly on above `__libc_start_main` piece of code, return value of main is passed to exit function.
 - This library function `exit` will call `_exit` which will call exit system call & our program terminates.

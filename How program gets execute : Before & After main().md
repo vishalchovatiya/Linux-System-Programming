@@ -32,7 +32,7 @@ int main(){ printf("Hello World"); return 0;}
 - `printf` function internally calls write system call & kernel execution is started.
 - And finally output of your program is printed on standard output.
 
-But there is also some functions which are called before & after main, let see.
+But there are also some functions which are called before & after main, let see.
 
 ## Before `main()`
 

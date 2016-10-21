@@ -26,11 +26,13 @@ User Space---|              C Library                                           
 int main(){ printf("Hello World"); return 0;}
 ```
 - Let's Compile, `gcc hello.c`.
-- As you can see in diagram user application is your program, for simplicity, it is `main()` function.
+- As you can see in diagram, user application is your program, for simplicity, it is `main()` function.
 - When you use `printf` whose definition is included by `#include<stdio.h>` is linked at compile time explicitly with `libc.so.6`(you can check it by `ldd a.out`).
 - This `printf` function is declared & defined in `libc.so.6` which is C Library in above diagram.
-- This `printf` function internally calls write system call & kernel execution is started.
+- `printf` function internally calls write system call & kernel execution is started.
 - And finally output of your program is printed on standard output.
+
+But there is also some functions which are called before & after main, let see.
 
 ## Before `main()`
 

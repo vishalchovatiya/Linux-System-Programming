@@ -15,25 +15,26 @@ User Space---|              C Library                                           
                                 |    -----------------|                             |
                         Hardware Plateform       -----------------------------------|
 ```
-- To understand above architecture diagram practically, we consider following simple hello world program
-hello.c
+- To understand above diagram practically, we consider following simple hello world program.
+
+#### hello.c
 ```
 #include<stdio.h>
 int main(){ printf("Hello World"); return 0;}
 ```
 - Let's Compile, `gcc hello.c`.
 - As you can see in diagram user application is your program, for simplicity, it is `main()` function.
-- When you call printf whose definition is included by `#include<stdio.h>` is linked at compile time explicitly with libc.so.6(you can check it by `ldd a.out`).
-- This `printf` function is declared & defined in libc.so.6 which is indicated as C Library in above diagram.
+- When you use `printf` whose definition is included by `#include<stdio.h>` is linked at compile time explicitly with `libc.so.6`(you can check it by `ldd a.out`).
+- This `printf` function is declared & defined in `libc.so.6` which is C Library in above diagram.
 - This `printf` function internally calls write system call & kernel execution is started.
-- And finally output of your program in printed on standard output.
+- And finally output of your program is printed on standard output.
 
-## Before main()
+## Before `main()`
 
 - When execution control trasfer from kernel mode to user mode it first look for entry point.
-- This entry point is nothing but simple function named as `_start` written in assembly code.
-- You can find out this function code in glibc(2.14) source code file `[sysdeps/x86_64/elf/start.S](http://osxr.org/glibc/source/sysdeps/x86_64/elf/start.S?v=glibc-2.14)`.
-- After getting command line argument, environment variables, address of init, fini & exit, `_start` function calls `__libc_start_main` located in `[csu/libc-start.c](https://github.com/lattera/glibc/blob/master/csu/libc-start.c)`
+- This entry point is nothing but simple function named as `_start` written in assembly code which is architecture dependent.
+- You can find out this function code for x86 architecture in glibc(2.14) source code file [sysdeps/x86_64/elf/start.S](http://osxr.org/glibc/source/sysdeps/x86_64/elf/start.S?v=glibc-2.14).
+- After getting command line argument, environment variables, address of main, init, fini & exit, `_start` function calls `__libc_start_main` located in [csu/libc-start.c](https://github.com/lattera/glibc/blob/master/csu/libc-start.c).
 ```
 ...
         /* Call the user's main function, and exit with its value.
@@ -42,7 +43,7 @@ int main(){ printf("Hello World"); return 0;}
 #endif
 ...
 ```
-- After some necessary sanity checks for library `__libc_start_main` will invoke our `main()` function
+- `__libc_start_main` will do some necessary sanity checks & invoke our `main()` function
 
 ```
 ...
@@ -54,12 +55,12 @@ int main(){ printf("Hello World"); return 0;}
 exit (result);
 ...
 ```
-- There are also lot of functions execute between entry point & main which are not discussed here because they are library helping routines.
+- There are also lot of functions execute between entry point & main which i have not discussed here because they are library helping routines which will hamper simplicity of this article.
 
 ## After main
 
 - As seen clearly on above `__libc_start_main` piece of code, return value of main is passed to exit function.
-- This library function exit will call _exit which will call exit system call & our program terminates.
+- This library function `exit` will call `_exit` which will call exit system call & our program terminates.
 ```
 void
 _exit (status)

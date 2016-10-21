@@ -38,7 +38,7 @@ int main(){ printf("Hello World"); return 0;}
 - This entry point is nothing but simple architecture dependent function named as `_start` written in assembly code.
 - You can find out this function code for x86 architecture in glibc(2.14) source code file [sysdeps/x86_64/elf/start.S](http://osxr.org/glibc/source/sysdeps/x86_64/elf/start.S?v=glibc-2.14).
 - Generally this entry point is found in `crt1.o` after compilation which will add explicitly by compiler at compile time(you can check it by `objdump -Dw crt1.o > dump`, find `_start`).
-- After getting command line argument, environment variables, address of `main`, `init`, `fini` & `exit`, `_start` function calls `__libc_start_main` located in [csu/libc-start.c](https://github.com/lattera/glibc/blob/master/csu/libc-start.c).
+- After getting command line argument, environment variables, address of `main`, `init`(constructor), `fini`(destructor) & `exit`, `_start` function calls `__libc_start_main` located in [csu/libc-start.c](https://github.com/lattera/glibc/blob/master/csu/libc-start.c).
 ```
 ...
         /* Call the user's main function, and exit with its value.
@@ -47,7 +47,7 @@ int main(){ printf("Hello World"); return 0;}
 #endif
 ...
 ```
-- `__libc_start_main` will do some necessary sanity checks & invoke our `main()` function
+- `__libc_start_main` will do some necessary sanity checks, execute `_init` constructor & invoke our `main()` function.
 
 ```
 ...
@@ -64,7 +64,7 @@ exit (result);
 ## After `main()`
 
 - As seen clearly on above `__libc_start_main` piece of code, return value of main is passed to exit function.
-- This library function `exit` will call `_exit` which will call exit system call & our program terminates.
+- This library function `exit` will call some library helper functions, `_fini` destructor & `_exit` function which will call exit system call & our program terminates.
 ```
 void
 _exit (status)

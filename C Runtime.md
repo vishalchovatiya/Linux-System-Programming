@@ -14,7 +14,7 @@ crti.o	|  Header of init & fini (for push in stack)
 crtn.o 	|  Footer of init & fini (for pop in stack)
 Scrt1.o    |Used in place of crt1.o when generating PIEs.
 
-- There could be crt1.o, crt2.o & so on, depending upon implementation, crt0.c is runtime 0 & funs first
+- There could be crt1.o, crt2.o & so on, depending upon implementation, crt0.c is runtime 0 & runs first
 - glibc ports call this file 'start.S' while uClibc ports call this crt0.S or crt1.S
 - General linking order: 
 

@@ -4,11 +4,14 @@ Above definition seems good but cant give me confidence to explain others in sim
 
 # What is ABI ?
 - ABI is protocol followed by compiler, OS or library writer which defines the mechanisms by which functions are invoked, how parameters are passed to function, how return values are retrived, how a process invokes system calls, etc.
+- ABI also defines what endianness is used, how stacks grow, sizes-layout and alignment of data types, exception propagation.
+- In short, ABI is set of rules used to interact with particular architecture.
 
-ABI also defines what endianness is used, how stacks grow, sizes-layout and alignment of data types, exception propagation.
+# Difference between ABI & API
 
-#
+- API : Interaction at source code level.
+- ABI : Interaction at machine(binary) code level.
 
 
-#
+# Understading function stack frame with ABI conventions for x86 architecture
 

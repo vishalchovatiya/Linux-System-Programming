@@ -92,10 +92,9 @@ Breakpoint 1, main () at abi.c:11
 
 # x86 Architecture Registers
 
-```
-x86 architecture registers
+### 8 General-Purpose Registers (GPR), 
 
-8 General-Purpose Registers (GPR), 
+```
         RAX(or EAX) - Accumulator Register : arithmetic operations
         RCX(or RCX) - Counter register : shift/rotate instructions and loops
         RDX(or EDX) - Data register : arithmetic operations and I/O operations
@@ -104,27 +103,31 @@ x86 architecture registers
         RBP(or EBP) - Base Pointer register : point to the base of the stack(AKA frame pointer)
         RSI(or ESI) - Source Index register : Used as a pointer to a source in stream operations
         RDI(or EDI) - Destination Index register : Used as a pointer to a destination in stream operations
-
+```
 prefix `R` & `E` is for 64-bit & 32-bit architecture. If there is not prefix & used as only two latter then register used as 16-bit width.
 
-6 Segment Registers, 
-
+### 6 Segment Registers, 
+```
     Stack Segment (SS). Pointer to the stack.
     Code Segment (CS). Pointer to the code.
     Data Segment (DS). Pointer to the data.
     Extra Segment (ES). Pointer to extra data ('E' stands for 'Extra').
     F Segment (FS). Pointer to more extra data ('F' comes after 'E').
     G Segment (GS). Pointer to still more extra data ('G' comes after 'F').
+```
 
-
-1 Flag Register 
+### 1 Flag Register 
+	
 	This register is 32/64-bit wide used to know the status of processor.
 
-Instruction Pointer. 
+
+### Instruction Pointer. 
+	
 	The EIP/RIP register contains the address of the next instruction to be executed if no branching is done. EIP/RIP can only be read through the stack after a call instruction.
 
 
-x86_64 bit architecture specific 
+### x86_64 bit architecture specific 
+```
     R0 = RAX.
     R1 = RCX.
     R2 = RDX.
@@ -139,7 +142,7 @@ x86_64 bit architecture specific
     R0L~R15L = lowermost 8 bits of each register. For example, R0L is AL.
 
 ```
-
+Back to topic
 
 ```
 (gdb) disassemble

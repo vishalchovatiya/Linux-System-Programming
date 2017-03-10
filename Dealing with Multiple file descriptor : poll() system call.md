@@ -13,11 +13,14 @@
 #include <sys/poll.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 int main( int argc, char *argv[])
 {
         char buf[1024];
-        struct pollfd pfds[1] = { STDIN, POLLIN};   // No of files discriptors to poll for
+        struct pollfd pfds[1];
+        pfds[0].fd = 0;
+        pfds[0].events = POLLIN;
         int timeout = 5000;                     // Time Out
 
         int ret = poll(pfds, 1, timeout);       // Polling for file discriptors provided with timeout
@@ -33,6 +36,7 @@ int main( int argc, char *argv[])
 
         return 0;
 }
+
 ```
 
 ### Points to note
